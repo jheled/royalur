@@ -1,7 +1,7 @@
 all: sphinx
 
 sphinx:
-	PYTHONPATH=$$PYTHONPATH:~/lib/`python --version 2>&1 | sed -s "s/Python /version-/"`/lib/python sphinx-build -b html doc html
+	PYTHONPATH=$$PYTHONPATH:~/lib/`python --version 2>&1 | sed -s "s/Python /version-/"`/lib/python sphinx-build -b html doc docs
 
 install:
 # fake irogaur for clueless install
