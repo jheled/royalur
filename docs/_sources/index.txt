@@ -39,8 +39,8 @@ hitting. Entering another piece gives red 57.18%, while hitting green gives only
 54.2%!! An equity lose of 0.06!
    
 This repository contains code relating to this fascinating precursor to
-backgammon. At the moment you can play with a very primitive ``curses
-<https://en.wikipedia.org/wiki/Curses_(programming_library)>``_ interface and
+backgammon. At the moment you can play with a very primitive `curses
+<https://en.wikipedia.org/wiki/Curses_(programming_library)>`__ interface and
 analyze your saved games. You can see one analyzed game in the ``games``
 directory.
 
