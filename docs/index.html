@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The (Classic) Royal Game of Ur &mdash; royalUr 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="royalUr 0.1.0 documentation" href="#" />
+    <link rel="next" title="The Rulez:" href="rules.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rules.html" title="The Rulez:"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">royalUr 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-classic-royal-game-of-ur">
+<h1>The (Classic) Royal Game of Ur<a class="headerlink" href="#the-classic-royal-game-of-ur" title="Permalink to this headline">¶</a></h1>
+<a class="reference internal image-reference" href="_images/Royal-Game-of-Ur.jpg"><img alt="_images/Royal-Game-of-Ur.jpg" class="align-center" src="_images/Royal-Game-of-Ur.jpg" style="width: 600.5px; height: 383.5px;" /></a>
+<p>The Royal Game of Ur (ROGOUR) is a 5000 year old board game. Watch this
+entertaining <a class="reference external" href="https://youtu.be/WZskjLq040I">video</a> for an excellent
+introduction by Irving Finkel. Finkel is a curator in the British museum, a fan
+of the game since childhood, and deciphered the game rules from a 4000 years old
+cuneiform tablet which describes a <strong>modern</strong> versions of the game!</p>
+<p>I was immediately captivated, which is hardly surprising. The game has been
+capturing the hearts of men, women and children for thousands of years. But it
+was not just the cool factor, the unusual dice, and that we can play it exactly
+like our great ancestors. I was also drawn by the game compact form: with only
+14 pieces on 20 squares it might be small enough to crack on my own small
+laptop!!  Even more, I was intrigued when Finkel claimed with great authority
+that the balance of luck and skill in ROGOUR is 50%-50%, while Backgammon is
+closer to 40-60. I will return to this question of luck vs. skill later, but for
+now let me say I suspect Finkel underestimates how much skill can hide in simple
+looking games like ROGOUR. It is an easy mistake to make. The board is
+relatively small and there are only a few moves per position. Yet, looks can be
+deceiving. Let me give you a taste. You are red and rolled a 3. Assuming you
+either watched the video or read <a class="reference internal" href="rules.html#rules"><em>The Rulez:</em></a>, what is your move?</p>
+<a class="reference internal image-reference" href="_images/pos01.png"><img alt="_images/pos01.png" class="align-center" src="_images/pos01.png" style="width: 529.0px; height: 294.0px;" /></a>
+<p>Most players would not think once and hit the green piece at 7, possibly with a
+superior smirk towards green. After all, that piece is about to enter the home
+stretch, and hitting it costs green 11 whole pips! And now <strong>WE</strong> have a piece
+only 4 pips away from the finish line. But it turns out this is not the best move:
+at this stage of the game controlling the <em>safe</em> 4 square is more important than
+hitting. Entering another piece gives red 57.18%, while hitting green gives only
+54.2%!! An equity lose of 0.06!</p>
+<p>This repository contains code relating to this fascinating precursor to
+backgammon.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rules.html">The Rulez:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamesize.html">The size of Ur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="humanst.html">Human-like Strategies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="humanst.html#simple-minded-humans">Simple-minded Humans</a></li>
+<li class="toctree-l2"><a class="reference internal" href="humanst.html#advanced-humans">Advanced Humans</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="solve.html">King of Ur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="luck.html">Skill and Luck</a></li>
+</ul>
+</div>
+<div class="section" id="the-rogour-code">
+<h2>The ROGOUR code<a class="headerlink" href="#the-rogour-code" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="scripts.html">Royal Ur utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="urlib.html">Royal Ur library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="urlib.html#core-functionality-for-classical-rogour">Core functionality for classical ROGOUR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urlib.html#play-and-rollout-functions">Play and rollout functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urlib.html#human-like-players-for-rogour">Human-like Players for ROGOUR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urlib.html#probabilities-database">Probabilities Database</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The (Classic) Royal Game of Ur</a><ul>
+<li><a class="reference internal" href="#the-rogour-code">The ROGOUR code</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="rules.html"
+                        title="next chapter">The Rulez:</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rules.html" title="The Rulez:"
+             >next</a> |</li>
+        <li><a href="#">royalUr 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2018, Joseph Heled.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
