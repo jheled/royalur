@@ -288,7 +288,7 @@ if annotate :
   po = .5 + equityLose[1]/100.
   eloO = ("%.0f" % (2000 +  pr2ELOdif(po))) if po > 0 else "Dreadful beyond words."
   
-  print >> outFile, "       %s  %s   %s  %s" % (xName, eloX, oName, eloO)
+  print >> outFile, "ELO:   %s  %s   %s  %s" % (xName, eloX, oName, eloO)
   print >> outFile, ""
   
   print >> outFile, "Luck: %s %.2f  %s %.2f" % (xName, 100*luckTotals[0], oName, 100*luckTotals[1])
@@ -296,9 +296,9 @@ if annotate :
   if 0 < p < 1 :
     xOverO = pr2ELOdif(p)
     if luckTotals[0] > luckTotals[1] :
-      print >> outFile, "Luck equivalence: %.0f ELO points to" % xOverO, xName
+      print >> outFile, "Luck equivalence: %.0f ELO points to" % xOverO, xName + "."
     else :
-      print >> outFile, "Luck equivalence: %.0f ELO points to" % -xOverO, oName
+      print >> outFile, "Luck equivalence: %.0f ELO points to" % -xOverO, oName + "."
   else :
     print >> outFile, [oName,xName][luckTotals[0] > luckTotals[1]],"Go to Las Vegas *Immediately*!!"
     
