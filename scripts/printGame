@@ -181,6 +181,8 @@ for line in urMatchLog:
       else:
         pips = action[0];                         assert pips in "01234"
 
+        assert len(allMoves(gameBoard if who == 0 else reverseBoard(gameBoard), int(pips))) == 1,(line,gameBoard,who)
+        
         if annotate :
           p = db.aget(gameBoard if who == 1 else reverseBoard(gameBoard))
           if p is not None:

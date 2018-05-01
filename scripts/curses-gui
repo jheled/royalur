@@ -284,8 +284,10 @@ def ut_interface(window) :
               if frms[0] == -1 :
                 i = 0
                 t = 14 + pips
+                ch = 'e'
               else :
                 i = reverseBoardIndex(frms[0])
+                ch = boardPos2CH[i]
                 t = opAddPips(i,pips)
               ok = True
             else :
