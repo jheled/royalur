@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The Rulez: &mdash; royalUr 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="royalUr 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="The size of Ur" href="gamesize.html" />
+    <link rel="prev" title="The (Classic) Royal Game of Ur" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="gamesize.html" title="The size of Ur"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The (Classic) Royal Game of Ur"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">royalUr 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-rulez">
+<span id="rules"></span><h1>The Rulez:<a class="headerlink" href="#the-rulez" title="Permalink to this headline">¶</a></h1>
+<p>The Royal Game of Ur (ROGOUR) is a racing board game. Here are the rules of as given by Finkel:</p>
+<ol class="arabic simple">
+<li>Each player races seven pieces from start (<em>Home</em>) to finish (off the board,
+where the Blue/Red pieces are), as shown below. That is, red first moves
+right to the left edge of the board, left to right on the middle to the right
+side, and right to left on the last two squares.</li>
+</ol>
+<img alt="_images/urboarddir-r.png" src="_images/urboarddir-r.png" />
+<blockquote>
+<div>For convenience, each square is associated with a letter or digit:</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>D C B A     Z Y
+1 2 3 4 5 6 7 8
+d c b a     z y
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Each square may contain exactly one piece.</li>
+<li>A move consists of throwing the dice and moving exactly one piece to either
+an empty square, off the board, or to a square containing an opponent piece,
+which is <em>hit</em> and promptly returns <em>home</em>. The piece may jump over pieces of
+either color. A piece can be borne-off only with the <strong>exact</strong> number of
+pips, no wastage allowed. A piece on <tt class="docutils literal"><span class="pre">z</span></tt> has to wait for a throw of 1 to go
+off the board.</li>
+<li>The dice consists of four tetrahedrons (<a class="reference external" href="https://en.wikipedia.org/wiki/Four-sided_die">D4 dice</a>) with two vertices marked
+white and two black. The dice value (<em>pips</em>) is the sum of the white points
+showing on top. So, each D4 contributes, with equal probability, either a 0
+or a 1 to the total. The dice value range from 0 to 4, with 2 being the most
+likely (<span class="math">\(p= {^3/_8}\)</span>) and 0 or 4 the least likely (<span class="math">\(p=
+{^1/_{16}}\)</span>).</li>
+<li>A player rolling a 0 or without a legal move loses her turn.</li>
+<li>If the piece lands on a square marked with a rosetta (d,4,z), the player gets
+an additional turn.</li>
+<li>The middle rosetta (4) is special: a piece on this square is protected and
+can&#8217;t be hit.</li>
+</ol>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">The (Classic) Royal Game of Ur</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="gamesize.html"
+                        title="next chapter">The size of Ur</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/rules.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="gamesize.html" title="The size of Ur"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The (Classic) Royal Game of Ur"
+             >previous</a> |</li>
+        <li><a href="index.html">royalUr 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2018, Joseph Heled.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

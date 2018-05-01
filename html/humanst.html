@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Human-like Strategies &mdash; royalUr 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="royalUr 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Royal Ur library" href="urlib.html" />
+    <link rel="prev" title="The size of Ur" href="gamesize.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="urlib.html" title="Royal Ur library"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="gamesize.html" title="The size of Ur"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">royalUr 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="human-like-strategies">
+<h1>Human-like Strategies<a class="headerlink" href="#human-like-strategies" title="Permalink to this headline">¶</a></h1>
+<p>Even a board games novice likely to notice some useful principles (or
+strategies) after playing a few games of ROGOUR. For example:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>Back you go, little fella. AKA <em>hit</em>.</dt>
+<dd><p class="first last">Hit an opponent piece if you can.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Hit them hard, AKA <em>Chuck</em> Norris.</dt>
+<dd><p class="first last">Specifically, hit the most advanced opponent piece.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Let&#8217;s do that again, AKA <em>Donkey</em> in Duloc.</dt>
+<dd><p class="first last">Pick moves with give you an extra turn.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Play it <em>safe</em>.</dt>
+<dd><p class="first last">Prefer positions with a piece on square 4, which is protected from hits.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Play like a <em>Bear</em></dt>
+<dd><p class="first last">Bear off a piece if you can.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>The <em>Homestretch</em></dt>
+<dd><p class="first last">Play pieces into the homestretch (y or z), where they can never be hit again.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Catch me if you can, AKA <em>Frank</em> Abagnale.</dt>
+<dd><p class="first last">Minimize the probability of getting hit on the opponent next turn. This is
+slightly less straightforward as the others, but takes only a little
+practice to master.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Extra</em> hitter.</dt>
+<dd><p class="first last">Play the move which gives an extra move <strong>and</strong> has the highest probability of
+hitting an opponent piece in that second move.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="section" id="simple-minded-humans">
+<h2>Simple-minded Humans<a class="headerlink" href="#simple-minded-humans" title="Permalink to this headline">¶</a></h2>
+<p>Lets start with the most simple minded humans, so simple they can manage only
+one of those principles. They look at all the possible moves, discard the
+non-compatible ones, and choose a move at random from those remaining. How well
+do they fare against the most simple player possible, Mister Random himself?</p>
+<p>It is only fitting to let the computer evaluate those human-like strategies. For
+each principle, the computer plays 10,000 games against Mr Random (5000 as
+green, 5000 as red), and counts wins and losses. Below is a table listing the
+win percentages of each strategy, from highest to lowest:</p>
+<table border="1" class="docutils">
+<caption>Principle win rate (%) against random player</caption>
+<colgroup>
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Frank</th>
+<th class="head">Chuck</th>
+<th class="head">Hit</th>
+<th class="head">Donkey</th>
+<th class="head">Extra</th>
+<th class="head">H-stretch</th>
+<th class="head">bear</th>
+<th class="head">safe</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>93.4-94.3</td>
+<td>85.9-87.2</td>
+<td>85.4-86.8</td>
+<td>69.2-71.0</td>
+<td>68.6-70.4</td>
+<td>62.4-64.3</td>
+<td>58.4-60.4</td>
+<td>58.4-60.3</td>
+</tr>
+</tbody>
+</table>
+<p>Note that the win rate is given as a 95% <a class="reference external" href="https://en.wikipedia.org/wiki/Credible_interval">credible interval</a> <a class="footnote-reference" href="#id3" id="id1">[1]</a>, mainly to demonstrate
+that 10,000 trial are sufficient to separate between the principles.</p>
+<p>This simple table is already quite interesting. Even the weakest principle,
+safe, wins on average 0.2 points per game, a rating difference of about 65 <a class="reference external" href="https://en.wikipedia.org/wiki/Elo_rating_system">ELO</a> points. The strongest,
+Frank, is 470 ELO points stronger. Also, Frank is faring considerably better
+than Chuck: not getting hit seems more important than hitting, at least against
+a random opponent. Or maybe it is the fact that the Frank principle applies to
+all positions, while Chuck only to positions with possible hits. That said,
+those numbers do not necessarily reflect the relative strength of the various
+principle when pitted one against the other. When we let everyone play everyone
+else (28 matches, again 10,000 games each) and convert the pairwise wins/loses
+into ELO we get the ratings below:</p>
+<table border="1" class="docutils">
+<caption>Principle ELO rating from pairwise matches</caption>
+<colgroup>
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Frank</th>
+<th class="head">Chuck</th>
+<th class="head">Hit</th>
+<th class="head">Donkey</th>
+<th class="head">Extra</th>
+<th class="head">H-stretch</th>
+<th class="head">Safe</th>
+<th class="head">Bear</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1759</td>
+<td>1590</td>
+<td>1585</td>
+<td>1444</td>
+<td>1444</td>
+<td>1406</td>
+<td>1405</td>
+<td>1367</td>
+</tr>
+</tbody>
+</table>
+<p>In fact, the agreement between the two lists is very good. The order is almost
+identical, only in this pool <em>safe</em> is doing better than <em>bear</em>, whereas against
+random they were equal.</p>
+</div>
+<div class="section" id="advanced-humans">
+<h2>Advanced Humans<a class="headerlink" href="#advanced-humans" title="Permalink to this headline">¶</a></h2>
+<p>But surly this is taking a very dim view of humanity? Real humans can easily
+deal with multiple criteria, so why not our computer masquerading as a human? It
+is quite easy to combine principles: each one is a filter, and we can create a
+<em>compound-filter</em> by stringing together several principles and applying them in
+succession. For example <strong>&#8220;hit;Frank&#8221;</strong> plays by removing all non-hitting moves
+and selecting the safest among the rest, and <strong>&#8220;Frank;hit&#8221;</strong> keeps the safer
+ones and picks a move that hit from the rest. However, there are <a class="reference external" href="https://oeis.org/A007526">109600</a> possible compound-filters, so it is not feasible to
+find the best by trying out all pairs.</p>
+<p>But even if finding the best is hard, we can certainly evolve good ones. If we
+view those principles as &#8220;<em>genes</em>&#8221; and the compound-filter as a &#8220;<em>genome</em>&#8221; we
+can start with a pool of random genomes and evolve it over time. This extremely
+simplified evolutionary process proceeds generation by generation. In each
+generation we take an existing genome and create a new one by adding, removing
+or changing a gene. If the new genome outperforms the weakest in the pool it
+replaces it, otherwise it is discarded. If we keep track of the genomes coming
+out from the pool we get a list of progressively stronger players. This
+competitive process, like most evolutionary ones, is very effective. After 300
+generations the pool already contains very similar players of roughly the same
+strength. A sample of progressively stronger players from this process, together
+with <em>random</em> and the strongest looks like this:</p>
+<ul class="simple">
+<li>Random</li>
+<li>Frank</li>
+<li>safe;homestretch;hit;Extra                         (1)</li>
+<li>homestretch;Frank;bear;safe;Donkey;hit;Chuck;Extra (2)</li>
+<li>safe;homestretch;hit;Extra;Chuck;Frank;bear;Donkey (3)</li>
+<li>Extra;Chuck;hit;bear;homestretch;Frank;Donkey;safe (4)</li>
+<li>hit;Donkey;safe;homestretch;Extra;bear;Frank       (5)</li>
+<li>hit;Donkey;safe;homestretch;Extra;bear;Frank;Chuck (6)</li>
+<li>hit;safe;Extra;bear;Frank;Donkey;homestretch;Chuck (7)</li>
+<li>hit;safe;Extra;bear;Frank;Donkey                   (8)</li>
+<li>hit;safe;Donkey;bear;Frank;Extra;homestretch;Chuck (9)</li>
+</ul>
+<p>Like the products of most evolutionary systems, it is almost impossible to
+understand why each outperforms the previous ones, but when we play all pairwise
+matches and assign ELO&#8217;s we get the following picture:</p>
+<table border="1" class="docutils">
+<caption>ELO rating from pairwise matches</caption>
+<colgroup>
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Random</th>
+<th class="head">Frank</th>
+<th class="head">1</th>
+<th class="head">2</th>
+<th class="head">3</th>
+<th class="head">4</th>
+<th class="head">5</th>
+<th class="head">6</th>
+<th class="head">7</th>
+<th class="head">9</th>
+<th class="head">8</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>760</td>
+<td>1323</td>
+<td>1363</td>
+<td>1413</td>
+<td>1565</td>
+<td>1638</td>
+<td>1683</td>
+<td>1686</td>
+<td>1687</td>
+<td>1690</td>
+<td>1693</td>
+</tr>
+</tbody>
+</table>
+<p>This relatively simple process generates quite strong players, yet ones which
+make human like mistakes. Just play (8) and you will see what I mean. Having
+human-like opponents of various strengths is actually quite nice, because
+usually it is hard to &#8220;degrade&#8221; a strong computer players in natural ways.</p>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>The exact details of how to compute those credible intervals are in the source.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Human-like Strategies</a><ul>
+<li><a class="reference internal" href="#simple-minded-humans">Simple-minded Humans</a></li>
+<li><a class="reference internal" href="#advanced-humans">Advanced Humans</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="gamesize.html"
+                        title="previous chapter">The size of Ur</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="urlib.html"
+                        title="next chapter">Royal Ur library</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/humanst.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="urlib.html" title="Royal Ur library"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="gamesize.html" title="The size of Ur"
+             >previous</a> |</li>
+        <li><a href="index.html">royalUr 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2018, Joseph Heled.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
