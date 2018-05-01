@@ -25,7 +25,7 @@ strategies) after playing a few games of ROGOUR. For example:
 
 - Catch me if you can, AKA *Frank* Abagnale.
     Minimize the probability of getting hit on the opponent next turn. This is
-    slightly less straightforward as the others, but takes only a little
+    slightly less straightforward than the others, but takes only a little
     practice to master.
 
 - *Extra* hitter.
@@ -36,7 +36,7 @@ Simple-minded Humans
 --------------------
 
 Lets start with the most simple minded humans, so simple they can manage only
-one of those principles. They look at all the possible moves, discard the
+one of those principles. They look at all possible moves, discard the
 non-compatible ones, and choose a move at random from those remaining. How well
 do they fare against the most simple player possible, Mister Random himself?
 
@@ -85,10 +85,11 @@ deal with multiple criteria, so why not our computer masquerading as a human? It
 is quite easy to combine principles: each one is a filter, and we can create a
 *compound-filter* by stringing together several principles and applying them in
 succession. For example **"hit;Frank"** plays by removing all non-hitting moves
-and selecting the safest among the rest, and **"Frank;hit"** keeps the safer
-ones and picks a move that hit from the rest. However, there are `109600
-<https://oeis.org/A007526>`_ possible compound-filters, so it is not feasible to
-find the best by trying out all pairs.
+and selecting the safest among the remaining moves, while **"Frank;hit"**
+discard moves which are not as safe as the maximum and picks a hitting
+move. However, there are `109600 <https://oeis.org/A007526>`_ possible
+compound-filters, so it is not feasible to find the best by trying out all
+pairs.
 
 But even if finding the best is hard, we can certainly evolve good ones. If we
 view those principles as "*genes*" and the compound-filter as a "*genome*" we
@@ -134,3 +135,8 @@ usually it is hard to "degrade" a strong computer players in natural ways.
 .. [1] The exact details of how to compute those credible intervals are in the source.
 
 ..  LocalWords:  ROGOUR Abagnale Duloc
+
+.. Local Variables:
+.. eval: (auto-fill-mode 1)
+.. fill-column: 80
+.. End:

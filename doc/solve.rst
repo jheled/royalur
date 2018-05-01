@@ -46,8 +46,8 @@ Here there is no symmetry, but the logic for Red is the same as before:
 Solving this system of two equations with two unknowns gives :math:`p_x = {^{116}/_{161}}`
 and :math:`p_o = {^{74}/_{161}}` (.72 and .46 approximately).
 
-Those two examples teach us (a) that probabilities are best computed in pairs, position coupled with
-its inverse. This is because rolling a 0 (or another dice resulting in no moves) leaves the board
+Those two examples teach us that (a) probabilities are best computed in pairs, position coupled with
+its inverse. This is because rolling a 0 (or any roll without legal moves) leaves the board
 untouched, only reversed, and (b) to compute a the winning probability of ``Z`` we need the
 probabilities of positions arising from making a move in ``Z``. Unfortunately, putting positions in
 a sequence where for every ``Z`` the "descendants" of ``Z`` all appear before ``Z`` is possible only
@@ -58,10 +58,10 @@ positions can be ordered such that (b) always holds. In general such ordering is
 the dependency is circular: eventually the win probability of the position depends on itself.
 
 This is not a problem in itself. As we just saw, every position "depends" upon itself, and yet it
-can have a well defined probability. The problem is in figuring out the millions of equations
-involved: it is insanely difficult, and even if you do, solving them is even more so. Luckily there
-is an alternative. Take for example the two equations for position (b). The define :math:`p_x,p_o`
-in terms of functions of itself, i.e. :math:`p_x,p_o = f(p_x,p_o)`. Assume we have no idea and
+has a well defined probability. The problem is in figuring out the millions of equations involved:
+it is insanely difficult, and even if you do, solving them is doubly insane. Luckily there is an
+alternative. Take for example the two equations for position (b). They define :math:`p_x,p_o` in
+terms of functions of itself, i.e. :math:`p_x,p_o = f(p_x,p_o)`. Assume we have no idea and
 arbitrarily start with :math:`p_x,p_o = ({^1/_2},{^1/_2})`, then apply :math:`f` to get a new
 "estimate",
 
@@ -72,14 +72,14 @@ arbitrarily start with :math:`p_x,p_o = ({^1/_2},{^1/_2})`, then apply :math:`f`
    p_o = \frac{1}{4} + (1 - \frac{1}{4}) (1 - \frac{1}{2})
 
 and get :math:`(\frac{79}{112} \approx 0.70, \frac{5}{8})`. Just one application and :math:`p_x` is
-much closer to its true value. If you repeat the procedure and plug those new "estimates" to f again
-you get something like (0.66, 0.47), and after just five iterations the probabilities are accurate
-to two decimal places. This is a well known technique called `Fixed-point iteration
+much closer to its true value. Repeating the procedure, plugging those new "estimates" again to f
+gets approximately (0.66, 0.47), and after just five iterations the probabilities are accurate to two
+decimal places. This is a well known technique called `Fixed-point iteration
 <https://en.wikipedia.org/wiki/Fixed-point_iteration>`_, and if the system is "well behaved" it can
 work with millions of dimensions, and it better fucking will because it's our only hope here.
 
 So we need to write the win probability of every position as an expression involving the probability
-of "descendant" positions, but it is rarely as simple as for (a) and (b) which had just a single
+of "descendant" positions, but it is rarely as simple as for (a) and (b), which had just a single
 piece for Red and Green. Consider for example position (c).
 
 ::
@@ -123,11 +123,11 @@ the lesser one for him.
    p_{o,2} = \min(p_{4a}, p_{4b})
 
 Similarly for 1 and 3. The appearance of minimums and maximums in our expressions is one of the main
-reasons I called it "insane" to think about solving this directly. The difference between 4a and 4b,
-if you want to know, is 1%. Not a lot, but those are the small advantages that accumulate from the
-skilled player which makes kings.
+reasons I called it "insane" to think about solving the system directly. The difference between 4a
+and 4b, if you want to know, is 1%. Not a lot, but those are the small advantages that accumulate
+from the skilled player which makes kings.
 
-This is basically all the "theoretical basis* [#]_ required to compute the win probability of all
+This is basically all the "theoretical basis" [#]_ required to compute the win probability of all
 ROGOUR positions. Evaluating in pairs, writing the probabilities as functions of other positions'
 and solving with fixed point iterations. The rest is engineering. Not necessarily easy engineering,
 but stuff requiring time, dedication, willingness to do boring stuff and attention to

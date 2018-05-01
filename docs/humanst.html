@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="royalUr 0.1.0 documentation" href="index.html" />
-    <link rel="next" title="Royal Ur library" href="urlib.html" />
+    <link rel="next" title="King of Ur" href="solve.html" />
     <link rel="prev" title="The size of Ur" href="gamesize.html" /> 
   </head>
   <body>
@@ -39,7 +39,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="urlib.html" title="Royal Ur library"
+          <a href="solve.html" title="King of Ur"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="gamesize.html" title="The size of Ur"
@@ -97,7 +97,7 @@ strategies) after playing a few games of ROGOUR. For example:</p>
 <li><dl class="first docutils">
 <dt>Catch me if you can, AKA <em>Frank</em> Abagnale.</dt>
 <dd><p class="first last">Minimize the probability of getting hit on the opponent next turn. This is
-slightly less straightforward as the others, but takes only a little
+slightly less straightforward than the others, but takes only a little
 practice to master.</p>
 </dd>
 </dl>
@@ -113,7 +113,7 @@ hitting an opponent piece in that second move.</p>
 <div class="section" id="simple-minded-humans">
 <h2>Simple-minded Humans<a class="headerlink" href="#simple-minded-humans" title="Permalink to this headline">¶</a></h2>
 <p>Lets start with the most simple minded humans, so simple they can manage only
-one of those principles. They look at all the possible moves, discard the
+one of those principles. They look at all possible moves, discard the
 non-compatible ones, and choose a move at random from those remaining. How well
 do they fare against the most simple player possible, Mister Random himself?</p>
 <p>It is only fitting to let the computer evaluate those human-like strategies. For
@@ -213,9 +213,11 @@ deal with multiple criteria, so why not our computer masquerading as a human? It
 is quite easy to combine principles: each one is a filter, and we can create a
 <em>compound-filter</em> by stringing together several principles and applying them in
 succession. For example <strong>&#8220;hit;Frank&#8221;</strong> plays by removing all non-hitting moves
-and selecting the safest among the rest, and <strong>&#8220;Frank;hit&#8221;</strong> keeps the safer
-ones and picks a move that hit from the rest. However, there are <a class="reference external" href="https://oeis.org/A007526">109600</a> possible compound-filters, so it is not feasible to
-find the best by trying out all pairs.</p>
+and selecting the safest among the remaining moves, while <strong>&#8220;Frank;hit&#8221;</strong>
+discard moves which are not as safe as the maximum and picks a hitting
+move. However, there are <a class="reference external" href="https://oeis.org/A007526">109600</a> possible
+compound-filters, so it is not feasible to find the best by trying out all
+pairs.</p>
 <p>But even if finding the best is hard, we can certainly evolve good ones. If we
 view those principles as &#8220;<em>genes</em>&#8221; and the compound-filter as a &#8220;<em>genome</em>&#8221; we
 can start with a pool of random genomes and evolve it over time. This extremely
@@ -320,8 +322,8 @@ usually it is hard to &#8220;degrade&#8221; a strong computer players in natural
   <p class="topless"><a href="gamesize.html"
                         title="previous chapter">The size of Ur</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="urlib.html"
-                        title="next chapter">Royal Ur library</a></p>
+  <p class="topless"><a href="solve.html"
+                        title="next chapter">King of Ur</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/humanst.txt"
@@ -354,7 +356,7 @@ usually it is hard to &#8220;degrade&#8221; a strong computer players in natural
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="urlib.html" title="Royal Ur library"
+          <a href="solve.html" title="King of Ur"
              >next</a> |</li>
         <li class="right" >
           <a href="gamesize.html" title="The size of Ur"
