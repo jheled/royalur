@@ -282,7 +282,7 @@ for line in urMatchLog:
     if showPositon:
       print >> outFile, ""
 
-if annotate :
+if gameOver(gameBoard) and annotate :
   
   print >> outFile, "Skill: %s %.2f  %s %.2f" % (xName, equityLose[0], oName, equityLose[1])
   px = .5 + equityLose[0]/100.
