@@ -14,10 +14,11 @@ classifiers=[
   "Topic :: Games :: Board Games"
   ]
 
-from royalur import __version__
+## Fails for first ever install
+##from royalur import __version__
 
 setup (name = 'royalur',
-       version = __version__,
+       version = '0.1.0',
        description = 'Classical Royal Game of Ur',
        long_description = '',
        author = 'Joseph Heled',
