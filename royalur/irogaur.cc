@@ -196,9 +196,16 @@ index2Board(PyObject*, PyObject* args)
   PyObject* const pyps = PyDict_GetItem(pSums, t);     assert(pyps && PySequence_Check(pyps));
   Py_DECREF(t);
 
+  uint const plen = PySequence_Length(pyps);
+  
   PyObject** ps = &PyList_GET_ITEM(pyps, 0);
+  if( index >= PyInt_AsLong(ps[plen-1]) ) {
+    PyErr_SetString(PyExc_ValueError, "Index invalid");
+    return 0;
+  }
+    
   int m = 0;
-  while( ! ( PyInt_AsLong(ps[m]) <= index && index <  PyInt_AsLong(ps[m+1]) ) ) {
+  while( ! ( PyInt_AsLong(ps[m]) <= index && index < PyInt_AsLong(ps[m+1]) ) ) {
     m += 1;
   }
   index -= PyInt_AsLong(ps[m]);
