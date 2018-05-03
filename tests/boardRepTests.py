@@ -50,6 +50,7 @@ class TestCore(unittest.TestCase):
           i = board2Index(b)
           self.assertEqual(l[i], 0, str(i) + ',' + repr(b))
           l[i] = 1
+          self.assertEqual(index2Board(i), b, str(i) + ',' + repr(b))
     
 if __name__ == '__main__':
   unittest.main()
