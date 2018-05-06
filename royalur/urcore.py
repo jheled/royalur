@@ -318,6 +318,37 @@ def bitsIterator(k, n) :
     for v in bitsIterator(k, n-1) :
       yield (0,) + v
 
+# faster, non recursive
+def bitsIterator(k, n) :
+  """ Iterate over all placements of *k* identical pieces in *n* locations. """
+  
+  if k == 0:
+    yield (0,)*n
+  elif k == n :
+    yield (1,)*n
+  else :
+    b = [1]*k + [0]*(n-k)
+    yield list(b)
+    
+    while True:
+      i = 0
+      while b[i] == 0 :
+        i += 1
+      j = i + 1
+      while j < n and b[j] == 1:
+        j += 1
+      if j >= n:
+        return
+
+      # 0 1 2 ... i ... j .
+      # 0 0 0 ... 0 1 1 1 0
+      for k in range(j-i-1) :
+        b[i+k] = 0
+        b[k] = 1
+      b[j-1] = 0
+      b[j] = 1;                  #assert b == [1]*(j-i-1) + [0]*(i+1) + [1] + b[j+1:]
+      yield list(b)
+      
 # def gIterator(gOff = 0) :
 #   """ Iterate over all green pieces positions with *gOff* pieces off board. """
   
