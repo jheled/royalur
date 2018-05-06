@@ -59,7 +59,8 @@ __all__ = [
   "getIndex", "getBoard", "getCode",
   "boardAsString", "board2Code", "code2Board", "board2Index", "index2Board",
   "positionsIterator",
-  "boardCHmap", "reverseBoardIndex", "boardPos2CH"
+  "boardCHmap", "reverseBoardIndex", "boardPos2CH",
+  "validBoard"
 ]
 
 GR_OFF = 14
@@ -83,6 +84,16 @@ def reverseBoard(board) :
   r[21] = board[14]
   return r
 
+def halfValid(b) :
+  ok1 = all([b[i] in (0,1) for i in (0,1,2,3,12,13)])
+  ok2 = all([b[i] in (-1,0,1) for i in range(4,12)])
+  ok3 = sum([b[i] == 1 for i in range(14)]) + b[14] <= 7
+  return ok1 and ok2 and ok3
+  
+def validBoard(b) :
+  """ A valid ROGOUR board (debug) """
+  return len(b) == 22 and halfValid(b) and halfValid(reverseBoard(b))
+  
 # Squares bestowing an extra roll. 
 extraTurn = [3, 7, 13, 18, 20]
 # In indexed array form, for speed
