@@ -158,15 +158,6 @@ opmap = {'a' :  15, 'b' : 16, 'c' : 17, 'd' : 18, 'y' : 19, 'z' : 20,
 
 def opAddPips(i, pips) :
   return reverseBoardIndex(reverseBoardIndex(i) + pips)
-
-def halfValid(b) :
-  ok1 = all([b[i] == 0 or b[i] == 1 for i in (0,1,2,3,12,13)])
-  ok2 = all([-1 <= b[i] <= 1 or b[i] == 1 for i in range(4,12)])
-  ok3 = sum([b[i] == 1 for i in range(14)]) + b[14] <= 7
-  return ok1 and ok2 and ok3
-  
-def validBoard(b) :
-  return halfValid(b) and halfValid(reverseBoard(b))
   
 def redraw(newBoard, oldBoard, bboard, window) :
   for i in range(21) :
