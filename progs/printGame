@@ -127,6 +127,11 @@ def pr2ELOdif(p) :
   assert 0 < p < 1
   
   return - 400*log(1/p - 1, 10)
+
+def dice2str(dice) :
+  dice = int(dice)
+  
+  return ((4-dice)*' ' + '@'*dice) 
   
 gameBoard = startPosition()
 xName,oName = 'X', 'O'
@@ -191,13 +196,13 @@ for line in urMatchLog:
             dluck = diceLuckStr(dlucke)
             if dluck or not highlights:
               print >> outFile, '='*18
-              print >> outFile, "XO"[who] + ':', str(pips) + dluck, "%4.2f" % (100*(1-p))
+              print >> outFile, "XO"[who] + ':', dice2str(pips) + dluck, "%4.2f" % (100*(1-p))
               showPositon = True
             else :
               showPositon = False
         else :
           print >> outFile, '='*18
-          print >> outFile, "XO"[who] + ':',pips
+          print >> outFile, "XO"[who] + ':', dice2str(pips)
         if showPositon:  
           print >> outFile, massageBoardString(boardAsString(gameBoard), None, bcode)
     else:
@@ -220,7 +225,7 @@ for line in urMatchLog:
 
       positionOutput = StringIO.StringIO()
       print >> positionOutput, '='*18
-      print >> positionOutput, "XO"[who] + ':',str(pips)+luck, square
+      print >> positionOutput, "XO"[who] + ':', dice2str(pips)+luck, square
       c = square.lower() if who == 0 else  square.upper()
       print >> positionOutput, massageBoardString(boardAsString(gameBoard), c, bcode)
       
@@ -302,6 +307,6 @@ if gameOver(gameBoard) and annotate :
     else :
       print >> outFile, "Luck equivalence: %.0f ELO points to" % -xOverO, oName + "."
   else :
-    print >> outFile, [oName,xName][luckTotals[0] > luckTotals[1]],"Go to Las Vegas *Immediately*!!"
+    print >> outFile, [oName,xName][luckTotals[0] > luckTotals[1]],"go to Las Vegas *Immediately*!!"
     
 urMatchLog.close()
