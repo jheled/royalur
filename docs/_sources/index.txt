@@ -39,11 +39,11 @@ hitting. Entering another piece gives red 57.18%, while hitting green gives only
 54.2%!! An equity loss of 0.06!
    
 This repository contains code relating to ROGUR, the fascinating precursor to
-backgammon. At the moment you can play with a very primitive `curses
-<https://en.wikipedia.org/wiki/Curses_(programming_library)>`__ interface and
-analyze your saved games. You can see one analyzed game in the ``games``
-directory.
-
+backgammon. At the moment you can play against Ishtar (the perfect player) or
+some "human-like" opponents (using either a very primitive `curses
+<https://en.wikipedia.org/wiki/Curses_(programming_library)>`__ interface or a
+`Tkinter <https://en.wikipedia.org/wiki/Tkinter>`_ GUI), then view and analyze
+your saved games. See the ``games`` directory for some examples.
 
 .. toctree::
    rules
@@ -51,7 +51,8 @@ directory.
    humanst
    solve
    luck
-
+   world
+   
 The ROGOUR code
 ---------------
 .. 50% luck 50% skill = 75%-25%, 0.5 equity ?
