@@ -21,13 +21,6 @@ def _create_circle(self, x, y, r, **kwargs):
   return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
 tk.Canvas.create_circle = _create_circle
 
-def getDBmove(moves, db) :
-  mvs = [(db.aget(b),b,e) for b,e in moves]
-  if not all([p is not None for p,b,e in mvs]) :
-    return bestHumanStrategySoFar(moves)
-  p,b,e = max([(p if e else 1 - p,b,e) for p,b,e in mvs])
-  return [(b,e)]
-
 def dbdPlayer(moves, db) :
   mvs = [(int(db.aget(b)*64)/64.,b,e) for b,e in moves]
   ps = [(p if e else 1 - p,b,e) for p,b,e in mvs]
@@ -402,7 +395,7 @@ class UrCanvas(tk.Frame) :
       if name == "expert" :
         self.player = lambda m : dbdPlayer(m, db)
       else :
-        self.player = lambda m : getDBmove(m, db)
+        self.player = getDBplayer(db)
     else :
       raise ValueError
     
