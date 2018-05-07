@@ -132,11 +132,6 @@ board2Index(PyObject*, PyObject* args)
     bits[nb] = b[k] == -1;
   }
   int const rMen = sum(bits, nb);
-  // cerr << rMen << ' ' << nb << ' ';
-  // for(int y = 0; y < nb; ++y) {
-  //   cerr << bits[y] << ' ';
-  // }
-  // cerr << endl;
   int const partR = bitsIndex(bits, rMen, nb);
   
   int const gHome = 7 - (gMen + gOff);
@@ -148,8 +143,14 @@ board2Index(PyObject*, PyObject* args)
   PyTuple_SET_ITEM(t, 2, PyInt_FromLong(gHome));
   PyTuple_SET_ITEM(t, 3, PyInt_FromLong(rHome));
   
-  PyObject* const pyi0 = PyDict_GetItem(spMap, t);     assert(pyi0);
+  PyObject* const pyi0 = PyDict_GetItem(spMap, t);     
   Py_DECREF(t);
+  
+  if( ! pyi0 ) {
+    PyErr_SetString(PyExc_ValueError, "wrong args.");
+    return 0;
+  }
+    
   long const i0 = PyInt_AsLong(pyi0);
 
   t = PyTuple_New(2);
@@ -167,8 +168,7 @@ board2Index(PyObject*, PyObject* args)
   long const i2 = partSafeG * bmap[8][gMen - m] + gStrip;
   long const i3 = i2 * bmap[14 - (gMen-m)][rMen] + partR;
   
-  PyObject* r = PyInt_FromLong(i0 + i1 + i3);
-  return r;
+  return PyInt_FromLong(i0 + i1 + i3);
 }
 
 static PyObject*
