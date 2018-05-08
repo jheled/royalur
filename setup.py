@@ -18,7 +18,7 @@ classifiers=[
 ##from royalur import __version__
 
 setup (name = 'royalur',
-       version = '0.1.0',
+       version = '0.2.0',
        description = 'Classical Royal Game of Ur',
        long_description = '',
        author = 'Joseph Heled',
@@ -30,9 +30,13 @@ setup (name = 'royalur',
        packages = ['royalur'],
        package_dir={'royalur': 'royalur'},
        ext_modules = [module1],
-       scripts = glob.glob('progs/*'),
+       scripts = filter(lambda x : x not in ["progs/rollout","progs/review-position"],
+                        glob.glob('progs/*')),
        data_files=[
-         ('data', glob.glob('data/db16.bin')),
+         # Comment out big data file until things stabilize. The distribution
+         # will stay small and the data file is not expected to change
+         ## ('data', glob.glob('data/db16.bin')),
+         ('data', []),
          ('scripts', glob.glob('scripts/*.py')),
          ('doc',glob.glob('html/*.*')),
          ('doc/_images', glob.glob('html/_images/*.*')),
