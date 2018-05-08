@@ -6,7 +6,14 @@ Code for exploring, analyzing and playing the  Royal Game of Ur (classic version
 
 See the docs at https://jheled.github.io/royalur/.
 
-Download the recent distribution from
+Installation:
+=============
+
+You can install directly from github using pip:
+
+>>> pip install -e git+https://github.com/jheled/royalur.git#egg=royalur
+
+Or download the recent distribution from
 
 >>> wget https://filedn.com/llztAlmJ0zvkPa8QEheU5n5/royalur-0.2.0.tar.gz
 
@@ -18,8 +25,7 @@ it in the data/ directory.
 >>> cd data; wget https://filedn.com/llztAlmJ0zvkPa8QEheU5n5/db16.bin
 
 
-Installation:
-=============
+If you download or clone directly:
 
 This is a standard python package. To install run 'python setup.py install'.
 To install locally run 'python setup.py install --home=DIR', and add 'DIR/lib/python'
