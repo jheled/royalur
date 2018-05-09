@@ -155,10 +155,43 @@ if annotate:
   
 for line in urMatchLog:
   line = line.strip()
-  #if line[0] == '#':
-  #  print >> outFile, line
+  if line[0] == '#':
+    continue
+    #  print >> outFile, line
     
+  if "wins" in line.lower() and line[1] == ':' :
+    who = "XO".index(line[0])
+    print >> outFile, [xName,oName][who],"Wins."
+    print >> outFile, ""
+
+    if gameOver(gameBoard) and annotate :
+      print >> outFile, "Skill: %s %.2f  %s %.2f" % (xName, equityLose[0], oName, equityLose[1])
+      px = .5 + equityLose[0]/100.
+      eloX = ("%.0f" % (2000 + pr2ELOdif(px))) if px > 0 else "Dreadful beyond words."
+      po = .5 + equityLose[1]/100.
+      eloO = ("%.0f" % (2000 +  pr2ELOdif(po))) if po > 0 else "Dreadful beyond words."
+
+      print >> outFile, "ELO:   %s  %s   %s  %s" % (xName, eloX, oName, eloO)
+      print >> outFile, ""
+
+      print >> outFile, "Luck: %s %.2f  %s %.2f" % (xName, 100*luckTotals[0], oName, 100*luckTotals[1])
+      p = 0.5 + (luckTotals[0] - luckTotals[1])
+      if 0 < p < 1 :
+        xOverO = pr2ELOdif(p)
+        if luckTotals[0] > luckTotals[1] :
+          print >> outFile, "Luck equivalence: %.0f ELO points to" % xOverO, xName + "."
+        else :
+          print >> outFile, "Luck equivalence: %.0f ELO points to" % -xOverO, oName + "."
+      else :
+        print >> outFile, [oName,xName][luckTotals[0] > luckTotals[1]],"go to Las Vegas *Immediately*!!"
+      print >> outFile, ""
+
+      continue
+
   if line.startswith("Board:") :
+    if annotate:
+      luckTotals = [0, 0]
+      equityLose = [0, 0]
     gameBoard = code2Board(line[len("Board:"):].strip().strip('"'))
     continue
 
@@ -167,7 +200,7 @@ for line in urMatchLog:
     xName,oName = w[2].strip(","),w[5]
     print line
     continue
-
+    
   if line.startswith("X: ") or line.startswith("O: "):
     showPositon = True
     
@@ -181,30 +214,27 @@ for line in urMatchLog:
 
     action = line[3:].split(' ')
     if len(action) == 1:
-      if action[0].lower() == "wins":
-        print >> outFile, [xName,oName][who],"Wins."
-      else:
-        pips = action[0];                         assert pips in "01234"
+      pips = action[0];                         assert pips in "01234"
 
-        assert len(allMoves(gameBoard if who == 0 else reverseBoard(gameBoard), int(pips))) == 1,(line,gameBoard,who)
-        
-        if annotate :
-          p = db.aget(gameBoard if who == 1 else reverseBoard(gameBoard))
-          if p is not None:
-            dlucke = diceLuck(gameBoard if who == 0 else reverseBoard(gameBoard), int(pips))
-            luckTotals[who] += dlucke
-            dluck = diceLuckStr(dlucke)
-            if dluck or not highlights:
-              print >> outFile, '='*18
-              print >> outFile, "XO"[who] + ':', dice2str(pips) + dluck, "%4.2f" % (100*(1-p))
-              showPositon = True
-            else :
-              showPositon = False
-        else :
-          print >> outFile, '='*18
-          print >> outFile, "XO"[who] + ':', dice2str(pips)
-        if showPositon:  
-          print >> outFile, massageBoardString(boardAsString(gameBoard), None, bcode)
+      assert len(allMoves(gameBoard if who == 0 else reverseBoard(gameBoard), int(pips))) == 1,(line,gameBoard,who)
+
+      if annotate :
+        p = db.aget(gameBoard if who == 1 else reverseBoard(gameBoard))
+        if p is not None:
+          dlucke = diceLuck(gameBoard if who == 0 else reverseBoard(gameBoard), int(pips))
+          luckTotals[who] += dlucke
+          dluck = diceLuckStr(dlucke)
+          if dluck or not highlights:
+            print >> outFile, '='*18
+            print >> outFile, "XO"[who] + ':', dice2str(pips) + dluck, "%4.2f" % (100*(1-p))
+            showPositon = True
+          else :
+            showPositon = False
+      else :
+        print >> outFile, '='*18
+        print >> outFile, "XO"[who] + ':', dice2str(pips)
+      if showPositon:  
+        print >> outFile, massageBoardString(boardAsString(gameBoard), None, bcode)
     else:
       pips = int(action[0])
       square = action[1][0]
@@ -287,26 +317,5 @@ for line in urMatchLog:
     if showPositon:
       print >> outFile, ""
 
-if gameOver(gameBoard) and annotate :
-  
-  print >> outFile, "Skill: %s %.2f  %s %.2f" % (xName, equityLose[0], oName, equityLose[1])
-  px = .5 + equityLose[0]/100.
-  eloX = ("%.0f" % (2000 + pr2ELOdif(px))) if px > 0 else "Dreadful beyond words."
-  po = .5 + equityLose[1]/100.
-  eloO = ("%.0f" % (2000 +  pr2ELOdif(po))) if po > 0 else "Dreadful beyond words."
-  
-  print >> outFile, "ELO:   %s  %s   %s  %s" % (xName, eloX, oName, eloO)
-  print >> outFile, ""
-  
-  print >> outFile, "Luck: %s %.2f  %s %.2f" % (xName, 100*luckTotals[0], oName, 100*luckTotals[1])
-  p = 0.5 + (luckTotals[0] - luckTotals[1])
-  if 0 < p < 1 :
-    xOverO = pr2ELOdif(p)
-    if luckTotals[0] > luckTotals[1] :
-      print >> outFile, "Luck equivalence: %.0f ELO points to" % xOverO, xName + "."
-    else :
-      print >> outFile, "Luck equivalence: %.0f ELO points to" % -xOverO, oName + "."
-  else :
-    print >> outFile, [oName,xName][luckTotals[0] > luckTotals[1]],"go to Las Vegas *Immediately*!!"
     
 urMatchLog.close()
