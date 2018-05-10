@@ -77,9 +77,9 @@ random player, beats Ishtar the goddess of Ur:
 
   Luck: Ishtar -110.52  Clueless 26.61
 
-Ishtar sat with a single piece on the homestretch for 50 moves of so and so clueless bears off 4
-pieces. The luck difference was 1.36 points, not enough to overcome Clueless shedding 0.85 points on
-the way.
+Ishtar sat with a single piece on the homestretch for about 50 moves while clueless raced off 4
+pieces. The luck difference was 1.36 points, not enough to overcome Clueless throwing away 0.85
+points during the game.
 
 Now that we hopefully understand a little better the interplay between luck and skill we can go back
 to Finkel statement about the fifty-fifty contribution. And I honestly not sure what it means. An
@@ -93,7 +93,7 @@ you look at even very weak players luck size drops to 1, 1.5%. Obviously, when y
 errors are smaller, and luck becomes more prominent. With two perfect players it is pure luck that
 decides the outcome. This sounds paradoxical until you think about it. What matters is not absolute
 skill but the difference in skill. So the important measure is the range of skill possible. And with
-the 1000 ELO points of ROGOUR I think one can claim it is similar to Backgammon (without the
+the 1000 ELO points of ROGOUR I think one can claim it is similar to plain Backgammon (without the
 doubling cube.)
 
 .. Local Variables:

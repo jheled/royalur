@@ -37,13 +37,20 @@ only 4 pips away from the finish line. But it turns out this is not the best mov
 at this stage of the game controlling the *safe* 4 square is more important than
 hitting. Entering another piece gives red 57.18%, while hitting green gives only
 54.2%!! An equity loss of 0.06!
+
+I suggest you go and play a few games against the machine (the program is called
+`tkur`). You have a few opponents to choose from, starting with Joe, an absolute
+beginner, to Ishtar, the Ur goddess [#]_. You should record you games (with a
+`-r`) and analyze them using `printGame`.
    
 This repository contains code relating to ROGUR, the fascinating precursor to
-backgammon. At the moment you can play against Ishtar (the perfect player) or
-some "human-like" opponents (using either a very primitive `curses
-<https://en.wikipedia.org/wiki/Curses_(programming_library)>`__ interface or a
-`Tkinter <https://en.wikipedia.org/wiki/Tkinter>`_ GUI), then view and analyze
-your saved games. See the ``games`` directory for some examples.
+backgammon.
+
+.. At the moment you can play against Ishtar (the perfect player) or
+.. some "human-like" opponents (using either a very primitive `curses
+.. <https://en.wikipedia.org/wiki/Curses_(programming_library)>`__ interface or a
+.. `Tkinter <https://en.wikipedia.org/wiki/Tkinter>`_ GUI), then view and analyze
+.. your saved games. See the ``games`` directory for examples.
 
 .. toctree::
    rules
@@ -52,6 +59,7 @@ your saved games. See the ``games`` directory for some examples.
    solve
    luck
    world
+   play
    
 The ROGOUR code
 ---------------
@@ -64,7 +72,10 @@ The ROGOUR code
 	      
    urlib
 
-   
+.. [#] I am aware the Sumerians called her Inanna, but the Assyrians and
+       Babylonians knew her as Ishtar, a name which I think is more
+       familiar today.
+
 Indices and tables
 ------------------
 
@@ -72,9 +83,10 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-..  LocalWords:  Finkel rosetta ROGOUR royalur Rulez gamesize humanst
+..  LocalWords:  Finkel rosetta ROGOUR royalur Rulez gamesize humanst Inanna printGame tkur
 
 .. Local Variables:
 .. eval: (auto-fill-mode 1)
 .. fill-column: 80
 .. End:
+
