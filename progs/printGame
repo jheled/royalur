@@ -186,7 +186,7 @@ for line in urMatchLog:
         print >> outFile, [oName,xName][luckTotals[0] > luckTotals[1]],"go to Las Vegas *Immediately*!!"
       print >> outFile, ""
 
-      continue
+    continue
 
   if line.startswith("Board:") :
     if annotate:
