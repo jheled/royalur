@@ -55,7 +55,7 @@
             
   <div class="section" id="human-like-strategies">
 <h1>Human-like Strategies<a class="headerlink" href="#human-like-strategies" title="Permalink to this headline">¶</a></h1>
-<p>Even a board games novice likely to notice some useful principles (or
+<p>Even a board games novice is likely to notice some useful principles (or
 strategies) after playing a few games of ROGOUR. For example:</p>
 <ul>
 <li><dl class="first docutils">
@@ -113,9 +113,9 @@ hitting an opponent piece in that second move.</p>
 <div class="section" id="simple-minded-humans">
 <h2>Simple-minded Humans<a class="headerlink" href="#simple-minded-humans" title="Permalink to this headline">¶</a></h2>
 <p>Lets start with the most simple minded humans, so simple they can manage only
-one of those principles. They look at all possible moves, discard the
-non-compatible ones, and choose a move at random from those remaining. How well
-do they fare against the most simple player possible, Mister Random himself?</p>
+one of those principles. They look at all possible moves, discard non-compatible
+ones and choose a move at random from those remaining. How well do they fare
+against the most simple player possible, Mister Random himself?</p>
 <p>It is only fitting to let the computer evaluate those human-like strategies. For
 each principle, the computer plays 10,000 games against Mr Random (5000 as
 green, 5000 as red), and counts wins and losses. Below is a table listing the
@@ -156,12 +156,12 @@ win percentages of each strategy, from highest to lowest:</p>
 </tbody>
 </table>
 <p>Note that the win rate is given as a 95% <a class="reference external" href="https://en.wikipedia.org/wiki/Credible_interval">credible interval</a> <a class="footnote-reference" href="#id3" id="id1">[1]</a>, mainly to demonstrate
-that 10,000 trial are sufficient to separate between the principles.</p>
+that 10,000 trial are sufficient to separate between principles.</p>
 <p>This simple table is already quite interesting. Even the weakest principle,
 safe, wins on average 0.2 points per game, a rating difference of about 65 <a class="reference external" href="https://en.wikipedia.org/wiki/Elo_rating_system">ELO</a> points. The strongest,
 Frank, is 470 ELO points stronger. Also, Frank is faring considerably better
-than Chuck: not getting hit seems more important than hitting, at least against
-a random opponent. Or maybe it is the fact that the Frank principle applies to
+than Chuck: not getting hit seems to be more important than hitting, at least
+against a random opponent. Or maybe it is that the Frank principle applies to
 all positions, while Chuck only to positions with possible hits. That said,
 those numbers do not necessarily reflect the relative strength of the various
 principle when pitted one against the other. When we let everyone play everyone
@@ -233,16 +233,18 @@ with <em>random</em> and the strongest looks like this:</p>
 <ul class="simple">
 <li>Random</li>
 <li>Frank</li>
-<li>safe;homestretch;hit;Extra                         (1)</li>
-<li>homestretch;Frank;bear;safe;Donkey;hit;Chuck;Extra (2)</li>
-<li>safe;homestretch;hit;Extra;Chuck;Frank;bear;Donkey (3)</li>
-<li>Extra;Chuck;hit;bear;homestretch;Frank;Donkey;safe (4)</li>
-<li>hit;Donkey;safe;homestretch;Extra;bear;Frank       (5)</li>
-<li>hit;Donkey;safe;homestretch;Extra;bear;Frank;Chuck (6)</li>
-<li>hit;safe;Extra;bear;Frank;Donkey;homestretch;Chuck (7)</li>
-<li>hit;safe;Extra;bear;Frank;Donkey                   (8)</li>
-<li>hit;safe;Donkey;bear;Frank;Extra;homestretch;Chuck (9)</li>
 </ul>
+<ol class="arabic simple">
+<li>safe;homestretch;hit;Extra</li>
+<li>homestretch;Frank;bear;safe;Donkey;hit;Chuck;Extra</li>
+<li>safe;homestretch;hit;Extra;Chuck;Frank;bear;Donkey</li>
+<li>Extra;Chuck;hit;bear;homestretch;Frank;Donkey;safe</li>
+<li>hit;Donkey;safe;homestretch;Extra;bear;Frank</li>
+<li>hit;Donkey;safe;homestretch;Extra;bear;Frank;Chuck</li>
+<li>hit;safe;Extra;bear;Frank;Donkey;homestretch;Chuck</li>
+<li>hit;safe;Extra;bear;Frank;Donkey</li>
+<li>hit;safe;Donkey;bear;Frank;Extra;homestretch;Chuck</li>
+</ol>
 <p>Like the products of most evolutionary systems, it is almost impossible to
 understand why each outperforms the previous ones, but when we play all pairwise
 matches and assign ELO&#8217;s we get the following picture:</p>
@@ -291,7 +293,7 @@ matches and assign ELO&#8217;s we get the following picture:</p>
 </tbody>
 </table>
 <p>This relatively simple process generates quite strong players, yet ones which
-make human like mistakes. Just play (8) and you will see what I mean. Having
+make human-like mistakes. Just play (8) and you will see what I mean. Having
 human-like opponents of various strengths is actually quite nice, because
 usually it is hard to &#8220;degrade&#8221; a strong computer players in natural ways.</p>
 <table class="docutils footnote" frame="void" id="id3" rules="none">

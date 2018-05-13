@@ -2,7 +2,7 @@
 Human-like Strategies
 =====================
 
-Even a board games novice likely to notice some useful principles (or
+Even a board games novice is likely to notice some useful principles (or
 strategies) after playing a few games of ROGOUR. For example:
 
 - Back you go, little fella. AKA *hit*.
@@ -36,9 +36,9 @@ Simple-minded Humans
 --------------------
 
 Lets start with the most simple minded humans, so simple they can manage only
-one of those principles. They look at all possible moves, discard the
-non-compatible ones, and choose a move at random from those remaining. How well
-do they fare against the most simple player possible, Mister Random himself?
+one of those principles. They look at all possible moves, discard non-compatible
+ones and choose a move at random from those remaining. How well do they fare
+against the most simple player possible, Mister Random himself?
 
 It is only fitting to let the computer evaluate those human-like strategies. For
 each principle, the computer plays 10,000 games against Mr Random (5000 as
@@ -53,14 +53,14 @@ win percentages of each strategy, from highest to lowest:
 
 Note that the win rate is given as a 95% `credible interval
 <https://en.wikipedia.org/wiki/Credible_interval>`_ [1]_, mainly to demonstrate
-that 10,000 trial are sufficient to separate between the principles.
+that 10,000 trial are sufficient to separate between principles.
 
 This simple table is already quite interesting. Even the weakest principle,
 safe, wins on average 0.2 points per game, a rating difference of about 65 `ELO
 <https://en.wikipedia.org/wiki/Elo_rating_system>`_ points. The strongest,
 Frank, is 470 ELO points stronger. Also, Frank is faring considerably better
-than Chuck: not getting hit seems more important than hitting, at least against
-a random opponent. Or maybe it is the fact that the Frank principle applies to
+than Chuck: not getting hit seems to be more important than hitting, at least
+against a random opponent. Or maybe it is that the Frank principle applies to
 all positions, while Chuck only to positions with possible hits. That said,
 those numbers do not necessarily reflect the relative strength of the various
 principle when pitted one against the other. When we let everyone play everyone
@@ -106,15 +106,16 @@ with *random* and the strongest looks like this:
 
 - Random
 - Frank
-- safe;homestretch;hit;Extra                         (1)
-- homestretch;Frank;bear;safe;Donkey;hit;Chuck;Extra (2)
-- safe;homestretch;hit;Extra;Chuck;Frank;bear;Donkey (3)
-- Extra;Chuck;hit;bear;homestretch;Frank;Donkey;safe (4)
-- hit;Donkey;safe;homestretch;Extra;bear;Frank       (5)
-- hit;Donkey;safe;homestretch;Extra;bear;Frank;Chuck (6)
-- hit;safe;Extra;bear;Frank;Donkey;homestretch;Chuck (7)
-- hit;safe;Extra;bear;Frank;Donkey                   (8)
-- hit;safe;Donkey;bear;Frank;Extra;homestretch;Chuck (9)
+  
+(1) safe;homestretch;hit;Extra                         
+(2) homestretch;Frank;bear;safe;Donkey;hit;Chuck;Extra
+(3) safe;homestretch;hit;Extra;Chuck;Frank;bear;Donkey 
+(4) Extra;Chuck;hit;bear;homestretch;Frank;Donkey;safe 
+(5) hit;Donkey;safe;homestretch;Extra;bear;Frank       
+(6) hit;Donkey;safe;homestretch;Extra;bear;Frank;Chuck 
+(7) hit;safe;Extra;bear;Frank;Donkey;homestretch;Chuck 
+(8) hit;safe;Extra;bear;Frank;Donkey                   
+(9) hit;safe;Donkey;bear;Frank;Extra;homestretch;Chuck 
 
 Like the products of most evolutionary systems, it is almost impossible to
 understand why each outperforms the previous ones, but when we play all pairwise
@@ -127,7 +128,7 @@ matches and assign ELO's we get the following picture:
    760 , 1323 , 1363 , 1413 , 1565 , 1638 , 1683 , 1686 , 1687 , 1690 , 1693
 
 This relatively simple process generates quite strong players, yet ones which
-make human like mistakes. Just play (8) and you will see what I mean. Having
+make human-like mistakes. Just play (8) and you will see what I mean. Having
 human-like opponents of various strengths is actually quite nice, because
 usually it is hard to "degrade" a strong computer players in natural ways.
 
