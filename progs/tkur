@@ -206,7 +206,7 @@ class UrCanvas(tk.Frame) :
     self.playLoop(opTurn)
     
   def playLoop(self, opTurn) :
-    while True :
+    while not gameOver(self.gameBoard) :
       if opTurn:
         waiting = self.oppToPlay()
         if waiting :
@@ -214,7 +214,7 @@ class UrCanvas(tk.Frame) :
 
       self.mePlay()
       self.master.update(); time.sleep( self.delay )
-      opTurn = not gameOver(self.gameBoard)
+      opTurn = True
     
   def click(self, event):
     if self.lock :
