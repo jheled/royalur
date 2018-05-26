@@ -166,6 +166,7 @@ def chainFilt(moves, chain) :
       return moves
   return moves
 
-bestHumanStrategySoFar = lambda m: chainFilt(m, [strategies[i] for i in (3, 1, 6, 5, 2, 4, 0, 7)])
+bestHumanStrategySoFar = lambda m: chainFilt(m, [strategies[i] for i in (3, 6, 1, 8, 2, 7, 5, 4, 0)])
+##(3, 1, 6, 5, 2, 4, 0, 7)])
 
 #  LocalWords:  ROGOUR
