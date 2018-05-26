@@ -7,29 +7,46 @@
 #include <Python.h>
 #undef NDEBUG
 #include <cassert>
-//#include <iostream>
-//using std::cerr;
-//using std::endl;
+#include <cmath>
+
+#include <iostream>
+using std::cerr;
+using std::endl;
 
 int bmap[20][20];
 
-int binomial(int n, int k)
+static const char
+z85s[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-:+=^!/*?&<>()[]{}@%$#";
+static int rz85[256];
+
+static int
+binomial(int n, int k)
 {
   if( n < k )  return 0;
   if( k == 0 || n == k ) return 1;
   return binomial(n-1,k) + binomial(n-1,k-1);
 }
 
-void initm(void) {
+static void
+initm(void)
+{
   for(int n = 0; n < 20; ++n) {
     for(int k = 0; k < 20; ++k) {
       bmap[n][k] = binomial(n,k);
     }
   }
+  {
+    uint k = 0;
+    for(char const& c : z85s) {
+      rz85[static_cast<uint>(c)] = k;
+      ++k;
+    }
+  }
 }
   
 inline int
-sum(int const a[], uint const n) {
+sum(int const a[], uint const n)
+{
   int s = 0;
   for(uint k = 0; k < n; ++ k) {
     s += a[k];
@@ -37,7 +54,7 @@ sum(int const a[], uint const n) {
   return s;
 }
 
-uint
+static uint
 bitsIndex(int const bits[], int k, uint const N)
 {
   int i = 0, n = N;
@@ -51,7 +68,8 @@ bitsIndex(int const bits[], int k, uint const N)
   return i;
 }
 
-void i2bits(int bits[], uint i, int k, int N)
+static void
+i2bits(int bits[], uint i, int k, int N)
 {
   int j;
   for(j = 0; j < N; ++j) {
@@ -251,16 +269,204 @@ index2Board(PyObject*, PyObject* args)
     PyList_SET_ITEM(pyb, i, PyInt_FromLong(b[i]));
   }
   return pyb;
+}
 
-  Py_INCREF(Py_None);
-  return Py_None;
+static unsigned long
+a2b(const char* s)
+{
+  unsigned long l = 0;
+  for(int i = 4; i >= 0; --i) {
+    l = l*85 + rz85[static_cast<uint>(s[i])];
+  }
+  
+  assert( (l & (0x1 << 31)) == 0);
+  return l;
+}
+
+static void
+b2a(bool s[31], char a[5])
+{
+  unsigned long l = 0;
+  for(uint i = 0; i < 31; ++i) {
+    l = 2*l + s[i];
+  }
+  
+  for(uint i = 0; i < 5; ++i) {
+    uint const c = l % 85;
+    a[i] = z85s[c];
+    l = (l - c) / 85;
+  }
+}
+
+inline uint
+unpack(unsigned long l, uint start, uint len)
+{
+  l = l >> (31 - (start + len));
+  l &= (0x1 << len) - 1;
+  return l;
+}
+
+inline bool
+ubit(unsigned long l, uint i)
+{
+  return l & (0x1 << (30 - i));
+}
+
+static PyObject*
+code2Board(PyObject*, PyObject* args)
+{
+  const char* e;
+  if( !PyArg_ParseTuple(args, "s", &e) ) {
+    PyErr_SetString(PyExc_ValueError, "wrong args.");
+    return 0;
+  }
+  
+  int board[22] = {0};
+  unsigned long l = a2b(e);
+  uint atHome(unpack(l, 0, 3)), oAtHome(unpack(l, 9, 3));        assert(atHome <= 7 && oAtHome <= 7);
+  
+  {
+    int b[6] = {3,4,5,6,7,8};
+    int k[6] = {0,1,2,3,12,13};
+    for(uint i = 0; i < 6; ++i) {
+      if( ubit(l, b[i]) ) {
+  	board[k[i]] = 1;
+      }
+    }
+  }
+  {
+    int b[6] = {12,13,14,15,16,17};
+    int k[6] = {15,16,17,18,19,20};
+    for(uint i = 0; i < 6; ++i) {
+      if( ubit(l, b[i]) ) {
+  	board[k[i]] = -1;
+      }
+    }
+  }
+  
+  uint mid = unpack(l, 18, 13);                     assert( mid < std::pow(3,8) );
+  for(int i = 11; i > 3; --i) {
+    uint const x = mid % 3;
+    board[i] = x - 1;
+    mid = (mid - x) / 3;
+  }
+  
+  uint n = 0;
+  for(uint k = 0; k < 14; ++k) {
+    n += board[k] == 1;
+  }
+  board[14] = 7 - (atHome + n);
+  
+  n = 0;
+  for(uint k = 15; k < 19; ++k) {
+    n += board[k] == -1;
+  }
+  for(uint k = 4; k < 12; ++k) {
+    n += board[k] == -1;
+  }
+  for(uint k = 19; k < 21; ++k) {
+    n += board[k] == -1;
+  }
+  
+  board[21] = 7 - (oAtHome + n);
+  
+  PyObject* pyb = PyList_New(22);
+  for(uint i = 0; i < 22; ++i) {
+    PyList_SET_ITEM(pyb, i, PyInt_FromLong(board[i]));
+  }
+  return pyb;
+}
+
+static PyObject*
+board2Code(PyObject*, PyObject* args)
+{
+  PyObject* pyBoard;
+  
+  if( !PyArg_ParseTuple(args, "O", &pyBoard) ) {
+    PyErr_SetString(PyExc_ValueError, "wrong args.");
+    return 0;
+  }
+
+  if( !(PySequence_Check(pyBoard) && PySequence_Size(pyBoard) == 22) ) {
+    PyErr_SetString(PyExc_ValueError, "wrong args.");
+    return 0;
+  }
+
+  int board[22];
+  {
+    PyObject** s = &PyList_GET_ITEM(pyBoard, 0);
+    for(uint k = 0; k < 22; ++k) {
+      board[k] = PyInt_AsLong(s[k]);
+    }
+  }
+
+  bool s[31] = {false};
+  
+  uint o = 0;
+  for(uint k = 0; k < 14; ++k) {
+    o += board[k] == 1;
+  }
+
+  uint const totPiecesMe = 7 - board[GR_OFF];
+  uint const atHome = totPiecesMe - o;
+
+  uint k = 0;
+  s[k] = atHome & 0x4; ++k;
+  s[k] = atHome & 0x2; ++k;
+  s[k] = atHome & 0x1; ++k;
+  for(uint i = 0; i < 4; ++i) {
+    s[k] = board[i]; ++k;
+  }
+  for(uint i = 12; i < 14; ++i) {
+    s[k] = board[i]; ++k;
+  }
+
+  uint oo = 0;
+  for(uint k = 15; k < 19; ++k) {
+    oo += board[k] == -1;
+  }
+  for(uint k = 4; k < 12; ++k) {
+    oo += board[k] == -1;
+  }
+  for(uint k = 19; k < 21; ++k) {
+    oo += board[k] == -1;
+  }
+
+  uint const ototPiecesOff = 7 - board[RD_OFF];
+  uint const oatHome = ototPiecesOff - oo;
+
+  s[k] = oatHome & 0x4; ++k;
+  s[k] = oatHome & 0x2; ++k;
+  s[k] = oatHome & 0x1; ++k;
+  for(uint i = 15; i < 19; ++i) {
+    s[k] = board[i]; ++k;
+  }
+  for(uint i = 19; i < 21; ++i) {
+    s[k] = board[i]; ++k;
+  }
+  
+  uint x = board[4] + 1;
+  for(uint i = 5; i < 12; ++i) {
+    x = 3*x + (board[i] + 1);
+  }
+  for(int i = 12; i >= 0; --i) {
+    s[k] = x & (0x1 << i); ++k;
+  }
+
+  char a[5];
+  b2a(s, a);
+  return PyString_FromStringAndSize(a, 5);
 }
 
 static PyMethodDef irMethods[] =
 {
-  {"board2Index",  board2Index, METH_VARARGS, ""},
+  {"board2Index", board2Index, METH_VARARGS, ""},
   
-  {"index2Board",  index2Board, METH_VARARGS, ""},
+  {"index2Board", index2Board, METH_VARARGS, ""},
+
+  {"code2Board",  code2Board, METH_VARARGS, ""},
+
+  {"board2Code",  board2Code, METH_VARARGS, ""},
   
   {NULL, NULL, 0, NULL}        /* Sentinel */
 };

@@ -246,7 +246,7 @@ def a2b(s) :
     l = l*85 + rz85[x]
   return format(l, '031b')
   
-def board2Code(board) :
+def __board2Code(board) :
   """Encode board as a string.
 
   First the board is encoded as 31 bits: 2x3 bits for number of pieces at home, 2x6 bits pieces on
@@ -275,7 +275,7 @@ def board2Code(board) :
   assert a2b(r) == s
   return r
   
-def code2Board(e) :
+def __code2Board(e) :
   """Decode board code back to internal representation."""
   assert len(e) == 5 and all([c in rz85 for c in e])
   
@@ -635,7 +635,10 @@ def index2Board(index) :
 
 def board2Index(board) :
   return irogaur.board2Index(board, spMap, pSums)
-  
+
+code2Board = irogaur.code2Board
+board2Code = irogaur.board2Code
+
 def getIndex(board) :
   """ Get board index from either a board, code, or index (convenience) """
   
