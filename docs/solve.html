@@ -1,35 +1,34 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>King of Ur &mdash; royalUr 0.2.0 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <title>King of Ur &#8212; royalUr 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
         VERSION:     '0.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="royalUr 0.2.0 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Skill and Luck" href="luck.html" />
     <link rel="prev" title="Human-like Strategies" href="humanst.html" /> 
   </head>
   <body>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -44,14 +43,14 @@
         <li class="right" >
           <a href="humanst.html" title="Human-like Strategies"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">royalUr 0.2.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">royalUr 0.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="king-of-ur">
 <h1>King of Ur<a class="headerlink" href="#king-of-ur" title="Permalink to this headline">¶</a></h1>
@@ -59,9 +58,9 @@
 kingdom you need to know the winning probability of each and every one of the 137,913,936 possible
 positions. How is that possible? As usual, lets start with the simplest case. What is Green winning
 probability in position (a)?</p>
-<div class="highlight-python"><div class="highlight"><pre>    [0] ....  O. (6)
-(a)     ........
-    [0] ....  X. (6)
+<div class="highlight-default"><div class="highlight"><pre><span></span>    <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="n">O</span><span class="o">.</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="p">(</span><span class="n">a</span><span class="p">)</span>     <span class="o">........</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="n">X</span><span class="o">.</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>With a roll of 1 (probability <span class="math">\(^1/_4\)</span>) Green wins immediately. If not, the turn passes to Red
@@ -70,9 +69,9 @@ and due to symmetry he has exactly the same win probability as Green did before 
 <div class="math">
 \[p_x = \frac{1}{4} + (1 - \frac{1}{4}) (1 - p_x),\]</div>
 <p>giving <span class="math">\(p_x = {^4/_7}\)</span> <a class="footnote-reference" href="#id3" id="id1">[1]</a>. How about position (b)?</p>
-<div class="highlight-python"><div class="highlight"><pre>    [0] ....  O. (6)
-(b)     ........
-    [0] ....  .X (6)
+<div class="highlight-default"><div class="highlight"><pre><span></span>    <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="n">O</span><span class="o">.</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="p">(</span><span class="n">b</span><span class="p">)</span>     <span class="o">........</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="o">.</span><span class="n">X</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Again, with a 2 (<span class="math">\(p = {^3/_8}\)</span>) Green wins immediately. With a 1 (<span class="math">\(p = {^1/_4}\)</span>) he gets
@@ -87,34 +86,34 @@ turn passes to Red. So,</p>
 and <span class="math">\(p_o = {^{74}/_{161}}\)</span> (.72 and .46 approximately).</p>
 <p>Those two examples teach us that (a) probabilities are best computed in pairs, position coupled with
 its inverse. This is because rolling a 0 (or any roll without legal moves) leaves the board
-untouched, only reversed, and (b) to compute a the winning probability of <tt class="docutils literal"><span class="pre">Z</span></tt> we need the
-probabilities of positions arising from making a move in <tt class="docutils literal"><span class="pre">Z</span></tt>. Unfortunately, putting positions in
-a sequence where for every <tt class="docutils literal"><span class="pre">Z</span></tt> the &#8220;descendants&#8221; of <tt class="docutils literal"><span class="pre">Z</span></tt> all appear before <tt class="docutils literal"><span class="pre">Z</span></tt> is possible only
+untouched, only reversed, and (b) to compute a the winning probability of <code class="docutils literal"><span class="pre">Z</span></code> we need the
+probabilities of positions arising from making a move in <code class="docutils literal"><span class="pre">Z</span></code>. Unfortunately, putting positions in
+a sequence where for every <code class="docutils literal"><span class="pre">Z</span></code> the “descendants” of <code class="docutils literal"><span class="pre">Z</span></code> all appear before <code class="docutils literal"><span class="pre">Z</span></code> is possible only
 for a small set known as race (or no-contact) positions. In a race position hits are no longer
 possible, and in ROGOUR this happens when one side has at most two pieces remaining in play, on his
-last two squares. In race positions any actual move is &#8220;forward&#8221; in position space, and so race
+last two squares. In race positions any actual move is “forward” in position space, and so race
 positions can be ordered such that (b) always holds. In general such ordering is not possible and
 the dependency is circular: eventually the win probability of the position depends on itself.</p>
-<p>This is not a problem in itself. As we just saw, every position &#8220;depends&#8221; upon itself, and yet it
+<p>This is not a problem in itself. As we just saw, every position “depends” upon itself, and yet it
 has a well defined probability. The problem is in figuring out the millions of equations involved:
 it is insanely difficult, and even if you do, solving them is doubly insane. Luckily there is an
 alternative. Take for example the two equations for position (b). They define <span class="math">\(p_x,p_o\)</span> in
 terms of functions of itself, i.e. <span class="math">\(p_x,p_o = f(p_x,p_o)\)</span>. Assume we have no idea and
 arbitrarily start with <span class="math">\(p_x,p_o = ({^1/_2},{^1/_2})\)</span>, then apply <span class="math">\(f\)</span> to get a new
-&#8220;estimate&#8221;,</p>
+“estimate”,</p>
 <div class="math">
-\[p_x = \frac{3}{8} + \frac{1}{4} \frac{4}{7} + \frac{3}{8} (1 - \frac{1}{2})\]\[p_o = \frac{1}{4} + (1 - \frac{1}{4}) (1 - \frac{1}{2})\]</div>
+\[ \begin{align}\begin{aligned}p_x = \frac{3}{8} + \frac{1}{4} \frac{4}{7} + \frac{3}{8} (1 - \frac{1}{2})\\p_o = \frac{1}{4} + (1 - \frac{1}{4}) (1 - \frac{1}{2})\end{aligned}\end{align} \]</div>
 <p>and get <span class="math">\((\frac{79}{112} \approx 0.70, \frac{5}{8})\)</span>. Just one application and <span class="math">\(p_x\)</span> is
-much closer to its true value. Repeating the procedure, plugging those new &#8220;estimates&#8221; again to f
+much closer to its true value. Repeating the procedure, plugging those new “estimates” again to f
 gets approximately (0.66, 0.47), and after just five iterations the probabilities are accurate to two
-decimal places. This is a well known technique called <a class="reference external" href="https://en.wikipedia.org/wiki/Fixed-point_iteration">Fixed-point iteration</a>, and if the system is &#8220;well behaved&#8221; it can
-work with millions of dimensions, and it better fucking will because it&#8217;s our only hope here.</p>
+decimal places. This is a well known technique called <a class="reference external" href="https://en.wikipedia.org/wiki/Fixed-point_iteration">Fixed-point iteration</a>, and if the system is “well behaved” it can
+work with millions of dimensions, and it better fucking will because it’s our only hope here.</p>
 <p>So we need to write the win probability of every position as an expression involving the probability
-of &#8220;descendant&#8221; positions, but it is rarely as simple as for (a) and (b), which had just a single
+of “descendant” positions, but it is rarely as simple as for (a) and (b), which had just a single
 piece for Red and Green. Consider for example position (c).</p>
-<div class="highlight-python"><div class="highlight"><pre>    [0] ....  O. (6)
-(c)     X...X...
-    [0] ....  .. (5)
+<div class="highlight-default"><div class="highlight"><pre><span></span>    <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="n">O</span><span class="o">.</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="p">(</span><span class="n">c</span><span class="p">)</span>     <span class="n">X</span><span class="o">...</span><span class="n">X</span><span class="o">...</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To compute the probability we need to cover all possible dice. Let <span class="math">\(p_{o,1}\)</span> be the win
@@ -125,16 +124,16 @@ with 2 and so on. The overall win probability is:</p>
 \frac{1}{4} (1 - p_{o,3}) +   \frac{1}{16} (1 - p_{o,4}).\]</div>
 <p><span class="math">\(p_{o,0}\)</span> is simply 1 minus the probability of the reversed position, and <span class="math">\(p_{o,4}\)</span> is
 the complement of,</p>
-<div class="highlight-python"><div class="highlight"><pre>    [0] ....  O. (6)
-(c)     X.......
-    [0] ....  .X (5)
+<div class="highlight-default"><div class="highlight"><pre><span></span>    <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="n">O</span><span class="o">.</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="p">(</span><span class="n">c</span><span class="p">)</span>     <span class="n">X</span><span class="o">.......</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="o">.</span><span class="n">X</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>this being the only move. But what about <span class="math">\(p_{o,2}\)</span>? It is the complement of one of those two,
 but which?</p>
-<div class="highlight-python"><div class="highlight"><pre>     [0] ....  O. (6)             [0] ....  O. (6)
-4a       ..X.X...            4b       X.....X.
-     [0] ....  .. (5)             [0] ....  .. (5)
+<div class="highlight-default"><div class="highlight"><pre><span></span>     <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="n">O</span><span class="o">.</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span>             <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="n">O</span><span class="o">.</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="mi">4</span><span class="n">a</span>       <span class="o">..</span><span class="n">X</span><span class="o">.</span><span class="n">X</span><span class="o">...</span>            <span class="mi">4</span><span class="n">b</span>       <span class="n">X</span><span class="o">.....</span><span class="n">X</span><span class="o">.</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>             <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>They look similar to us mortals, but one might be better for Red than the other, and we need to pick
@@ -142,18 +141,18 @@ the lesser one for him.</p>
 <div class="math">
 \[p_{o,2} = \min(p_{4a}, p_{4b})\]</div>
 <p>Similarly for 1 and 3. The appearance of minimums and maximums in our expressions is one of the main
-reasons I called it &#8220;insane&#8221; to think about solving the system directly. The difference between 4a
+reasons I called it “insane” to think about solving the system directly. The difference between 4a
 and 4b, if you want to know, is 1%. Not a lot, but those are the small advantages that accumulate
 from the skilled player which makes kings.</p>
-<p>This is basically all the &#8220;theoretical basis&#8221; <a class="footnote-reference" href="#id4" id="id2">[2]</a> required to compute the win probability of all
-ROGOUR positions. Evaluating in pairs, writing the probabilities as functions of other positions&#8217;
+<p>This is basically all the “theoretical basis” <a class="footnote-reference" href="#id4" id="id2">[2]</a> required to compute the win probability of all
+ROGOUR positions. Evaluating in pairs, writing the probabilities as functions of other positions’
 and solving with fixed point iterations. The rest is engineering. Not necessarily easy engineering,
 but stuff requiring time, dedication, willingness to do boring stuff and attention to
 details, and not real thought.</p>
 <table class="docutils footnote" frame="void" id="id3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>If you can&#8217;t solve this simple equation you better skip the rest of this page.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>If you can’t solve this simple equation you better skip the rest of this page.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id4" rules="none">
@@ -168,7 +167,7 @@ details, and not real thought.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="humanst.html"
@@ -176,29 +175,28 @@ details, and not real thought.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="luck.html"
                         title="next chapter">Skill and Luck</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/solve.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/solve.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -213,12 +211,12 @@ details, and not real thought.</p>
         <li class="right" >
           <a href="humanst.html" title="Human-like Strategies"
              >previous</a> |</li>
-        <li><a href="index.html">royalUr 0.2.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">royalUr 0.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2018, Joseph Heled.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Joseph Heled.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7.
     </div>
   </body>
 </html>

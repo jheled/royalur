@@ -1,35 +1,34 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>More on the world of Ur &mdash; royalUr 0.2.0 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <title>More on the world of Ur &#8212; royalUr 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
         VERSION:     '0.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="royalUr 0.2.0 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Opening Urrors" href="play.html" />
     <link rel="prev" title="Skill and Luck" href="luck.html" /> 
   </head>
   <body>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -44,20 +43,20 @@
         <li class="right" >
           <a href="luck.html" title="Skill and Luck"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">royalUr 0.2.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">royalUr 0.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="more-on-the-world-of-ur">
 <h1>More on the world of  Ur<a class="headerlink" href="#more-on-the-world-of-ur" title="Permalink to this headline">¶</a></h1>
 <p>A typical game of ROGOUR lasts between 177 and 243 turns (A turn is one roll of
 the dice followed by a legal move, if any). There is no longest game. With
-enough zeros you can get to any length. The shortest possible &#8220;cooperative&#8221; game
+enough zeros you can get to any length. The shortest possible “cooperative” game
 is 42 turns: Green hops from home to <cite>d</cite> to <cite>4</cite> to <cite>7</cite>, Red makes some meaningless
 move, Green bears off with a 3, another meaningless move by Red, a total of 6
 turns, and the cycle repeats six more times for the remaining pieces.</p>
@@ -65,11 +64,11 @@ turns, and the cycle repeats six more times for the remaining pieces.</p>
 fact that the shortest <em>perfect</em> is 42 turns as well. I wish Douglas Adams was
 alive and I could write and tell him about it. A perfect game is one played
 between two perfect players (two Ishtars), where each move is the best
-available. It looks slightly different than the &#8220;cooperative&#8221; game above since
-Red&#8217;s dice has to be carefully crafted so she has no opportunity to disrupt
+available. It looks slightly different than the “cooperative” game above since
+Red’s dice has to be carefully crafted so she has no opportunity to disrupt
 Green. Needless to say, it is a feast of fours for Green and threes and zeros
 for Red. You can find the game record in the games directory
-(<tt class="docutils literal"><span class="pre">shortestPerfectGame.ur</span></tt>).</p>
+(<code class="docutils literal"><span class="pre">shortestPerfectGame.ur</span></code>).</p>
 <p>The expected number of turns in a game is 209.810273. This is exact, and
 computed in a similar way as position probabilities, that is, by solving an
 enormous system of equations with 137,913,936 unknowns, using the same shortcuts
@@ -80,13 +79,13 @@ ELO). But it is 210 again for Santa vs. Sam, so it seems to depend on the
 difference in skill. The larger the difference, the shorter the game. Hardly
 surprising.</p>
 <p>Due to the simple nature of the rules every board position is reachable from the
-starting position. You can always &#8220;go backwards&#8221;, that is find a piece to move
+starting position. You can always “go backwards”, that is find a piece to move
 backwards. What might be slightly more surprising is that every position is
 reachable in at most 56 turns. Those <em>max</em> positions are all of the
-&#8220;two-sided-bearoff&#8221; variety:</p>
-<div class="highlight-python"><div class="highlight"><pre>[0] ....  OO (5)     [0] ....  O. (6)     [0] ....  O. (6)
-    ........             ........             ........
-[0] ....  XX (5)     [0] ....  XX (5)     [0] ....  .X (6)
+“two-sided-bearoff” variety:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="n">OO</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>     <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="n">O</span><span class="o">.</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span>     <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="n">O</span><span class="o">.</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+    <span class="o">........</span>             <span class="o">........</span>             <span class="o">........</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="n">XX</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>     <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="n">XX</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>     <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">....</span>  <span class="o">.</span><span class="n">X</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>And so on.</p>
@@ -101,7 +100,7 @@ be familiar with almost any type of position.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="luck.html"
@@ -109,29 +108,28 @@ be familiar with almost any type of position.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="play.html"
                         title="next chapter">Opening Urrors</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/world.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/world.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -146,12 +144,12 @@ be familiar with almost any type of position.</p>
         <li class="right" >
           <a href="luck.html" title="Skill and Luck"
              >previous</a> |</li>
-        <li><a href="index.html">royalUr 0.2.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">royalUr 0.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2018, Joseph Heled.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Joseph Heled.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7.
     </div>
   </body>
 </html>

@@ -1,34 +1,33 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Royal Ur library &mdash; royalUr 0.2.0 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <title>Royal Ur library &#8212; royalUr 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
         VERSION:     '0.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="royalUr 0.2.0 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="Royal Ur utilities" href="scripts.html" /> 
   </head>
   <body>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -40,44 +39,44 @@
         <li class="right" >
           <a href="scripts.html" title="Royal Ur utilities"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">royalUr 0.2.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">royalUr 0.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-royalur">
 <span id="royal-ur-library"></span><h1>Royal Ur library<a class="headerlink" href="#module-royalur" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="module-royalur.urcore"></span><div class="section" id="core-functionality-for-classical-rogour">
 <h2>Core functionality for classical ROGOUR<a class="headerlink" href="#core-functionality-for-classical-rogour" title="Permalink to this headline">¶</a></h2>
 <p>The player are named Green (to move) and Red. Each board square is assigned a character.</p>
-<div class="highlight-python"><div class="highlight"><pre>D C B A     Z Y
-1 2 3 4 5 6 7 8         
-d c b a     z y
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="n">C</span> <span class="n">B</span> <span class="n">A</span>     <span class="n">Z</span> <span class="n">Y</span>
+<span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span>         
+<span class="n">d</span> <span class="n">c</span> <span class="n">b</span> <span class="n">a</span>     <span class="n">z</span> <span class="n">y</span>
 </pre></div>
 </div>
 <p>Green pieces move through abcd12345678yz, while Red pieces move ABCD12345678YZ. Internally the
 board is represented as an array of length 22, indexed thus,</p>
-<div class="highlight-python"><div class="highlight"><pre>18 17 16 15   [21] 20 19
- 4  5  6  7  8  9  10 11
- 3  2  1  0   [14] 13 12
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">18</span> <span class="mi">17</span> <span class="mi">16</span> <span class="mi">15</span>   <span class="p">[</span><span class="mi">21</span><span class="p">]</span> <span class="mi">20</span> <span class="mi">19</span>
+ <span class="mi">4</span>  <span class="mi">5</span>  <span class="mi">6</span>  <span class="mi">7</span>  <span class="mi">8</span>  <span class="mi">9</span>  <span class="mi">10</span> <span class="mi">11</span>
+ <span class="mi">3</span>  <span class="mi">2</span>  <span class="mi">1</span>  <span class="mi">0</span>   <span class="p">[</span><span class="mi">14</span><span class="p">]</span> <span class="mi">13</span> <span class="mi">12</span>
 </pre></div>
 </div>
 <p>Positions 14 and 21 respectively store the number of Green/Red pieces out of play (born-off). The
 number of pieces at home is implicit (total must sum to 7). You may find it easier to picture the
 game and internal representation like that:</p>
-<div class="highlight-python"><div class="highlight"><pre>Red   15 16 17 18+                    19 20+ 21
-                   4 5 6 7&amp; 8 9 10 11 
-Green  0  1  2  3+                    12 13+ 14
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Red</span>   <span class="mi">15</span> <span class="mi">16</span> <span class="mi">17</span> <span class="mi">18</span><span class="o">+</span>                    <span class="mi">19</span> <span class="mi">20</span><span class="o">+</span> <span class="mi">21</span>
+                   <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span><span class="o">&amp;</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span> 
+<span class="n">Green</span>  <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">2</span>  <span class="mi">3</span><span class="o">+</span>                    <span class="mi">12</span> <span class="mi">13</span><span class="o">+</span> <span class="mi">14</span>
 </pre></div>
 </div>
 <p>The plus sign indicates the square bestows an extra roll. The ampersand provide protection from hits
 as well.</p>
 <p>The board can be encoded as either a <em>code</em> or an <em>index</em>. Codes are printable strings (of length 5)
-intended for &#8220;human interaction&#8221; and light usage, i.e. copy/paste for sharing or when the number of
+intended for “human interaction” and light usage, i.e. copy/paste for sharing or when the number of
 boards is relativly small. The index is tighter representation mapping the board to an unique
 integer in the range [0,137913936), the total number of Ur positions. Indices are computationally
 slower than codes, but enable storing per-board values in one contiguous memory block, indexed by
@@ -86,106 +85,89 @@ the supposedly efficient arrays, the only viable option is to work with low-leve
 by the board index.</p>
 <dl class="function">
 <dt id="royalur.urcore.startPosition">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">startPosition</tt><big>(</big><big>)</big><a class="headerlink" href="#royalur.urcore.startPosition" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">royalur.urcore.</code><code class="descname">startPosition</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#royalur.urcore.startPosition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Staring position.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="royalur.urcore.allActualMoves">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">allActualMoves</tt><big>(</big><em>board</em>, <em>pips</em>, <em>froms=None</em><big>)</big><a class="headerlink" href="#royalur.urcore.allActualMoves" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">royalur.urcore.</code><code class="descname">allActualMoves</code><span class="sig-paren">(</span><em>board</em>, <em>pips</em>, <em>froms=None</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.urcore.allActualMoves" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of all <strong>actual</strong> moves by Green given the dice.</p>
-<p><em>actual</em> here means omitting the cases where Green can&#8217;t move. Each returned move is a <tt class="docutils literal"><span class="pre">(b,e)</span></tt>
-pair, where <tt class="docutils literal"><span class="pre">e</span></tt> is True when Green has an extra turn (and thus the board has not been flipped),
+<p><em>actual</em> here means omitting the cases where Green can’t move. Each returned move is a <code class="docutils literal"><span class="pre">(b,e)</span></code>
+pair, where <code class="docutils literal"><span class="pre">e</span></code> is True when Green has an extra turn (and thus the board has not been flipped),
 or False and thus this is Red turn and the board is flipped.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="royalur.urcore.allMoves">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">allMoves</tt><big>(</big><em>board</em>, <em>pips</em>, <em>froms=None</em><big>)</big><a class="headerlink" href="#royalur.urcore.allMoves" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">royalur.urcore.</code><code class="descname">allMoves</code><span class="sig-paren">(</span><em>board</em>, <em>pips</em>, <em>froms=None</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.urcore.allMoves" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of all moves by Green given the dice.</p>
-<p>Same format as <a class="reference internal" href="#royalur.urcore.allActualMoves" title="royalur.urcore.allActualMoves"><tt class="xref py py-func docutils literal"><span class="pre">allActualMoves()</span></tt></a>, but including the &#8220;no-move&#8221; board from 0 pips.</p>
+<p>Same format as <a class="reference internal" href="#royalur.urcore.allActualMoves" title="royalur.urcore.allActualMoves"><code class="xref py py-func docutils literal"><span class="pre">allActualMoves()</span></code></a>, but including the “no-move” board from 0 pips.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="royalur.urcore.getPips">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">getPips</tt><big>(</big><big>)</big><a class="headerlink" href="#royalur.urcore.getPips" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a &#8220;dice&#8221; roll.</p>
+<code class="descclassname">royalur.urcore.</code><code class="descname">getPips</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#royalur.urcore.getPips" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a “dice” roll.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="royalur.urcore.reverseBoard">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">reverseBoard</tt><big>(</big><em>board</em><big>)</big><a class="headerlink" href="#royalur.urcore.reverseBoard" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">royalur.urcore.</code><code class="descname">reverseBoard</code><span class="sig-paren">(</span><em>board</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.urcore.reverseBoard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reverse roles of Red and Green.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="royalur.urcore.homes">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">homes</tt><big>(</big><em>board</em><big>)</big><a class="headerlink" href="#royalur.urcore.homes" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">royalur.urcore.</code><code class="descname">homes</code><span class="sig-paren">(</span><em>board</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.urcore.homes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper returning a (numberOfGreenMenAtHome, numberOfRedMenAtHome) pair.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="royalur.urcore.gameOver">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">gameOver</tt><big>(</big><em>board</em><big>)</big><a class="headerlink" href="#royalur.urcore.gameOver" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">royalur.urcore.</code><code class="descname">gameOver</code><span class="sig-paren">(</span><em>board</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.urcore.gameOver" title="Permalink to this definition">¶</a></dt>
 <dd><p>True if game on board is over, False otherwise.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="royalur.urcore.typeBearOff">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">typeBearOff</tt><big>(</big><em>board</em><big>)</big><a class="headerlink" href="#royalur.urcore.typeBearOff" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">royalur.urcore.</code><code class="descname">typeBearOff</code><span class="sig-paren">(</span><em>board</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.urcore.typeBearOff" title="Permalink to this definition">¶</a></dt>
 <dd><p>True if board is in <em>bear-off</em> mode. (i.e. no more contact possible).</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="royalur.urcore.getIndex">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">getIndex</tt><big>(</big><em>board</em><big>)</big><a class="headerlink" href="#royalur.urcore.getIndex" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">royalur.urcore.</code><code class="descname">getIndex</code><span class="sig-paren">(</span><em>board</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.urcore.getIndex" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get board index from either a board, code, or index (convenience)</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="royalur.urcore.getBoard">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">getBoard</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#royalur.urcore.getBoard" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">royalur.urcore.</code><code class="descname">getBoard</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.urcore.getBoard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get internal representation of board from either a board, code, or index (convenience)</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="royalur.urcore.getCode">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">getCode</tt><big>(</big><em>board</em><big>)</big><a class="headerlink" href="#royalur.urcore.getCode" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">royalur.urcore.</code><code class="descname">getCode</code><span class="sig-paren">(</span><em>board</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.urcore.getCode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get board code from either a board, code, or index (convenience)</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="royalur.urcore.boardAsString">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">boardAsString</tt><big>(</big><em>board</em><big>)</big><a class="headerlink" href="#royalur.urcore.boardAsString" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">royalur.urcore.</code><code class="descname">boardAsString</code><span class="sig-paren">(</span><em>board</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.urcore.boardAsString" title="Permalink to this definition">¶</a></dt>
 <dd><p>Board as a printable string (debug).</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="royalur.urcore.board2Code">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">board2Code</tt><big>(</big><em>board</em><big>)</big><a class="headerlink" href="#royalur.urcore.board2Code" title="Permalink to this definition">¶</a></dt>
-<dd><p>Encode board as a string.</p>
-<p>First the board is encoded as 31 bits: 2x3 bits for number of pieces at home, 2x6 bits pieces on
-abcdyz/ABCDYZ, and 13 bits for squares 1-8. The middle strip squares are taken as representing an
-8 digit base-3 number, which is converted to an integer in the range [0 - 3**8-1], which in turn
-is encoded as 13 bits (6+12+13 = 31). The 31 bits are encodes as string of 5 printable characters
-(2**31 &lt; 85**5).</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="royalur.urcore.code2Board">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">code2Board</tt><big>(</big><em>e</em><big>)</big><a class="headerlink" href="#royalur.urcore.code2Board" title="Permalink to this definition">¶</a></dt>
-<dd><p>Decode board code back to internal representation.</p>
-</dd></dl>
-
-<dl class="function">
 <dt id="royalur.urcore.positionsIterator">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">positionsIterator</tt><big>(</big><em>gOff=0</em>, <em>rOff=0</em><big>)</big><a class="headerlink" href="#royalur.urcore.positionsIterator" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">royalur.urcore.</code><code class="descname">positionsIterator</code><span class="sig-paren">(</span><em>gOff=0</em>, <em>rOff=0</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.urcore.positionsIterator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterate over all positions with <em>gOff</em>/<em>rOff</em> Green/Red pieces (respectively) off.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="royalur.urcore.validBoard">
-<tt class="descclassname">royalur.urcore.</tt><tt class="descname">validBoard</tt><big>(</big><em>b</em><big>)</big><a class="headerlink" href="#royalur.urcore.validBoard" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">royalur.urcore.</code><code class="descname">validBoard</code><span class="sig-paren">(</span><em>b</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.urcore.validBoard" title="Permalink to this definition">¶</a></dt>
 <dd><p>A valid ROGOUR board (debug)</p>
 </dd></dl>
 
@@ -195,29 +177,29 @@ is encoded as 13 bits (6+12+13 = 31). The 31 bits are encodes as string of 5 pri
 <p>Functions to play ROGOUR games and positions, using different strategies for X and O.</p>
 <dl class="function">
 <dt id="royalur.play.rollout">
-<tt class="descclassname">royalur.play.</tt><tt class="descname">rollout</tt><big>(</big><em>board</em>, <em>nTrials</em>, <em>playerX=None</em>, <em>playerO=None</em>, <em>evaluator=None</em><big>)</big><a class="headerlink" href="#royalur.play.rollout" title="Permalink to this definition">¶</a></dt>
-<dd><p>Play <tt class="docutils literal"><span class="pre">board</span></tt> <tt class="docutils literal"><span class="pre">nTrials</span></tt> times. Report percentage of wins.</p>
+<code class="descclassname">royalur.play.</code><code class="descname">rollout</code><span class="sig-paren">(</span><em>board</em>, <em>nTrials</em>, <em>playerX=None</em>, <em>playerO=None</em>, <em>evaluator=None</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.play.rollout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Play <code class="docutils literal"><span class="pre">board</span></code> <code class="docutils literal"><span class="pre">nTrials</span></code> times. Report percentage of wins.</p>
 <p>Use playerX/playerO to determine X/O moves. If unspecified, use the best human-like player. If
-<tt class="docutils literal"><span class="pre">evaluator</span></tt> is given, truncate the rollout at the first position with a valid probability.</p>
+<code class="docutils literal"><span class="pre">evaluator</span></code> is given, truncate the rollout at the first position with a valid probability.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="royalur.play.getDBplayer">
-<tt class="descclassname">royalur.play.</tt><tt class="descname">getDBplayer</tt><big>(</big><em>db</em><big>)</big><a class="headerlink" href="#royalur.play.getDBplayer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a player using probabilities from <tt class="docutils literal"><span class="pre">db</span></tt>.</p>
+<code class="descclassname">royalur.play.</code><code class="descname">getDBplayer</code><span class="sig-paren">(</span><em>db</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.play.getDBplayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a player using probabilities from <code class="docutils literal"><span class="pre">db</span></code>.</p>
 <p>Fall back to default human player if position has no DB entry.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="royalur.play.ply1">
-<tt class="descclassname">royalur.play.</tt><tt class="descname">ply1</tt><big>(</big><em>board</em>, <em>db</em><big>)</big><a class="headerlink" href="#royalur.play.ply1" title="Permalink to this definition">¶</a></dt>
-<dd><p>Win probability of <tt class="docutils literal"><span class="pre">board</span></tt> at 1-ply.</p>
+<code class="descclassname">royalur.play.</code><code class="descname">ply1</code><span class="sig-paren">(</span><em>board</em>, <em>db</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.play.ply1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Win probability of <code class="docutils literal"><span class="pre">board</span></code> at 1-ply.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="royalur.play.prob">
-<tt class="descclassname">royalur.play.</tt><tt class="descname">prob</tt><big>(</big><em>board</em>, <em>ply</em>, <em>db</em><big>)</big><a class="headerlink" href="#royalur.play.prob" title="Permalink to this definition">¶</a></dt>
-<dd><p>Win probability of <tt class="docutils literal"><span class="pre">board</span></tt> at <tt class="docutils literal"><span class="pre">ply</span></tt>-ply.</p>
+<code class="descclassname">royalur.play.</code><code class="descname">prob</code><span class="sig-paren">(</span><em>board</em>, <em>ply</em>, <em>db</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.play.prob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Win probability of <code class="docutils literal"><span class="pre">board</span></code> at <code class="docutils literal"><span class="pre">ply</span></code>-ply.</p>
 </dd></dl>
 
 </div>
@@ -228,7 +210,7 @@ not getting hit, extra moves and bearing off. Such core principles (or
 strategies) are captured in a <em>move filter</em>. A move filter takes a set of
 positions (all possible moves for some position and dice in our case), and
 filters out undesirable positions. It may filter none at all or all but one. For
-example <tt class="xref py py-func docutils literal"><span class="pre">hitAny()</span></tt> keeps the positions with the highest number of pieces
+example <code class="xref py py-func docutils literal"><span class="pre">hitAny()</span></code> keeps the positions with the highest number of pieces
 in the opponents home, and so effectively prefers positions with hits over
 positions without hits.</p>
 <p>More advanced players are built on top of those core principles by creating a
@@ -240,49 +222,49 @@ order, from first to last.</p>
 <p>Per-Position win probabilities for the full game space.</p>
 <dl class="class">
 <dt id="royalur.probsdb.PositionsWinProbs">
-<em class="property">class </em><tt class="descclassname">royalur.probsdb.</tt><tt class="descname">PositionsWinProbs</tt><big>(</big><em>fname=None</em><big>)</big><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">royalur.probsdb.</code><code class="descname">PositionsWinProbs</code><span class="sig-paren">(</span><em>fname=None</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Win probability for Green (on play) for each ROGOUR position.</p>
 <dl class="method">
 <dt id="royalur.probsdb.PositionsWinProbs.aget">
-<tt class="descname">aget</tt><big>(</big><em>board</em><big>)</big><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs.aget" title="Permalink to this definition">¶</a></dt>
+<code class="descname">aget</code><span class="sig-paren">(</span><em>board</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs.aget" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the win probability associated with board.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="royalur.probsdb.PositionsWinProbs.aset">
-<tt class="descname">aset</tt><big>(</big><em>board</em>, <em>pr</em><big>)</big><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs.aset" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the win probability associated with board to <tt class="docutils literal"><span class="pre">pr</span></tt>.</p>
+<code class="descname">aset</code><span class="sig-paren">(</span><em>board</em>, <em>pr</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs.aset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the win probability associated with board to <code class="docutils literal"><span class="pre">pr</span></code>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="royalur.probsdb.PositionsWinProbs.board2key">
-<tt class="descname">board2key</tt><big>(</big><em>board</em><big>)</big><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs.board2key" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the db internal &#8216;position&#8217;. This happens to be the offset into one humongus
+<code class="descname">board2key</code><span class="sig-paren">(</span><em>board</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs.board2key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the db internal ‘position’. This happens to be the offset into one humongus
 byte array.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="royalur.probsdb.PositionsWinProbs.get">
-<tt class="descname">get</tt><big>(</big><em>bpos</em><big>)</big><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs.get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the win probability associated with position <tt class="docutils literal"><span class="pre">bpos</span></tt>.</p>
+<code class="descname">get</code><span class="sig-paren">(</span><em>bpos</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the win probability associated with position <code class="docutils literal"><span class="pre">bpos</span></code>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="royalur.probsdb.PositionsWinProbs.key2board">
-<tt class="descname">key2board</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs.key2board" title="Permalink to this definition">¶</a></dt>
+<code class="descname">key2board</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs.key2board" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the key of the board associated with this position.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="royalur.probsdb.PositionsWinProbs.keys">
-<tt class="descname">keys</tt><big>(</big><big>)</big><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs.keys" title="Permalink to this definition">¶</a></dt>
+<code class="descname">keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs.keys" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the set of valid board positions (will be very slow the first time).</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="royalur.probsdb.PositionsWinProbs.set">
-<tt class="descname">set</tt><big>(</big><em>bpos</em>, <em>pr</em><big>)</big><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs.set" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the win probability associated with position <tt class="docutils literal"><span class="pre">bpos</span></tt> to <tt class="docutils literal"><span class="pre">pr</span></tt>.</p>
+<code class="descname">set</code><span class="sig-paren">(</span><em>bpos</em>, <em>pr</em><span class="sig-paren">)</span><a class="headerlink" href="#royalur.probsdb.PositionsWinProbs.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the win probability associated with position <code class="docutils literal"><span class="pre">bpos</span></code> to <code class="docutils literal"><span class="pre">pr</span></code>.</p>
 </dd></dl>
 
 </dd></dl>
@@ -294,7 +276,7 @@ byte array.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -310,29 +292,28 @@ byte array.</p>
   <h4>Previous topic</h4>
   <p class="topless"><a href="scripts.html"
                         title="previous chapter">Royal Ur utilities</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/urlib.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/urlib.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -344,12 +325,12 @@ byte array.</p>
         <li class="right" >
           <a href="scripts.html" title="Royal Ur utilities"
              >previous</a> |</li>
-        <li><a href="index.html">royalUr 0.2.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">royalUr 0.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2018, Joseph Heled.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Joseph Heled.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7.
     </div>
   </body>
 </html>

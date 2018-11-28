@@ -1,35 +1,34 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Skill and Luck &mdash; royalUr 0.2.0 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <title>Skill and Luck &#8212; royalUr 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
         VERSION:     '0.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="royalUr 0.2.0 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="More on the world of Ur" href="world.html" />
     <link rel="prev" title="King of Ur" href="solve.html" /> 
   </head>
   <body>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -44,53 +43,54 @@
         <li class="right" >
           <a href="solve.html" title="King of Ur"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">royalUr 0.2.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">royalUr 0.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="skill-and-luck">
 <h1>Skill and Luck<a class="headerlink" href="#skill-and-luck" title="Permalink to this headline">¶</a></h1>
 <p>Luck is a tricky concept. So, for your sake and mine, let us hope this page is not utter
-nonsense. Never assume I know more than you on the subject.</p>
-<p>First, games are all about skill. The better player will win a fair game. Not necessarily in each
-game, but he will come ahead in the long run. The expected number of points per game for a player is
-called <em>equity</em>. In a game of skill the supreme master expects to win all his games his equity of 1,
-one full point a game. If the game is totally random game anyone will win half and lose half, with
-an equity of 0. If your chance of winning a single game is 75% your equity is 0.5: in four games you
-expect to win three and lose one, for a total of two points in four games, which is on average half
-a point per game.</p>
-<p>But no one wins all the time in a real life game. I will surely lose to Stephan Curry in a three
-point shooting match, but even <strong>he</strong> misses a few shots every hundred, and I can make a few, so in
-a single shot match I might win one time in a thousand. Quite high, actually, when you think about
-that lottery ticket you bought yesterday.</p>
-<p>Those random factors we call luck limit the earning power of skill. It can buy you only that much
-per time unit. In real life those random factors are physical, biological and psychological, but in
+nonsense. Never assume I know more that you on anuthing.</p>
+<p>First, games are all about skill. The better player will win a fair game. Not each and every time,
+but he will come ahead in the long run. The expected number of points a player wins per game is
+called <em>equity</em>. In a game of pure skill the supreme master expects to win all his games, and his
+equity is 1, or one full point per game. If the game is totally random any player will win half the
+time and lose the other half, with an equity of zero. If your chance of winning a single game is 75%
+your equity is 0.5: you expect to win three out of four games, and lose one, for a total of two
+points per four games, which is on average half a point per game.</p>
+<p>But in real life no one wins all the time. I will surely lose to Stephan Curry in a three point
+shooting match, but even <strong>he</strong> misses a few shots every hundred, and I can make a few, so if the
+“math” consists of just one shot match I should win one time in a thousand. Quite high, actually,
+when you think about that lottery ticket you bought yesterday.</p>
+<p>Those random factors we call luck limit the earning power of skill. Skill can buy you only that much
+per time unit. In real life those random factors are physical, biological and psychological. In
 board games they are artificial, typically introduced by a random event generator (the <em>Dice</em>). The
-dice is fair and oblivious to skill, and so limits the equity of better players. Even the greatest
-Putzer can sometimes win against the world champion. The dice might provide him enough equity this
-one time to overcome the difference in skill.</p>
+dice is fair and oblivious to skill, and limits the equity of better players. Even the greatest
+Putzer can sometimes win against the world champion. The dice might provide him enough equity just
+this one time to overcome the skill gap.</p>
 <p>But luck, surprisingly enough, has a second source. I can beat Magnus Carlsen in a game of chess by
 selecting the best moves just by chance. Obviously the effect of such luck is vanishingly small in
-chess because of the number of moves per position is large, and most moves are bad or even
-catastrophic. In ROGOUR, on the other hand, with only a handful moves per position, this kind of
-luck might have a noticeable effect.</p>
-<p>Here is how luck and skill interact in a game. You have a some win probability <tt class="docutils literal"><span class="pre">p</span></tt> before you
-throw the dice. This probability is composed of all possible futures: it is the sum of the
-probability of throwing a 1 times your probability of winning after you made the best move with 1,
-plus the probability of throwing a 2 times your probability of winning after you made the best move
-with 2, etc.</p>
+chess because there are many moves per position, and most of them are bad or even catastrophic. In
+ROGOUR, on the other hand, there are only a handful of moves in each position, and this kind of luck
+may have a noticeable effect.</p>
+<p>Here is how luck and skill interact in a game. Say the win probability before you roll the dice is
+<code class="docutils literal"><span class="pre">p</span></code>. This probability is composed of all possible futures: it is the sum of the probability of
+throwing a 1 times your probability of winning after you made the best move with a 1, plus the
+probability of throwing a 2 times your probability of winning after you made the best move with 2,
+etc.</p>
 <div class="math">
 \[p = \sum_{\text{dice d}} Pr(d) Pr(\text{Winning after the best move with d})\]</div>
-<p>Now you throw the dice and get some specific dice value. Since <tt class="docutils literal"><span class="pre">p</span></tt> is a weighted average of those
-possible futures, some will be higher than <tt class="docutils literal"><span class="pre">p</span></tt> and some smaller. If <tt class="docutils literal"><span class="pre">d</span></tt> leads to a position with
-larger win probability you were lucky, and is smaller unlucky. Skill comes in after you have your
-dice. There are usually several possible moves with the same dice, and if you pick any move but the
-best, the difference in win probability between that move and the best result in a lose of equity.</p>
+<p>Now you roll the dice and get some specific value. Since <code class="docutils literal"><span class="pre">p</span></code> is a weighted average of those
+possible futures, some will be higher than <code class="docutils literal"><span class="pre">p</span></code> and others smaller. If <code class="docutils literal"><span class="pre">d</span></code> leads to a position
+whose win probability is higher you were lucky, and if it is smaller, unlucky. Skill comes in after
+you got your dice. There are several possible moves with the same dice, and if you pick any move but
+the best, the difference in win probability between that move and the best one is what you lose in
+equity.</p>
 <p>If that is not explicit enough, here is an example from real play. It is late in the game and both
 sides has only two pieces left in play. Before the throw X winning probability was 47.1%. He got a
 2, which is lucky since it brings his winning chances to 51.31%, more than 4%, which is the
@@ -98,7 +98,7 @@ threshold I use for lucky. You get this kind of lucky about one time out of twen
 was greedy and hit O, which is usually good but here it is not as good as playing his other piece
 from b to d, advancing his backward piece and getting an extra chance to hit O with a 2 or a 3. And
 4 would be quite good as well.</p>
-<div class="highlight-python"><div class="highlight"><pre>X: 2! 4
+<div class="highlight-default"><div class="highlight"><pre><span></span>X: 2! 4
 [0] ....  .. (5)
     ..oX.o..
 [0] ..x.  .. (5)
@@ -109,23 +109,23 @@ from b to d, advancing his backward piece and getting an extra chance to hit O w
 </div>
 <p>So luck and unluck accumulate throw by throw. The expected value of the total luck is zero: this is
 what fair means. But in a particular game one side might be luckier than the other, just by
-chance (pun intended). Lose from imperfect play accumulates too. And you win when the sum of you luck
-minus your lose by skill is greater than your opponent luck minus skill. This is how Clueless, our
+chance (pun intended). Loss from imperfect play also accumulates. And you win when your total luck
+minus your losses by skill is bigger than your opponent luck minus skill. This is how Clueless, our
 random player, beats Ishtar the goddess of Ur:</p>
-<div class="highlight-python"><div class="highlight"><pre>Skill: Ishtar 0.00  Clueless -85.58
-ELO:   Ishtar  2000   Clueless  Dreadful beyond words.
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Skill</span><span class="p">:</span> <span class="n">Ishtar</span> <span class="mf">0.00</span>  <span class="n">Clueless</span> <span class="o">-</span><span class="mf">85.58</span>
+<span class="n">ELO</span><span class="p">:</span>   <span class="n">Ishtar</span>  <span class="mi">2000</span>   <span class="n">Clueless</span>  <span class="n">Dreadful</span> <span class="n">beyond</span> <span class="n">words</span><span class="o">.</span>
 
-Luck: Ishtar -110.52  Clueless 26.61
+<span class="n">Luck</span><span class="p">:</span> <span class="n">Ishtar</span> <span class="o">-</span><span class="mf">110.52</span>  <span class="n">Clueless</span> <span class="mf">26.61</span>
 </pre></div>
 </div>
-<p>Ishtar sat with a single piece on the homestretch for about 50 moves while clueless raced off 4
-pieces. The luck difference was 1.36 points, not enough to overcome Clueless throwing away 0.85
-points during the game.</p>
+<p>Ishtar sat with a single piece on the home stretch for 50 moves or so while Clueless raced off 4
+pieces. The luck difference was 1.36 points, big enough to compensate for Clueless throwing away
+0.85 points during the game.</p>
 <p>Now that we hopefully understand a little better the interplay between luck and skill we can go back
 to Finkel statement about the fifty-fifty contribution. And I honestly not sure what it means. An
 equity difference of 0.5 is equivalent to an ELO difference of 190, which is clearly much smaller
 than the range of ROGOUR which is larger than a 1000 points. Another interpretation can be the
-&#8220;relative&#8221; size of luck and skill. By size I mean the standard deviation of your typical luck
+“relative” size of luck and skill. By size I mean the standard deviation of your typical luck
 difference on a single throw. For ROGOUR this turns out to be about 3.5%. But what is the size of
 skill? The size of errors by Clueless, our completly random player, is around 4%. Which is about
 equal to luck, only it is ridiculous to speak about skill for someone completly devoid of it. And if
@@ -141,7 +141,7 @@ doubling cube.)</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="solve.html"
@@ -149,29 +149,28 @@ doubling cube.)</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="world.html"
                         title="next chapter">More on the world of  Ur</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/luck.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/luck.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -186,12 +185,12 @@ doubling cube.)</p>
         <li class="right" >
           <a href="solve.html" title="King of Ur"
              >previous</a> |</li>
-        <li><a href="index.html">royalUr 0.2.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">royalUr 0.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2018, Joseph Heled.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Joseph Heled.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7.
     </div>
   </body>
 </html>

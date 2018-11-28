@@ -1,35 +1,34 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Opening Urrors &mdash; royalUr 0.2.0 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <title>Opening Urrors &#8212; royalUr 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
         VERSION:     '0.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="royalUr 0.2.0 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Royal Ur utilities" href="scripts.html" />
     <link rel="prev" title="More on the world of Ur" href="world.html" /> 
   </head>
   <body>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -44,14 +43,14 @@
         <li class="right" >
           <a href="world.html" title="More on the world of Ur"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">royalUr 0.2.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">royalUr 0.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="opening-urrors">
 <h1>Opening Urrors<a class="headerlink" href="#opening-urrors" title="Permalink to this headline">¶</a></h1>
@@ -61,33 +60,33 @@ in each turn, and the best one is usually obvious. But looks can be
 deceiving. For example, getting to start increase your winning chances by 1.5%,
 from 50% to 51.5%. Say you roll a 1 and your opponent rolls 1 too, and now you
 roll a 2. Your move?</p>
-<div class="highlight-python"><div class="highlight"><pre>X: ==@@
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">:</span> <span class="o">==@@</span>
 
-[6] ...o  .. (0)
-    ........
-[6] ...x  .. (0)
+<span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">...</span><span class="n">o</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="o">........</span>
+<span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">...</span><span class="n">x</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If you moved from <cite>a</cite> to <cite>c</cite> you squandered your good luck and then some. You
 shed almost 2% and stand at 49.6%. The correct move is to enter a second piece
 to <cite>b</cite> with a 51.5%.</p>
-<div class="highlight-python"><div class="highlight"><pre>X: ==@@
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">:</span> <span class="o">==@@</span>
 
-[6] ...o  .. (0)
-    ........
-[6] ...x  .. (0)
+<span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">...</span><span class="n">o</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="o">........</span>
+<span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">...</span><span class="n">x</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-    e 51.49
- ** a 49.59  (-1.90)
+    <span class="n">e</span> <span class="mf">51.49</span>
+ <span class="o">**</span> <span class="n">a</span> <span class="mf">49.59</span>  <span class="p">(</span><span class="o">-</span><span class="mf">1.90</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In fact, entering two pieces with 1 and 2 (or 2 and 1) at the start is always
 correct, regardless of Red dice and moves. This is nice because it makes an easy
 to remember rule. It would have been even nicer if there was an obvious reason
-and you did not need to remember anything, but I can&#8217;t see anything clear cut.
+and you did not need to remember anything, but I can’t see anything clear cut.
 Sure, I can claim than now 2,3 and 4 will get me to <cite>d</cite> on the next turn for an
 extra move, but I am pretty sure I could invent something as reasonable if it
-was the other way round. With that in mind, let&#8217;s review the opening moves.</p>
+was the other way round. With that in mind, let’s review the opening moves.</p>
 <div class="section" id="ur-openings">
 <h2>Ur Openings<a class="headerlink" href="#ur-openings" title="Permalink to this headline">¶</a></h2>
 <p>(1,1),(2,2),(3,3) and (4,4) are forced, and we took care of (1,2) and (2,1)
@@ -95,10 +94,10 @@ above. What about (1,3)? Typically you move your piece to <cite>d</cite> for the
 (case (a)), but not always. If the <cite>4</cite> if already occupied (your so very lucky
 opponent started with a (4,4)) you enter two pieces (case (b)), unless there is
 a juicy target to hit (like case (c)). The same rules apply to (3,1).</p>
-<div class="highlight-python"><div class="highlight"><pre>     (a)                   (b)                  (c)
-[6] ..O.  .. (0)     [5] ...O  .. (0)     [5] ....  .. (0)
-    ........             ...O....             .O.O....
-[6] X...  .. (0)     [5] .X.X  .. (0)     [6] X...  .. (0)
+<div class="highlight-default"><div class="highlight"><pre><span></span>     <span class="p">(</span><span class="n">a</span><span class="p">)</span>                   <span class="p">(</span><span class="n">b</span><span class="p">)</span>                  <span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">..</span><span class="n">O</span><span class="o">.</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>     <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">...</span><span class="n">O</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>     <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">....</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="o">........</span>             <span class="o">...</span><span class="n">O</span><span class="o">....</span>             <span class="o">.</span><span class="n">O</span><span class="o">.</span><span class="n">O</span><span class="o">....</span>
+<span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="n">X</span><span class="o">...</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>     <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">X</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>     <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="n">X</span><span class="o">...</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>It seems that after your opponent captured the <cite>4</cite> you move to a defensive
@@ -108,20 +107,20 @@ to do.</p>
 <p>(2,3) is next. Like (1,2) you almost always enter two pieces, but there are two
 exceptions. If your opponent has a piece on <cite>1</cite> (after (4,1)) you hit it, and
 you advance to <cite>1</cite> if he has a piece on <cite>3</cite>, like so.</p>
-<div class="highlight-python"><div class="highlight"><pre>[6] ....  .. (0)
-    X.O.....
-[6] ....  .. (0)
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">....</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">X</span><span class="o">.</span><span class="n">O</span><span class="o">.....</span>
+<span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">....</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>But doing so when Green has a piece on <cite>2</cite> is quite an error (-1.5%). I could
 invent a story why this is so, but honestly I find it slightly mystifying.</p>
-<div class="highlight-python"><div class="highlight"><pre>X: =@@@  b               X: =@@@  b
-[6] ....  .. (0)         [6] ....  .. (0)
-    ..o.....                 .o......
-[6] ..X.  .. (0)         [6] ..X.  .. (0)
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">:</span> <span class="o">=@@@</span>  <span class="n">b</span>               <span class="n">X</span><span class="p">:</span> <span class="o">=@@@</span>  <span class="n">b</span>
+<span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">....</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>         <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">....</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="o">..</span><span class="n">o</span><span class="o">.....</span>                 <span class="o">.</span><span class="n">o</span><span class="o">......</span>
+<span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">..</span><span class="n">X</span><span class="o">.</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>         <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">..</span><span class="n">X</span><span class="o">.</span>  <span class="o">..</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
- ** b 47.74                  e 48.10
-    e 46.96               ** b 46.62  (-1.48)
+ <span class="o">**</span> <span class="n">b</span> <span class="mf">47.74</span>                  <span class="n">e</span> <span class="mf">48.10</span>
+    <span class="n">e</span> <span class="mf">46.96</span>               <span class="o">**</span> <span class="n">b</span> <span class="mf">46.62</span>  <span class="p">(</span><span class="o">-</span><span class="mf">1.48</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The same rules apply to (3,2). With a (4,1) you advance to <cite>1</cite>. With (1,4) you
@@ -139,7 +138,7 @@ you none trivial amount of equity if you are unaware of them.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -155,29 +154,28 @@ you none trivial amount of equity if you are unaware of them.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="scripts.html"
                         title="next chapter">Royal Ur utilities</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/play.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/play.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -192,12 +190,12 @@ you none trivial amount of equity if you are unaware of them.</p>
         <li class="right" >
           <a href="world.html" title="More on the world of Ur"
              >previous</a> |</li>
-        <li><a href="index.html">royalUr 0.2.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">royalUr 0.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2018, Joseph Heled.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Joseph Heled.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7.
     </div>
   </body>
 </html>

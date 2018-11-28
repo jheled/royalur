@@ -1,35 +1,34 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>The size of Ur &mdash; royalUr 0.2.0 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <title>The size of Ur &#8212; royalUr 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
         VERSION:     '0.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="royalUr 0.2.0 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Human-like Strategies" href="humanst.html" />
     <link rel="prev" title="The Rulez:" href="rules.html" /> 
   </head>
   <body>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -44,14 +43,14 @@
         <li class="right" >
           <a href="rules.html" title="The Rulez:"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">royalUr 0.2.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">royalUr 0.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="the-size-of-ur">
 <h1>The size of Ur<a class="headerlink" href="#the-size-of-ur" title="Permalink to this headline">¶</a></h1>
@@ -59,8 +58,8 @@
 with a smaller configuration, one whose size is relatively easy to figure
 out. Let <span class="math">\(C_{g,r,m}\)</span> be the number of configurations with <span class="math">\(g\)</span> green
 and <span class="math">\(r\)</span> red pieces on the board, with <span class="math">\(m\)</span> green pieces in the common
-strip (squares 1-8). The <span class="math">\(g-m\)</span> pieces on <tt class="docutils literal"><span class="pre">abcdyz</span></tt> can be placed in
-<span class="math">\(\binom{6}{g-m}\)</span> ways, the <span class="math">\(m\)</span> pieces on <tt class="docutils literal"><span class="pre">1-8</span></tt> in
+strip (squares 1-8). The <span class="math">\(g-m\)</span> pieces on <code class="docutils literal"><span class="pre">abcdyz</span></code> can be placed in
+<span class="math">\(\binom{6}{g-m}\)</span> ways, the <span class="math">\(m\)</span> pieces on <code class="docutils literal"><span class="pre">1-8</span></code> in
 <span class="math">\(\binom{8}{m}\)</span> ways, and the <span class="math">\(r\)</span> pieces in <span class="math">\(\binom{14-m}{r}\)</span>,
 since <span class="math">\(m\)</span> squares are occupied by green pieces.</p>
 <div class="math">
@@ -85,8 +84,8 @@ pieces on the board is</p>
 precise). 138 million is definitely within reach, and one of the reasons I got
 excited. Even more exciting is this breakdown by number of green/red pieces
 borne off.</p>
-<table border="1" class="docutils">
-<caption>Ur positions by Green/Red borne-off pieces</caption>
+<table border="1" class="colwidths-given docutils" id="id2">
+<caption><span class="caption-text">Ur positions by Green/Red borne-off pieces</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="12%" />
 <col width="15%" />
@@ -206,14 +205,14 @@ borne off.</p>
 game in stages. First all 6/6 positions, i.e. a single green piece vs. a single
 red piece, then 6/5 (2 green vs. one red), which always lead either to a 6/6
 position or to the game end, then 5/5 and so on. This is quite nice when you
-don&#8217;t have a Google farm at your disposal.</p>
+don’t have a Google farm at your disposal.</p>
 </div>
 
 
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="rules.html"
@@ -221,29 +220,28 @@ don&#8217;t have a Google farm at your disposal.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="humanst.html"
                         title="next chapter">Human-like Strategies</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/gamesize.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/gamesize.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -258,12 +256,12 @@ don&#8217;t have a Google farm at your disposal.</p>
         <li class="right" >
           <a href="rules.html" title="The Rulez:"
              >previous</a> |</li>
-        <li><a href="index.html">royalUr 0.2.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">royalUr 0.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2018, Joseph Heled.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Joseph Heled.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7.
     </div>
   </body>
 </html>
