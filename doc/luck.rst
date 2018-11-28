@@ -3,48 +3,49 @@ Skill and Luck
 ==============
 
 Luck is a tricky concept. So, for your sake and mine, let us hope this page is not utter
-nonsense. Never assume I know more than you on the subject.
+nonsense. Never assume I know more that you on anuthing.
 
-First, games are all about skill. The better player will win a fair game. Not necessarily in each
-game, but he will come ahead in the long run. The expected number of points per game for a player is
-called *equity*. In a game of skill the supreme master expects to win all his games his equity of 1,
-one full point a game. If the game is totally random game anyone will win half and lose half, with
-an equity of 0. If your chance of winning a single game is 75% your equity is 0.5: in four games you
-expect to win three and lose one, for a total of two points in four games, which is on average half
-a point per game.
+First, games are all about skill. The better player will win a fair game. Not each and every time,
+but he will come ahead in the long run. The expected number of points a player wins per game is
+called *equity*. In a game of pure skill the supreme master expects to win all his games, and his
+equity is 1, or one full point per game. If the game is totally random any player will win half the
+time and lose the other half, with an equity of zero. If your chance of winning a single game is 75%
+your equity is 0.5: you expect to win three out of four games, and lose one, for a total of two
+points per four games, which is on average half a point per game.
 
-But no one wins all the time in a real life game. I will surely lose to Stephan Curry in a three
-point shooting match, but even **he** misses a few shots every hundred, and I can make a few, so in
-a single shot match I might win one time in a thousand. Quite high, actually, when you think about
-that lottery ticket you bought yesterday.
+But in real life no one wins all the time. I will surely lose to Stephan Curry in a three point
+shooting match, but even **he** misses a few shots every hundred, and I can make a few, so if the
+"math" consists of just one shot match I should win one time in a thousand. Quite high, actually,
+when you think about that lottery ticket you bought yesterday.
 
-Those random factors we call luck limit the earning power of skill. It can buy you only that much
-per time unit. In real life those random factors are physical, biological and psychological, but in
+Those random factors we call luck limit the earning power of skill. Skill can buy you only that much
+per time unit. In real life those random factors are physical, biological and psychological. In
 board games they are artificial, typically introduced by a random event generator (the *Dice*). The
-dice is fair and oblivious to skill, and so limits the equity of better players. Even the greatest
-Putzer can sometimes win against the world champion. The dice might provide him enough equity this
-one time to overcome the difference in skill.
+dice is fair and oblivious to skill, and limits the equity of better players. Even the greatest
+Putzer can sometimes win against the world champion. The dice might provide him enough equity just
+this one time to overcome the skill gap.
 
 But luck, surprisingly enough, has a second source. I can beat Magnus Carlsen in a game of chess by
 selecting the best moves just by chance. Obviously the effect of such luck is vanishingly small in
-chess because of the number of moves per position is large, and most moves are bad or even
-catastrophic. In ROGOUR, on the other hand, with only a handful moves per position, this kind of
-luck might have a noticeable effect.
+chess because there are many moves per position, and most of them are bad or even catastrophic. In
+ROGOUR, on the other hand, there are only a handful of moves in each position, and this kind of luck
+may have a noticeable effect.
 
-Here is how luck and skill interact in a game. You have a some win probability ``p`` before you
-throw the dice. This probability is composed of all possible futures: it is the sum of the
-probability of throwing a 1 times your probability of winning after you made the best move with 1,
-plus the probability of throwing a 2 times your probability of winning after you made the best move
-with 2, etc.
+Here is how luck and skill interact in a game. Say the win probability before you roll the dice is
+``p``. This probability is composed of all possible futures: it is the sum of the probability of
+throwing a 1 times your probability of winning after you made the best move with a 1, plus the
+probability of throwing a 2 times your probability of winning after you made the best move with 2,
+etc.
 
 .. math::
    p = \sum_{\text{dice d}} Pr(d) Pr(\text{Winning after the best move with d})
 
-Now you throw the dice and get some specific dice value. Since ``p`` is a weighted average of those
-possible futures, some will be higher than ``p`` and some smaller. If ``d`` leads to a position with
-larger win probability you were lucky, and is smaller unlucky. Skill comes in after you have your
-dice. There are usually several possible moves with the same dice, and if you pick any move but the
-best, the difference in win probability between that move and the best result in a lose of equity.
+Now you roll the dice and get some specific value. Since ``p`` is a weighted average of those
+possible futures, some will be higher than ``p`` and others smaller. If ``d`` leads to a position
+whose win probability is higher you were lucky, and if it is smaller, unlucky. Skill comes in after
+you got your dice. There are several possible moves with the same dice, and if you pick any move but
+the best, the difference in win probability between that move and the best one is what you lose in
+equity.
 
 If that is not explicit enough, here is an example from real play. It is late in the game and both
 sides has only two pieces left in play. Before the throw X winning probability was 47.1%. He got a
@@ -66,8 +67,8 @@ from b to d, advancing his backward piece and getting an extra chance to hit O w
 
 So luck and unluck accumulate throw by throw. The expected value of the total luck is zero: this is
 what fair means. But in a particular game one side might be luckier than the other, just by
-chance (pun intended). Lose from imperfect play accumulates too. And you win when the sum of you luck
-minus your lose by skill is greater than your opponent luck minus skill. This is how Clueless, our
+chance (pun intended). Loss from imperfect play also accumulates. And you win when your total luck
+minus your losses by skill is bigger than your opponent luck minus skill. This is how Clueless, our
 random player, beats Ishtar the goddess of Ur:
 
 ::
@@ -77,9 +78,9 @@ random player, beats Ishtar the goddess of Ur:
 
   Luck: Ishtar -110.52  Clueless 26.61
 
-Ishtar sat with a single piece on the homestretch for about 50 moves while clueless raced off 4
-pieces. The luck difference was 1.36 points, not enough to overcome Clueless throwing away 0.85
-points during the game.
+Ishtar sat with a single piece on the home stretch for 50 moves or so while Clueless raced off 4
+pieces. The luck difference was 1.36 points, big enough to compensate for Clueless throwing away
+0.85 points during the game.
 
 Now that we hopefully understand a little better the interplay between luck and skill we can go back
 to Finkel statement about the fifty-fifty contribution. And I honestly not sure what it means. An
