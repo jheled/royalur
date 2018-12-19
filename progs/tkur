@@ -29,9 +29,9 @@ def dbdPlayer(moves, db) :
   mp = max(ps)[0]
   return [(b,e) for p,b,e in ps if p == mp]
 
-parser = argparse.ArgumentParser(description="""Play ROGOUR, Man against the Machine. In the GUI you
-can select the machine sterngth, start a new match and exit. While playing you either click a piece
-to move it, or space when there is just one legal move.""")
+parser = argparse.ArgumentParser(description="""Play ROGOUR, Man against the Machine.
+In the GUI you can select the machine strength, start a new match and
+exit. Simply click a piece to move it, or space when there is only one legal move.""")
 
 parser.add_argument("--record", "-r", metavar="FILE", help = "Record the match in FILE.")
 
@@ -454,6 +454,9 @@ root.geometry('+%d+%d' % (960 - urBoardImage.size[0]//2,
                           540 - urBoardImage.size[1]//2) )
 
 root.title("The Royal UR")
+icon = tk.Image("photo", file= dir_path + "/urbicon.png")
+root.tk.call('wm','iconphoto',root._w,icon)
+
 cv = UrCanvas(root, urBoardImage)
 cv.pack()
 
