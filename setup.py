@@ -49,8 +49,6 @@ setuptools.setup(
     data_files=[
         # Comment out big data file until things stabilize. The distribution
         # will stay small and the data file is not expected to change
-        ## ('data', glob.glob('data/db16.bin')),
-        ('data', []),
         ('scripts', glob.glob('scripts/*.py')),
         ('doc',glob.glob('html/*.*')),
         ('doc/_images', glob.glob('html/_images/*.*')),
