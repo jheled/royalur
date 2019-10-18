@@ -35,11 +35,11 @@ setuptools.setup(
     ext_modules=[module1],
     entry_points={
         "console_scripts": [
-            'printGame=royalur.cli.printGame:main',
-            'curses-gui=royalur.cli.cursesGUI:main [curses]'
+            "printGame=royalur.cli.printGame:main",
+            "curses-gui=royalur.cli.cursesGUI:main [curses]"
         ],
-        'gui_scripts': [
-            'tkur=royalur.gui.tkur:main [PIL]'
+        "gui_scripts": [
+            "tkur=royalur.gui.tkur:main [PIL]"
         ]
     },
     extras_require={
@@ -49,10 +49,10 @@ setuptools.setup(
     data_files=[
         # Comment out big data file until things stabilize. The distribution
         # will stay small and the data file is not expected to change
-        ('scripts', glob.glob('scripts/*.py')),
-        ('doc',glob.glob('html/*.*')),
-        ('doc/_images', glob.glob('html/_images/*.*')),
-        ('doc/_images/math', glob.glob('html/_images/math/*.*')),
-        ('doc/_static', glob.glob('html/_static/*.*'))
+        ('scripts', glob.glob(os.path.join("scripts", "*.py"))),
+        ('doc',glob.glob(os.path.join("html", "*.*"))),
+        ('doc/_images', glob.glob(os.path.join("html", "_images", "*.*"))),
+        ('doc/_images/math', glob.glob(os.path.join("html", "_images", "math", "*.*"))),
+        ('doc/_static', glob.glob(os.path.join("html", "_static", "*.*")))
     ]
 )
