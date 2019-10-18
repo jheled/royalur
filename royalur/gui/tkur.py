@@ -2,48 +2,37 @@
 ## This file is part of royalUr.
 ## Copyright (C) 2018 Joseph Heled.
 ## Author: Joseph Heled <jheled@gmail.com>
-## See the files LICENCE and gpl.txt for copying conditions.
+## See the file LICENSE for copying conditions.
 #
 
 # This is not pretty code, and might be buggy. You have been warned
 
-import argparse, sys, os, time
+from __future__ import print_function
+import logging
+import argparse, sys, os.path, time
 import Tkinter as tk
 from PIL import ImageTk, Image
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 import random
-from royalur import *
-from royalur.humanStrategies import getByNicks
+from .. import *
+from ..urcore import extraTurnA
+from ..humanStrategies import getByNicks, bestHumanStrategySoFar
 
-debug = file('/dev/null', 'w')
+flog = None
+options = None
+cv = None
+foemenu = None
 
 def _create_circle(self, x, y, r, **kwargs):
   return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
-tk.Canvas.create_circle = _create_circle
 
 def dbdPlayer(moves, db) :
   mvs = [(int(db.aget(b)*64)/64.,b,e) for b,e in moves]
   ps = [(p if e else 1 - p,b,e) for p,b,e in mvs]
   mp = max(ps)[0]
   return [(b,e) for p,b,e in ps if p == mp]
-
-parser = argparse.ArgumentParser(description="""Play ROGOUR, Man against the Machine.
-In the GUI you can select the machine strength, start a new match and
-exit. Simply click a piece to move it, or space when there is only one legal move.""")
-
-parser.add_argument("--record", "-r", metavar="FILE", help = "Record the match in FILE.")
-
-parser.add_argument("--name", "-n", metavar="STR", default = "Human", help = "Your name.")
-
-options = parser.parse_args()
-try :
-  flog = file(options.record, 'a') if options.record else None
-except:
-  print >> sys.stderr, "Error opening match log."
-  sys.exit(1)
-
 
 # Human  : Green / G / 0 / Bottom
 # Machine: Red   / R / 1 / Top
@@ -55,12 +44,12 @@ class UrCanvas(tk.Frame) :
 
     self.lock = True
     self.delay = 0.4
-    
+
     tk.Frame.__init__(self, master)
 
     self.boardPhoto = ImageTk.PhotoImage(urBoardImage)
-    
-    iWidth, iHeight = urBoardImage.size 
+
+    iWidth, iHeight = urBoardImage.size
 
     canvas = tk.Canvas(self, width = iWidth, height = iHeight,
                        relief = tk.RIDGE, borderwidth = 1)
@@ -77,17 +66,17 @@ class UrCanvas(tk.Frame) :
         'Y' : (580,120), 'Z' : (509, 120),
        }
     self.sqaresCoordinates = sqaresCoordinates
-    
-    self.dice1 = Image.open(dir_path + "/d41.png")
+
+    self.dice1 = Image.open(os.path.join(dir_path, "d41.png"))
     self.d1 = ImageTk.PhotoImage(self.dice1)
 
-    self.dice0 = Image.open(dir_path + "/d40.png")
+    self.dice0 = Image.open(os.path.join(dir_path, "d40.png"))
     self.d0 = ImageTk.PhotoImage(self.dice0)
 
     dSpacing = max(*(self.dice1.size + self.dice0.size))
-    
+
     self.pieceLocations = dict()
-    
+
     self.dices = [[], []]
     for i in range(4) :
       x,y = iWidth - (dSpacing+10), (iHeight - 4*dSpacing)//2 + i * dSpacing
@@ -99,14 +88,14 @@ class UrCanvas(tk.Frame) :
 
     def pieceHomeXY(who, i, radius) :
       return 340 - i*(2 * radius + 7), 345 if who == 'G' else 40
-      
+
     self.radius = 15
     self.gr, self.rd = [], []
     radius, width = self.radius, 3
     for i in range(7) :
       x,y = pieceHomeXY('G', i, self.radius)
       sqaresCoordinates['h' + str(i)] = (x,y)
-      
+
       c = canvas.create_circle(x, y, radius, fill="green2", outline="black",
                                width=width, state='hidden', tags='GreenPiece')
       self.gr.append(c)
@@ -121,15 +110,15 @@ class UrCanvas(tk.Frame) :
 
       rdb = (440, 110)
       gdb = (440, 271)
-      
+
       sqaresCoordinates['F' + str(i)] = (rdb[0],rdb[1] - i*radius)
       sqaresCoordinates['f' + str(i)] = (gdb[0],gdb[1] + i*radius)
-      
+
     x0,sz = iWidth - (dSpacing+10) - 5, 80
     x = canvas.create_rectangle(x0, sz, x0+60, sz + dSpacing*4 + 20, width = 2, outline = "red", state = 'hidden')
     y = canvas.create_rectangle(x0, sz, x0+60, sz + dSpacing*4 + 20, width = 2, outline = "green2", state='hidden')
     self.diceIndicator = [y,x]
-    
+
     canvas.pack(expand  = 1, fill = tk.BOTH)
 
     canvas.tag_bind("GreenPiece", "<Button-1>", self.click)
@@ -165,7 +154,7 @@ class UrCanvas(tk.Frame) :
         assert self.gameBoard[boardCHmap[code]] == -1
         rInPlay += 1
     assert rOff == self.gameBoard[21] and rOff+rInPlay+rHome == 7
-      
+
   def space(self, event) :
     if self.lock or gameOver(self.gameBoard) :
       return
@@ -176,9 +165,9 @@ class UrCanvas(tk.Frame) :
       return
 
     self.lock = True
-      
+
     frm = froms[0];                       assert frm is not None
-    
+
     if frm == -1 :
       for pCanvasID,code in self.pieceLocations.iteritems():
         if code[0] == 'h' :
@@ -190,21 +179,21 @@ class UrCanvas(tk.Frame) :
         if code == c:
           break
       codeTo = boardPos2CH[frm + self.pips]
-      
+
     ok = self.movePiece('G', pCanvasID, codeTo);       assert ok
     self.afterOppMove(codeTo)
 
   def afterOppMove(self, codeTo) :
     self.pips = None
-    
+
     if gameOver(self.gameBoard) :
       self.lock = True
       return
-      
-    opTurn = codeTo != ' ' and urcore.extraTurnA[boardCHmap[codeTo]]
-    print >> debug, opTurn, codeTo
+
+    opTurn = codeTo != ' ' and extraTurnA[boardCHmap[codeTo]]
+    logging.debug(opTurn, codeTo)
     self.playLoop(opTurn)
-    
+
   def playLoop(self, opTurn) :
     while not gameOver(self.gameBoard) :
       if opTurn:
@@ -215,15 +204,15 @@ class UrCanvas(tk.Frame) :
       self.mePlay()
       self.master.update(); time.sleep( self.delay )
       opTurn = True
-    
+
   def click(self, event):
     if self.lock :
       return
 
     self.lock = True
 
-    print >> debug, "pips", self.pips
-    
+    logging.debug("pips", self.pips)
+
     pCanvasID = event.widget.find_withtag(tk.CURRENT)[0]
     fromCode = self.pieceLocations[pCanvasID]
     if fromCode[0] == 'h' :
@@ -234,27 +223,27 @@ class UrCanvas(tk.Frame) :
         ## Illegal move
         self.lock = False
         return
-        
+
       codeTo = boardPos2CH[iTo]
-      
+
     if not self.movePiece('G', pCanvasID, codeTo) :
       self.lock = False
       return
-      
+
     self.afterOppMove(codeTo)
-    
+
 
   def canvasMovePiece(self, pCanvasID, codeTo) :
     (x,y),r = self.sqaresCoordinates[codeTo], self.radius
     self.c.coords(pCanvasID, x - r, y - r, x + r, y + r)
     self.pieceLocations[pCanvasID] = codeTo
-    
+
   def movePiece(self, who, pCanvasID, codeTo) :
-    print >> debug, "movePiece", who, pCanvasID, codeTo
-    
+    logging.debug("movePiece", who, pCanvasID, codeTo)
+
     codeFrom = self.pieceLocations[pCanvasID]
-    print >> debug, "codeFrom", codeFrom
-    
+    logging.debug("codeFrom", codeFrom)
+
     if codeTo == ' ':
       pre = ('f' if who == 'G' else 'F')
       has = set([pre + str(i) for i in  range(7)])
@@ -262,8 +251,8 @@ class UrCanvas(tk.Frame) :
         if code[0] == pre :
           has.remove(code)
       codeTo = sorted(has)[0]
-      print >> debug, who, has, codeTo
-      
+      logging.debug(who, has, codeTo)
+
       self.canvasMovePiece(pCanvasID, codeTo)
       self.c.tag_raise(pCanvasID)
       j = boardCHmap[codeFrom]
@@ -272,15 +261,15 @@ class UrCanvas(tk.Frame) :
 
       self.valid()
       if flog:
-        print >> flog, codeFrom
+        print(codeFrom, file=flog)
         if gameOver(self.gameBoard) :
-          print >> flog, ('X:' if who == 'G' else 'O:'), "wins"
+          print(('X:' if who == 'G' else 'O:'), "wins", file=flog)
         flog.flush()
-          
+
       return True
-    
+
     t = boardCHmap[codeTo]
-    
+
     if codeFrom[0].lower() == 'h' :
       if self.gameBoard[t] != 0 :
         return False
@@ -300,24 +289,24 @@ class UrCanvas(tk.Frame) :
           if code[0] == pre :
             has.remove(code)
         self.canvasMovePiece(phit, list(has)[0])
-        
+
       self.gameBoard[t] = self.gameBoard[j]
       self.gameBoard[j] = 0
 
     self.canvasMovePiece(pCanvasID, codeTo)
 
-    print >> debug, self.gameBoard
+    logging.debug(self.gameBoard)
     self.valid()
 
     if flog:
       if codeFrom[0] in "hH" :
         codeFrom = 'e' if who == 'G' else 'E'
-      print >> flog, codeFrom
+      print(codeFrom, file=flog)
       flog.flush()
-    
+
     #play.showBoard(self.gameBoard)
     return True
-      
+
   def mePlay(self) :
     while not gameOver(self.gameBoard) :
       pips = self.rollAndShowDice('R')
@@ -325,15 +314,15 @@ class UrCanvas(tk.Frame) :
       froms = []
       am = allMoves(reverseBoard(self.gameBoard), pips, froms)
       #play.showBoard(reverseBoard(self.gameBoard))
-      print >> debug,"f**",froms
-      
+      logging.debug("f**",froms)
+
       self.master.update(); time.sleep( self.delay )
 
       if pips == 0 or (len(am) == 1 and froms[0] is None) :
         if flog:
-          print >> flog, ""
+          print("", file=flog)
           flog.flush()
-          
+
         time.sleep( 2*self.delay )
         return
 
@@ -344,11 +333,11 @@ class UrCanvas(tk.Frame) :
         m,e = random.choice(pam)
 
       moveFrom = froms[am.index((m,e))]
-      print >> debug, "moveFrom",moveFrom
+      logging.debug("moveFrom",moveFrom)
       if moveFrom == -1 :
         for pid,code in self.pieceLocations.iteritems():
           if code[0] == 'H' :
-            cto = 'ABCD'[pips - 1]            
+            cto = 'ABCD'[pips - 1]
             break
       else :
         codeFrom = boardPos2CH[reverseBoardIndex(moveFrom)]
@@ -359,11 +348,11 @@ class UrCanvas(tk.Frame) :
             break
 
       ok = self.movePiece('R', pid, cto);           assert ok
-      
+
       if not e:
-        print >> debug, "not extra"
+        logging.debug("not extra")
         break
-    
+
   def rollAndShowDice(self, forWho) :
     d = [random.randint(0,1) for _ in range(4)]
     dc = self.dices
@@ -376,20 +365,20 @@ class UrCanvas(tk.Frame) :
 
     pips = sum(d)
     if flog :
-      print >> flog, "#", board2Code(self.gameBoard)
-      print >> flog, "XO"[forWho == 'R'] + ': ' + str(pips),
+      print("#", board2Code(self.gameBoard), file=flog)
+      print("XO"[forWho == 'R'] + ': ' + str(pips), file=flog)
       flog.flush()
 
-    print >> debug, ""
-    print >> debug, "roll", forWho, sum(d)
+    logging.debug("")
+    logging.debug("roll", forWho, sum(d))
     return pips
-    
+
   def setPlayer(self, name) :
     self.playerName = name.capitalize()
     if name == "sam" :
-      self.player = humanStrategies.getByNicks("hit;Donkey;safe;homestretch;bear")
+      self.player = getByNicks("hit;Donkey;safe;homestretch;bear")
     elif name == "joe" :
-      self.player = humanStrategies.getByNicks('safe;homestretch;hit;Extra;Chuck;Frank;bear;Donkey')
+      self.player = getByNicks('safe;homestretch;hit;Extra;Chuck;Frank;bear;Donkey')
     elif name == "santa" :
       self.player = bestHumanStrategySoFar
     elif name == "expert" or name == "ishtar" :
@@ -400,11 +389,11 @@ class UrCanvas(tk.Frame) :
         self.player = getDBplayer(db)
     else :
       raise ValueError
-    
+
   def newGame(self) :
     self.lock = True
     self.gameBoard = startPosition()
-    
+
     for k,x in enumerate(self.gr):
       self.canvasMovePiece(x, 'h' + str(k))
       self.c.itemconfig(x, state = 'normal')
@@ -414,9 +403,9 @@ class UrCanvas(tk.Frame) :
 
     self.valid()
 
-    if flog :
-      print >> flog, 'Board: "' + str(board2Code(self.gameBoard)) + '"'
-      print >> flog, "X is %s, O is %s" % (options.name, self.playerName)
+    if flog:
+      print('Board: "' + str(board2Code(self.gameBoard)) + '"', file=flog)
+      print("X is %s, O is %s" % (options.name, self.playerName), file=flog)
       flog.flush()
 
     opTurn = random.randint(0, 1) == 0
@@ -431,54 +420,81 @@ class UrCanvas(tk.Frame) :
 
     if pips == 0 or len(am) == 1 and froms[0] is None :
       if flog:
-        print >> flog, ""
+        print("", file=flog)
         flog.flush()
-      
+
       time.sleep( 2*self.delay )
       return False
 
     self.pips = pips
     self.lock = False
     return True
-      
+
 def setPlayer(name, k) :
   cv.setPlayer(name)
   for i in range(1,4) :
     foemenu.entryconfigure(i, foreground = "black")
   foemenu.entryconfigure(k, foreground = "blue")
-    
 
-root = tk.Tk()
-urBoardImage = Image.open(dir_path + "/urBoard.jpg")
-root.geometry('+%d+%d' % (960 - urBoardImage.size[0]//2,
-                          540 - urBoardImage.size[1]//2) )
 
-root.title("The Royal UR")
-icon = tk.Image("photo", file= dir_path + "/urbicon.png")
-root.tk.call('wm','iconphoto',root._w,icon)
 
-cv = UrCanvas(root, urBoardImage)
-cv.pack()
 
-menu = tk.Menu(root)
-root.config(menu=menu)
-menu.add_command(label = "Play", command = cv.newGame)
-foemenu = tk.Menu(menu)
-menu.add_cascade(label = "Foe", menu = foemenu)
-foemenu.add_command(label = "Sam    (1650)", command = lambda : setPlayer("sam", 1) )
-foemenu.add_command(label = "Joe    (1730)", command = lambda : setPlayer("joe", 2) )
-foemenu.add_command(label = "Santa  (1820)", command = lambda : setPlayer("santa", 3) )
-foemenu.add_command(label = "Expert (1880)", command = lambda : setPlayer("expert", 4) )
-foemenu.add_command(label = "Ishtar (2000)", command = lambda : setPlayer("ishtar", 5) )
+def main():
+  global cv, flog, foemenu, options
 
-menu.add_separator()
-menu.add_separator()
-menu.add_separator()
-menu.add_command(label = "Exit", command = root.quit)
+  parser = argparse.ArgumentParser(description="""Play ROGOUR, Man against the Machine.
+  In the GUI you can select the machine strength, start a new match and
+  exit. Simply click a piece to move it, or space when there is only one legal move.""")
 
-setPlayer("santa", 3)
+  parser.add_argument("--record", "-r", metavar="FILE", help = "Record the match in FILE.")
 
-root.mainloop()
+  parser.add_argument("--name", "-n", metavar="STR", default = "Human", help = "Your name.")
 
-if flog :
-  flog.close()
+  options = parser.parse_args()
+  logging.basicConfig(level=logging.DEBUG)
+  try :
+    flog = file(options.record, 'a') if options.record else None
+  except:
+    logging.error("Error opening match log.")
+    sys.exit(1)
+
+  tk.Canvas.create_circle = _create_circle
+  root = tk.Tk()
+  urBoardImage = Image.open(os.path.join(dir_path, "urBoard.jpg"))
+  root.geometry('+%d+%d' % (960 - urBoardImage.size[0]//2,
+                            540 - urBoardImage.size[1]//2) )
+
+  root.title("The Royal UR")
+  icon = tk.Image("photo", file=os.path.join(dir_path, "urbicon.png"))
+  root.tk.call('wm','iconphoto',root._w,icon)
+
+  cv = UrCanvas(root, urBoardImage)
+  cv.pack()
+
+  menu = tk.Menu(root)
+  root.config(menu=menu)
+  menu.add_command(label = "Play", command = cv.newGame)
+  foemenu = tk.Menu(menu)
+  menu.add_cascade(label = "Foe", menu = foemenu)
+  foemenu.add_command(label = "Sam    (1650)", command = lambda : setPlayer("sam", 1) )
+  foemenu.add_command(label = "Joe    (1730)", command = lambda : setPlayer("joe", 2) )
+  foemenu.add_command(label = "Santa  (1820)", command = lambda : setPlayer("santa", 3) )
+  foemenu.add_command(label = "Expert (1880)", command = lambda : setPlayer("expert", 4) )
+  foemenu.add_command(label = "Ishtar (2000)", command = lambda : setPlayer("ishtar", 5) )
+
+  menu.add_separator()
+  menu.add_separator()
+  menu.add_separator()
+  menu.add_command(label = "Exit", command = root.quit)
+
+  setPlayer("santa", 3)
+
+  root.mainloop()
+
+  if flog :
+    flog.close()
+
+
+
+if __name__ == "__main__":
+  main()

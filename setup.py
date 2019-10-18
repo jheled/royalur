@@ -33,8 +33,19 @@ setuptools.setup(
     ],
     packages=setuptools.find_packages(),
     ext_modules=[module1],
-    scripts = filter(lambda x : x not in ["progs/rollout","progs/review-position"],
-                     glob.glob('progs/*')),
+    entry_points={
+        "console_scripts": [
+            'printGame=royalur.cli.printGame:main',
+            'curses-gui=royalur.cli.cursesGUI:main [curses]'
+        ],
+        'gui_scripts': [
+            'tkur=royalur.gui.tkur:main [PIL]'
+        ]
+    },
+    extras_require={
+        "curses": ["windows-curses;platform_system=='Windows'"],
+        "PIL": ["Pillow"]
+    },
     data_files=[
         # Comment out big data file until things stabilize. The distribution
         # will stay small and the data file is not expected to change
