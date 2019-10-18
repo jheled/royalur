@@ -3,9 +3,8 @@ import os.path
 import re
 import glob
 
-module1 = Extension('royalur.irogaur',
-                    sources = ['royalur/irogaur.cc'],
-                    extra_compile_args=['-std=c++0x', '-O3'])
+module1 = Extension("royalur.irogaur",
+                    [os.path.join("royalur", "irogaur.cc")])
 
 metadata = dict(re.findall("__([a-z]+)__ = \"([^\"]+)\"",
                 open(os.path.join("royalur", "__init__.py"), "r").read()))

@@ -6,21 +6,15 @@
 
 #include <Python.h>
 #undef NDEBUG
-#include <cassert>
-#include <cmath>
 
-#include <iostream>
-using std::cerr;
-using std::endl;
-
-int bmap[20][20];
+static int bmap[20][20];
 
 static const char
 z85s[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-:+=^!/*?&<>()[]{}@%$#";
 static int rz85[256];
 
 static int
-binomial(int n, int k)
+binomial(const int n, const int k)
 {
   if( n < k )  return 0;
   if( k == 0 || n == k ) return 1;
@@ -36,29 +30,29 @@ initm(void)
     }
   }
   {
-    uint k = 0;
-    for(char const& c : z85s) {
-      rz85[static_cast<uint>(c)] = k;
+    unsigned int k = 0;
+    for(char const *c = &z85s[0]; *c != '\0'; ++c) {
+      rz85[static_cast<unsigned int>(*c)] = k;
       ++k;
     }
   }
 }
   
 inline int
-sum(int const a[], uint const n)
+sum(int const a[], unsigned int const n)
 {
   int s = 0;
-  for(uint k = 0; k < n; ++ k) {
+  for(unsigned int k = 0; k < n; ++ k) {
     s += a[k];
   }
   return s;
 }
 
-static uint
-bitsIndex(int const bits[], int k, uint const N)
+static unsigned int
+bitsIndex(int const bits[], int k, unsigned int const N)
 {
   int i = 0, n = N;
-  for(uint j = 0; j < N; ++j) {
+  for(unsigned int j = 0; j < N; ++j) {
     if( bits[j] ) {
       i += bmap[n-1][k];
       k -= 1;
@@ -69,7 +63,7 @@ bitsIndex(int const bits[], int k, uint const N)
 }
 
 static void
-i2bits(int bits[], uint i, int k, int N)
+i2bits(int bits[], unsigned int i, int k, int N)
 {
   int j;
   for(j = 0; j < N; ++j) {
@@ -77,7 +71,7 @@ i2bits(int bits[], uint i, int k, int N)
   }
   j = 0;
   while( N > 0 ) {
-    uint const bnk = bmap[N-1][k];
+    unsigned int const bnk = bmap[N-1][k];
     if( i >= bnk ) {
       bits[j] = 1;
       i -= bnk;
@@ -88,12 +82,12 @@ i2bits(int bits[], uint i, int k, int N)
   }
 }
 
-uint const GR_OFF = 14;
-uint const RD_OFF = 21;
+unsigned int const GR_OFF = 14;
+unsigned int const RD_OFF = 21;
 
 
 static PyObject*
-board2Index(PyObject*, PyObject* args)
+board2Index(PyObject* module, PyObject* args)
 {
   PyObject* pyBoard;
   PyObject* spMap;
@@ -116,7 +110,7 @@ board2Index(PyObject*, PyObject* args)
   
   int b[22];
   PyObject** s = &PyList_GET_ITEM(pyBoard, 0);
-  for(uint k = 0; k < 22; ++k) {
+  for(unsigned int k = 0; k < 22; ++k) {
     b[k] = PyInt_AsLong(s[k]);
   }
   
@@ -124,29 +118,29 @@ board2Index(PyObject*, PyObject* args)
   int const rOff = b[RD_OFF];
   
   int const gSafe[6] = {b[0],b[1],b[2],b[3],b[12],b[13]};
-  uint const m = sum(gSafe, 6);
+  unsigned int const m = sum(gSafe, 6);
   int const partSafeG = bitsIndex(gSafe, m, 6);
   int bits[14];
-  for(uint k = 4; k < 12; ++k) {
+  for(unsigned int k = 4; k < 12; ++k) {
     bits[k-4] = b[k] == 1;
   }
   int const smb = sum(bits, 8);
   int const gStrip = bitsIndex(bits, smb, 8);
   int const gMen = smb + m;
   
-  for(uint k = 15; k < 19; ++k) {
+  for(unsigned int k = 15; k < 19; ++k) {
     bits[k-15] = b[k] == -1;
   }
   
-  uint nb = 4;
-  for(uint k = 4; k < 12; ++k) {
+  unsigned int nb = 4;
+  for(unsigned int k = 4; k < 12; ++k) {
     if( b[k] == 1 ) {
       continue;
     }
     bits[nb] = b[k] == -1;
     nb += 1;
   }
-  for(uint k = 19; k < 21; ++k, ++nb) {
+  for(unsigned int k = 19; k < 21; ++k, ++nb) {
     bits[nb] = b[k] == -1;
   }
   int const rMen = sum(bits, nb);
@@ -190,7 +184,7 @@ board2Index(PyObject*, PyObject* args)
 }
 
 static PyObject*
-index2Board(PyObject*, PyObject* args)
+index2Board(PyObject* module, PyObject* args)
 {
   PyObject *pi, *a0, *a1, *a2, *a3;
   PyObject *pSums;
@@ -199,14 +193,14 @@ index2Board(PyObject*, PyObject* args)
     PyErr_SetString(PyExc_ValueError, "wrong args.");
     return 0;
   }
-  uint index = PyInt_AsLong(pi);
-  uint
+  long index = PyInt_AsLong(pi);
+  long
     gOff = PyInt_AsLong(a0),
     rOff = PyInt_AsLong(a1),
     gHome = PyInt_AsLong(a2),
     rHome = PyInt_AsLong(a3);
   
-  uint gMen = 7 - (gOff + gHome), rMen = 7 - (rOff + rHome);
+  long gMen = 7 - (gOff + gHome), rMen = 7 - (rOff + rHome);
   PyObject* t = PyTuple_New(2);
   PyTuple_SET_ITEM(t, 0, PyInt_FromLong(gMen));
   PyTuple_SET_ITEM(t, 1, PyInt_FromLong(rMen));
@@ -214,7 +208,7 @@ index2Board(PyObject*, PyObject* args)
   PyObject* const pyps = PyDict_GetItem(pSums, t);     assert(pyps && PySequence_Check(pyps));
   Py_DECREF(t);
 
-  uint const plen = PySequence_Length(pyps);
+  Py_ssize_t const plen = PySequence_Length(pyps);
   
   PyObject** ps = &PyList_GET_ITEM(pyps, 0);
   if( index >= PyInt_AsLong(ps[plen-1]) ) {
@@ -228,12 +222,12 @@ index2Board(PyObject*, PyObject* args)
   }
   index -= PyInt_AsLong(ps[m]);
     
-  uint u = bmap[14 - (gMen-m)][rMen];
-  uint i2 = index / u;
-  uint partR = index - i2 * u;
+  unsigned int u = bmap[14 - (gMen-m)][rMen];
+  unsigned int i2 = index / u;
+  unsigned int partR = index - i2 * u;
   u = bmap[8][gMen - m];
-  uint partSafeG = i2 / u;
-  uint gStrip = i2 - u * partSafeG;
+  unsigned int partSafeG = i2 / u;
+  unsigned int gStrip = i2 - u * partSafeG;
 
   int b[22] = {0};
   b[14] = gOff;
@@ -246,7 +240,7 @@ index2Board(PyObject*, PyObject* args)
   
   i2bits(b + 4, gStrip, gMen - m, 8);
   
-  int bOther[14 - (gMen-m)];
+  int bOther[14];
   i2bits(bOther, partR, rMen, 14 - (gMen-m));
 
   int i;
@@ -276,7 +270,7 @@ a2b(const char* s)
 {
   unsigned long l = 0;
   for(int i = 4; i >= 0; --i) {
-    l = l*85 + rz85[static_cast<uint>(s[i])];
+    l = l*85 + rz85[static_cast<unsigned int>(s[i])];
   }
   
   assert( (l & (0x1 << 31)) == 0);
@@ -287,19 +281,19 @@ static void
 b2a(bool s[31], char a[5])
 {
   unsigned long l = 0;
-  for(uint i = 0; i < 31; ++i) {
+  for(unsigned int i = 0; i < 31; ++i) {
     l = 2*l + s[i];
   }
   
-  for(uint i = 0; i < 5; ++i) {
-    uint const c = l % 85;
+  for(unsigned int i = 0; i < 5; ++i) {
+    unsigned int const c = l % 85;
     a[i] = z85s[c];
     l = (l - c) / 85;
   }
 }
 
-inline uint
-unpack(unsigned long l, uint start, uint len)
+inline unsigned int
+unpack(unsigned long l, unsigned int start, unsigned int len)
 {
   l = l >> (31 - (start + len));
   l &= (0x1 << len) - 1;
@@ -307,13 +301,13 @@ unpack(unsigned long l, uint start, uint len)
 }
 
 inline bool
-ubit(unsigned long l, uint i)
+ubit(unsigned long l, unsigned int i)
 {
-  return l & (0x1 << (30 - i));
+  return (l & (0x1 << (30 - i))) != 0;
 }
 
 static PyObject*
-code2Board(PyObject*, PyObject* args)
+code2Board(PyObject* module, PyObject* args)
 {
   const char* e;
   if( !PyArg_ParseTuple(args, "s", &e) ) {
@@ -323,62 +317,62 @@ code2Board(PyObject*, PyObject* args)
   
   int board[22] = {0};
   unsigned long l = a2b(e);
-  uint atHome(unpack(l, 0, 3)), oAtHome(unpack(l, 9, 3));        assert(atHome <= 7 && oAtHome <= 7);
+  unsigned int atHome = unpack(l, 0, 3), oAtHome = unpack(l, 9, 3);        assert(atHome <= 7 && oAtHome <= 7);
   
   {
     int b[6] = {3,4,5,6,7,8};
     int k[6] = {0,1,2,3,12,13};
-    for(uint i = 0; i < 6; ++i) {
+    for(unsigned int i = 0; i < 6; ++i) {
       if( ubit(l, b[i]) ) {
-  	board[k[i]] = 1;
+        board[k[i]] = 1;
       }
     }
   }
   {
     int b[6] = {12,13,14,15,16,17};
     int k[6] = {15,16,17,18,19,20};
-    for(uint i = 0; i < 6; ++i) {
+    for(unsigned int i = 0; i < 6; ++i) {
       if( ubit(l, b[i]) ) {
   	board[k[i]] = -1;
       }
     }
   }
   
-  uint mid = unpack(l, 18, 13);                     assert( mid < std::pow(3,8) );
+  unsigned int mid = unpack(l, 18, 13);                     assert( mid < pow(3.0,8) );
   for(int i = 11; i > 3; --i) {
-    uint const x = mid % 3;
+    unsigned int const x = mid % 3;
     board[i] = x - 1;
     mid = (mid - x) / 3;
   }
   
-  uint n = 0;
-  for(uint k = 0; k < 14; ++k) {
+  unsigned int n = 0;
+  for(unsigned int k = 0; k < 14; ++k) {
     n += board[k] == 1;
   }
   board[14] = 7 - (atHome + n);
   
   n = 0;
-  for(uint k = 15; k < 19; ++k) {
+  for(unsigned int k = 15; k < 19; ++k) {
     n += board[k] == -1;
   }
-  for(uint k = 4; k < 12; ++k) {
+  for(unsigned int k = 4; k < 12; ++k) {
     n += board[k] == -1;
   }
-  for(uint k = 19; k < 21; ++k) {
+  for(unsigned int k = 19; k < 21; ++k) {
     n += board[k] == -1;
   }
   
   board[21] = 7 - (oAtHome + n);
   
   PyObject* pyb = PyList_New(22);
-  for(uint i = 0; i < 22; ++i) {
+  for(unsigned int i = 0; i < 22; ++i) {
     PyList_SET_ITEM(pyb, i, PyInt_FromLong(board[i]));
   }
   return pyb;
 }
 
 static PyObject*
-board2Code(PyObject*, PyObject* args)
+board2Code(PyObject* module, PyObject* args)
 {
   PyObject* pyBoard;
   
@@ -392,65 +386,65 @@ board2Code(PyObject*, PyObject* args)
     return 0;
   }
 
-  int board[22];
+  long board[22];
   {
     PyObject** s = &PyList_GET_ITEM(pyBoard, 0);
-    for(uint k = 0; k < 22; ++k) {
+    for(unsigned int k = 0; k < 22; ++k) {
       board[k] = PyInt_AsLong(s[k]);
     }
   }
 
   bool s[31] = {false};
   
-  uint o = 0;
-  for(uint k = 0; k < 14; ++k) {
+  unsigned int o = 0;
+  for(unsigned int k = 0; k < 14; ++k) {
     o += board[k] == 1;
   }
 
-  uint const totPiecesMe = 7 - board[GR_OFF];
-  uint const atHome = totPiecesMe - o;
+  unsigned int const totPiecesMe = 7 - board[GR_OFF];
+  unsigned int const atHome = totPiecesMe - o;
 
-  uint k = 0;
-  s[k] = atHome & 0x4; ++k;
-  s[k] = atHome & 0x2; ++k;
-  s[k] = atHome & 0x1; ++k;
-  for(uint i = 0; i < 4; ++i) {
-    s[k] = board[i]; ++k;
+  unsigned int k = 0;
+  s[k] = (atHome & 0x4) != 0; ++k;
+  s[k] = (atHome & 0x2) != 0; ++k;
+  s[k] = (atHome & 0x1) != 0; ++k;
+  for(unsigned int i = 0; i < 4; ++i) {
+    s[k] = board[i] != 0; ++k;
   }
-  for(uint i = 12; i < 14; ++i) {
-    s[k] = board[i]; ++k;
+  for(unsigned int i = 12; i < 14; ++i) {
+    s[k] = board[i] != 0; ++k;
   }
 
-  uint oo = 0;
-  for(uint k = 15; k < 19; ++k) {
+  unsigned int oo = 0;
+  for(unsigned int k = 15; k < 19; ++k) {
     oo += board[k] == -1;
   }
-  for(uint k = 4; k < 12; ++k) {
+  for(unsigned int k = 4; k < 12; ++k) {
     oo += board[k] == -1;
   }
-  for(uint k = 19; k < 21; ++k) {
+  for(unsigned int k = 19; k < 21; ++k) {
     oo += board[k] == -1;
   }
 
-  uint const ototPiecesOff = 7 - board[RD_OFF];
-  uint const oatHome = ototPiecesOff - oo;
+  unsigned int const ototPiecesOff = 7 - board[RD_OFF];
+  unsigned int const oatHome = ototPiecesOff - oo;
 
-  s[k] = oatHome & 0x4; ++k;
-  s[k] = oatHome & 0x2; ++k;
-  s[k] = oatHome & 0x1; ++k;
-  for(uint i = 15; i < 19; ++i) {
-    s[k] = board[i]; ++k;
+  s[k] = (oatHome & 0x4) != 0; ++k;
+  s[k] = (oatHome & 0x2) != 0; ++k;
+  s[k] = (oatHome & 0x1) != 0; ++k;
+  for(unsigned int i = 15; i < 19; ++i) {
+    s[k] = board[i] != 0; ++k;
   }
-  for(uint i = 19; i < 21; ++i) {
-    s[k] = board[i]; ++k;
+  for(unsigned int i = 19; i < 21; ++i) {
+    s[k] = board[i] != 0; ++k;
   }
   
-  uint x = board[4] + 1;
-  for(uint i = 5; i < 12; ++i) {
+  unsigned int x = board[4] + 1;
+  for(unsigned int i = 5; i < 12; ++i) {
     x = 3*x + (board[i] + 1);
   }
   for(int i = 12; i >= 0; --i) {
-    s[k] = x & (0x1 << i); ++k;
+    s[k] = (x & (0x1 << i)) != 0; ++k;
   }
 
   char a[5];
@@ -477,4 +471,3 @@ initirogaur(void)
   initm();
   /*PyObject* m = */ Py_InitModule("irogaur", irMethods);
 }
-
