@@ -1,9 +1,14 @@
 from distutils.core import setup, Extension
+import os.path
+import re
 import glob
 
 module1 = Extension('royalur.irogaur',
                     sources = ['royalur/irogaur.cc'],
                     extra_compile_args=['-std=c++0x', '-O3'])
+
+metadata = dict(re.findall("__([a-z]+)__ = \"([^\"]+)\"",
+                open(os.path.join("royalur", "__init__.py"), "r").read()))
 
 classifiers=[
   "Development Status :: 3 - Alpha",
@@ -18,7 +23,7 @@ classifiers=[
 ##from royalur import __version__
 
 setup (name = 'royalur',
-       version = '0.2.0',
+       version=metadata["version"],
        description = 'Classical Royal Game of Ur',
        long_description = '',
        author = 'Joseph Heled',
