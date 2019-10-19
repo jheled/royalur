@@ -123,10 +123,11 @@ def reverseBoardIndex(i) :
 def allActualMoves(board, pips, froms = None) :
   """Return a list of all **actual** moves by Green given the dice.
 
-  *actual* here means omitting the cases where Green can't move. Each returned move is a ``(b,e)``
-  pair, where ``e`` is True when Green has an extra turn (and thus the board has not been flipped),
-  or False and thus this is Red turn and the board is flipped.
+  *actual* here means an empty list is returned when Green can't move. Each returned move is a ``(b,e)`` pair,
+  where ``e`` is True when Green has an extra turn (and thus the board has not been flipped), or False and
+  thus this is Red turn and the board is flipped.
   """
+  
   assert not gameOver(board)
   if pips == 0:
     return []

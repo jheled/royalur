@@ -80,7 +80,7 @@ def totPips2s(board) :
 def greedyExtraTurn(moves) :
   """ Prefer moves which give an extra move. """
   
-  return  [(b,e) for b,e in moves if e] or moves
+  return [(b,e) for b,e in moves if e] or moves
 
 ## Extra
 def greedyExtraTurnPlus(moves) :
