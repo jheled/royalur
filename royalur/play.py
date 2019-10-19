@@ -21,7 +21,7 @@ from urcore import *
 def showBoard(b) :
   """ Print board ``b`` on stdout (debug). """
   
-  print boardAsString(b)
+  print(boardAsString(b))
   
 def playGame(playerX = lambda x : x, playerO = lambda x : x,
              startingBoardAndSide = None, record = None) :
@@ -71,11 +71,11 @@ def showGame(record) :
   
   nm = 1
   for board,side,pips in record:
-    print nm,": ","OX"[side] + " pips:",pips
+    print(nm,": ","OX"[side] + " pips:",pips)
     nm += 1
     board = code2Board(board)
     showBoard(board if side == 1 else reverseBoard(board))
-    print
+    print()
 
 def pitStrategies(playerX, playerO, N, sEvery = -1) :
   """ Play ``N`` games games between two strategies, report number of wins for X and O. """
@@ -88,7 +88,7 @@ def pitStrategies(playerX, playerO, N, sEvery = -1) :
     Xs += t == 'X'
     Ys += t == 'O'
     if sEvery > 0 and (k % sEvery == 0):
-      print Xs,Ys
+      print(Xs,Ys)
       
   return Xs,Ys
 

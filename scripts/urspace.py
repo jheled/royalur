@@ -29,7 +29,7 @@ ishtar = getDBplayer(db)
 if not os.path.exists('../data/iplay-levels.bin') :
 
   bseen[board2Index(startPosition())] = 1
-  print seenDepth(startPosition(), 30, 1)
+  print(seenDepth(startPosition(), 30, 1))
 
   bseen = bytearray(b'\x00') * totalPositions
   bseen[board2Index(startPosition())] = 1
@@ -50,7 +50,7 @@ if not os.path.exists('../data/iplay-levels.bin') :
             if not bseen[ib]:
               bseen[ib] = level + 1
               added += 1
-    print level,tot,added
+    print(level,tot,added)
     if added == 0 :
       break
     tot += added
@@ -81,7 +81,7 @@ if not os.path.exists('../data/ireached-levels.bin') :
               if not breached[ib]:
                 breached[ib] = level + 1
                 added += 1
-    print level,tot,added
+    print(level,tot,added)
     if added == 0 :
       break
     tot += added
