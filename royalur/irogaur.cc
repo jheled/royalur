@@ -5,6 +5,10 @@
 //
 
 #include <Python.h>
+#if PY_MAJOR_VERSION >= 3
+#define PyInt_AsLong PyLong_AsLong
+#define PyInt_FromLong PyLong_FromLong
+#endif
 #undef NDEBUG
 
 static int bmap[20][20];
@@ -449,7 +453,11 @@ board2Code(PyObject* module, PyObject* args)
 
   char a[5];
   b2a(s, a);
+#if PY_MAJOR_VERSION >= 3
+  return PyUnicode_FromStringAndSize(a, 5);
+#else
   return PyString_FromStringAndSize(a, 5);
+#endif
 }
 
 static PyMethodDef irMethods[] =
@@ -465,9 +473,38 @@ static PyMethodDef irMethods[] =
   {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
+#if PY_MAJOR_VERSION >= 3
+    static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "irogaur",           /* m_name */
+        NULL,                /* m_doc */
+        -1,                  /* m_size */
+        irMethods,           /* m_methods */
+        NULL,                /* m_reload */
+        NULL,                /* m_traverse */
+        NULL,                /* m_clear */
+        NULL,                /* m_free */
+    };
+#endif
+
 PyMODINIT_FUNC
+#if PY_MAJOR_VERSION >= 3
+PyInit_irogaur(void)
+#else
 initirogaur(void)
+#endif
 {
+  PyObject *m = NULL;
   initm();
-  /*PyObject* m = */ Py_InitModule("irogaur", irMethods);
+#if PY_MAJOR_VERSION >= 3
+  m = PyModule_Create(&moduledef);
+#else
+  m = Py_InitModule("irogaur", irMethods);
+#endif
+
+#if PY_MAJOR_VERSION >= 3
+  return m;
+#else
+  return;
+#endif
 }
