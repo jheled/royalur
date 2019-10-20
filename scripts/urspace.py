@@ -18,18 +18,21 @@ the position reached from p_k by making the best move with d_k.
 
 WARNING: This will take some time. You can download the files from XXXX.
 """
+from __future__ import print_function
+from __future__ import absolute_import
 
 import os.path
 
 from royalur import *
 
-db = PositionsWinProbs(royalURdataDir + "/db16.bin")
+db = PositionsWinProbs(os.path.join(royalURdataDir, "db16.bin"))
 ishtar = getDBplayer(db)
 
-if not os.path.exists('../data/iplay-levels.bin') :
+if not os.path.exists(os.path.join(royalURdataDir, "iplay-levels.bin")):
 
   bseen[board2Index(startPosition())] = 1
-  print seenDepth(startPosition(), 30, 1)
+  # BUG: where is seenDepth()?
+  #print(seenDepth(startPosition(), 30, 1))
 
   bseen = bytearray(b'\x00') * totalPositions
   bseen[board2Index(startPosition())] = 1
@@ -50,19 +53,18 @@ if not os.path.exists('../data/iplay-levels.bin') :
             if not bseen[ib]:
               bseen[ib] = level + 1
               added += 1
-    print level,tot,added
+    print(level,tot,added)
     if added == 0 :
       break
     tot += added
     level += 1
     
-  f = file('../data/iplay-levels.bin', 'wb')
+  f = file(os.path.join(royalURdataDir, "iplay-levels.bin"), 'wb')
   f.write(bseen)
   f.close()
   del bseen
   
-if not os.path.exists('../data/ireached-levels.bin') :
-
+if not os.path.exists(os.path.join(royalURdataDir, "ireached-levels.bin")):
   breached = bytearray(b'\x00') * totalPositions
   breached[board2Index(startPosition())] = 1
   tot = 1
@@ -81,13 +83,13 @@ if not os.path.exists('../data/ireached-levels.bin') :
               if not breached[ib]:
                 breached[ib] = level + 1
                 added += 1
-    print level,tot,added
+    print(level,tot,added)
     if added == 0 :
       break
     tot += added
     level += 1
 
-  f = file('../data/ireached-levels.bin', 'wb')
+  f = file(os.path.join(royalURdataDir, "ireached-levels.bin"), 'wb')
   f.write(breached)
   f.close()
   del breached

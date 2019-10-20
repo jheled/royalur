@@ -8,6 +8,8 @@
 It will take a veeeeerrrry long time and eat your computer memory.
 It is here for educational purposes.
 """
+from __future__ import print_function
+from __future__ import absolute_import
 
 import sys
 
@@ -230,7 +232,7 @@ for gm in range(6, -1, -1) :
   for rm in range(gm, -1, -1) :
     del frct
     added = []
-    print gm,rm
+    print(gm,rm)
     for b in positionsIterator(gm, rm):
       #if (b[12] + b[13] > 0 and b[19] + b[20] < 0) :
       #  continue
@@ -246,7 +248,7 @@ for gm in range(6, -1, -1) :
         filled += 1
 
     updateList = halfList(added, db)
-    print len(updateList),"position pairs."
+    print(len(updateList),"position pairs.")
     del added
     updateList = sorted(updateList, key = lambda i2 : totPips2s(db.key2board(i2[0])))
 
@@ -256,22 +258,22 @@ for gm in range(6, -1, -1) :
       frct[k] = bytearray(condencedPly1BothFullRecpt(db.key2board(key)))
       k += 1
       if k % (36*1024) == 0 :
-        print "%.0f" % (k*100./len(updateList)),
+        print("%.0f" % (k*100./len(updateList)))
         sys.stdout.flush()
-    print
+    print()
 
     rnd = 0
     maxe = 1
     while maxe > 1e-6:
       rnd += 1
-      print "round",rnd,'(',gm,rm,')'
+      print("round",rnd,'(',gm,rm,')')
       dif,maxe,mkey = 0.0, -1, None
       tot = len(updateList)
       cnt = 0
       for key,rkey in updateList :
         cnt += 1
         if cnt % (36*1024) == 0 :
-          print cnt,int((100.*cnt)/tot),"%.3g" % maxe, '.'
+          print(cnt,int((100.*cnt)/tot),"%.3g" % maxe, '.')
           sys.stdout.flush()
 
         p1, p2 = ply1bfrc(frct[cnt-1], db)               ;assert 0 <= p1 <= 1 and 0 <= p2 <= 1
@@ -289,8 +291,8 @@ for gm in range(6, -1, -1) :
           mkey = key,er1,er2
         db.set(key,  p1)
         db.set(rkey, p2)
-      print
-      print maxe, dif, dif/(2*tot), tot, filled
+      print()
+      print(maxe, dif, dif/(2*tot), tot, filled)
       
     db.save(fnbase + ".inpro.bin")
     #import os

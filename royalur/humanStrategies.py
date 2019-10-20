@@ -22,10 +22,11 @@ More advanced players are built on top of those core principles by creating a
 *compound filter*, which is a list of core filters which are executed in
 order, from first to last.
 """
+from __future__ import absolute_import
 
 import random
 
-from urcore import homes, GR_OFF, RD_OFF, reverseBoard 
+from .urcore import homes, GR_OFF, RD_OFF, reverseBoard
 
 __all__ = ["bestHumanStrategySoFar"]
 

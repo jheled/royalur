@@ -11,6 +11,8 @@ Print and Annotate ROGOUR Games
 ===============================
 
 """
+from __future__ import print_function
+from __future__ import absolute_import
 
 import argparse, sys, os.path
 import StringIO
@@ -118,7 +120,7 @@ def main():
     urMatchLog = file(URFileName)
   except IOError as e:
     # report error
-    print >> sys.stderr, "Can't open match:", e
+    print("Can't open match:", e, file=sys.stderr)
     sys.exit(1)
 
   highlights =  options.highlights
@@ -131,7 +133,7 @@ def main():
       else :
         db = PositionsWinProbs(royalURdataDir + "/db16.bin")
     except:
-      print >> sys.stderr, "Error: no dababase, can't annotate."
+      print("Error: no dababase, can't annotate.", file=sys.stderr)
       sys.exit(1)
 
   gameBoard = startPosition()
@@ -139,15 +141,15 @@ def main():
   outFile = sys.stdout
 
   if options.header :
-    print >> outFile, "[H] DCBA  ZY (F)"
-    print >> outFile, "    12345678    "
-    print >> outFile, "[h] dcba  zy (f)"
-    print >> outFile, ""
+    print("[H] DCBA  ZY (F)", file=outFile)
+    print("    12345678    ", file=outFile)
+    print("[h] dcba  zy (f)", file=outFile)
+    print("", file=outFile)
 
-    print >> outFile, "H - Home. F - Finish."
-    print >> outFile, "'e' and 'E' denote Entering, i.e. moving a new piece from home to board."
-    print >> outFile, """'!' is lucky and '!!' very lucky. '~' is unlucky and '~~' very unlucky."""
-    print >> outFile, ""
+    print("H - Home. F - Finish.", file=outFile)
+    print("'e' and 'E' denote Entering, i.e. moving a new piece from home to board.", file=outFile)
+    print("""'!' is lucky and '!!' very lucky. '~' is unlucky and '~~' very unlucky.""", file=outFile)
+    print("", file=outFile)
   bcode = None
 
   if annotate:
@@ -158,34 +160,34 @@ def main():
     line = line.strip()
     if line[0] == '#':
       continue
-      #  print >> outFile, line
+      #  print(line, file=outFile)
 
     if "wins" in line.lower() and line[1] == ':' :
       who = "XO".index(line[0])
-      print >> outFile, [xName,oName][who],"Wins."
-      print >> outFile, ""
+      print([xName,oName][who],"Wins.", file=outFile)
+      print("", file=outFile)
 
       if gameOver(gameBoard) and annotate :
-        print >> outFile, "Skill: %s %.2f  %s %.2f" % (xName, equityLose[0], oName, equityLose[1])
+        print("Skill: %s %.2f  %s %.2f" % (xName, equityLose[0], oName, equityLose[1]), file=outFile)
         px = .5 + equityLose[0]/100.
         eloX = ("%.0f" % (2000 + pr2ELOdif(px))) if px > 0 else "Dreadful beyond words."
         po = .5 + equityLose[1]/100.
         eloO = ("%.0f" % (2000 +  pr2ELOdif(po))) if po > 0 else "Dreadful beyond words."
 
-        print >> outFile, "ELO:   %s  %s   %s  %s" % (xName, eloX, oName, eloO)
-        print >> outFile, ""
+        print("ELO:   %s  %s   %s  %s" % (xName, eloX, oName, eloO), file=outFile)
+        print("", file=outFile)
 
-        print >> outFile, "Luck: %s %.2f  %s %.2f" % (xName, 100*luckTotals[0], oName, 100*luckTotals[1])
+        print("Luck: %s %.2f  %s %.2f" % (xName, 100*luckTotals[0], oName, 100*luckTotals[1]), file=outFile)
         p = 0.5 + (luckTotals[0] - luckTotals[1])
         if 0 < p < 1 :
           xOverO = pr2ELOdif(p)
           if luckTotals[0] > luckTotals[1] :
-            print >> outFile, "Luck equivalence: %.0f ELO points to" % xOverO, xName + "."
+            print("Luck equivalence: %.0f ELO points to" % xOverO, xName + ".", file=outFile)
           else :
-            print >> outFile, "Luck equivalence: %.0f ELO points to" % -xOverO, oName + "."
+            print("Luck equivalence: %.0f ELO points to" % -xOverO, oName + ".", file=outFile)
         else :
-          print >> outFile, [oName,xName][luckTotals[0] > luckTotals[1]],"go to Las Vegas *Immediately*!!"
-        print >> outFile, ""
+          print([oName,xName][luckTotals[0] > luckTotals[1]],"go to Las Vegas *Immediately*!!", file=outFile)
+        print("", file=outFile)
 
       continue
 
@@ -199,7 +201,7 @@ def main():
     if line.startswith("X is ") :
       w = line.split(" ")
       xName,oName = w[2].strip(","),w[5]
-      print line
+      print(line)
       continue
 
     if line.startswith("X: ") or line.startswith("O: "):
@@ -226,16 +228,16 @@ def main():
             luckTotals[who] += dlucke
             dluck = diceLuckStr(dlucke)
             if dluck or not highlights:
-              print >> outFile, '='*18
-              print >> outFile, "XO"[who] + ':', dice2str(pips)+' '+dluck, "%4.2f" % (100*(1-p))
+              print('='*18, file=outFile)
+              print("XO"[who] + ':', dice2str(pips)+' '+dluck, "%4.2f" % (100*(1-p)), file=outFile)
               showPositon = True
             else :
               showPositon = False
         else :
-          print >> outFile, '='*18
-          print >> outFile, "XO"[who] + ':', dice2str(pips)
+          print('='*18, file=outFile)
+          print("XO"[who] + ':', dice2str(pips), file=outFile)
         if showPositon:
-          print >> outFile, massageBoardString(boardAsString(gameBoard), None, bcode)
+          print(massageBoardString(boardAsString(gameBoard), None, bcode), file=outFile)
       else:
         pips = int(action[0])
         square = action[1][0]
@@ -301,7 +303,7 @@ def main():
                 " (%.2f)" % ploss if ploss != 0 else "", fin
 
         if showPositon:
-          print >> outFile, positionOutput.getvalue().strip()
+          print(positionOutput.getvalue().strip(), file=outFile)
         positionOutput.close()
 
         if moveFrom >= 0:
@@ -316,7 +318,7 @@ def main():
         if who == 1:
           gameBoard = reverseBoard(gameBoard)
       if showPositon:
-        print >> outFile, ""
+        print("", file=outFile)
 
 
   urMatchLog.close()

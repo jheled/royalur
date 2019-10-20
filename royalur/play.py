@@ -11,17 +11,23 @@ Play and rollout functions
 
 Functions to play ROGOUR games and positions, using different strategies for X and O.
 """
+from __future__ import print_function
+from __future__ import absolute_import
 
 __all__ = ["rollout", "getDBplayer", "ply1", "prob"]
 
 import random
 
-from urcore import *
+from .urcore import *
+# A default player when there is nothing else.
+from .humanStrategies import bestHumanStrategySoFar as hplay
+from .probsdb import PositionsWinProbs
+
 
 def showBoard(b) :
   """ Print board ``b`` on stdout (debug). """
   
-  print boardAsString(b)
+  print(boardAsString(b))
   
 def playGame(playerX = lambda x : x, playerO = lambda x : x,
              startingBoardAndSide = None, record = None) :
@@ -71,7 +77,7 @@ def showGame(record) :
   
   nm = 1
   for board,side,pips in record:
-    print nm,": ","OX"[side] + " pips:",pips
+    print(nm,": ","OX"[side] + " pips:",pips)
     nm += 1
     board = code2Board(board)
     showBoard(board if side == 1 else reverseBoard(board))
@@ -88,12 +94,9 @@ def pitStrategies(playerX, playerO, N, sEvery = -1) :
     Xs += t == 'X'
     Ys += t == 'O'
     if sEvery > 0 and (k % sEvery == 0):
-      print Xs,Ys
-      
-  return Xs,Ys
+      print(Xs,Ys)
 
-# A default player when there is nothing else. 
-from humanStrategies import bestHumanStrategySoFar as hplay
+  return Xs,Ys
 
 def getDBmove(moves, db) :
   """ Get best move among ``moves`` according to DB. Fallback to human-like player if necessary. """
@@ -115,7 +118,6 @@ def getDBplayer(db) :
   """
   
   if isinstance(db, str) :
-    from probsdb import PositionsWinProbs
     db = PositionsWinProbs(db)
 
   return lambda moves : getDBmove(moves, db)

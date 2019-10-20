@@ -8,6 +8,9 @@
 # This is not pretty code, and might be buggy. You have been warned
 
 from __future__ import print_function
+from __future__ import absolute_import
+
+import random
 import logging
 import argparse, sys, os.path, time
 import Tkinter as tk
@@ -15,7 +18,6 @@ from PIL import ImageTk, Image
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-import random
 from .. import *
 from ..urcore import extraTurnA
 from ..humanStrategies import getByNicks, bestHumanStrategySoFar

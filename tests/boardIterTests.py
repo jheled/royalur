@@ -3,6 +3,8 @@
 ## Author: Joseph Heled <jheled@gmail.com>
 ## See the file LICENSE for copying conditions.
 #
+from __future__ import absolute_import
+
 import unittest
 
 import random, sympy

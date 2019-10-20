@@ -11,8 +11,9 @@ Probabilities Database
 
 Per-Position win probabilities for the full game space.
 """
+from __future__ import absolute_import
 
-from urcore import totalPositions, getIndex, index2Board, getBoard
+from .urcore import totalPositions, getIndex, index2Board, getBoard
 
 __all__ = ["PositionsWinProbs"]
 
@@ -131,4 +132,3 @@ class PositionsWinProbs(object) :
     """ Set the win probability associated with board to ``pr``."""
     
     self.set(self.board2key(board), pr)
-      

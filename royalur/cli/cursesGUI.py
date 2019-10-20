@@ -4,9 +4,10 @@
 ## Author: Joseph Heled <jheled@gmail.com>
 ## See the file LICENSE for copying conditions.
 #
+from __future__ import print_function
+from __future__ import absolute_import
 
 import argparse, sys
-
 import curses, random
 
 from .. import *
@@ -172,8 +173,8 @@ def ut_interface(window):
   opTurn = random.randint(0, 1) == 0
 
   if flog :
-    print >> flog, 'Board: "' + str(board2Code(board)) + '"'
-    print >> flog, "X is %s, O is %s" % (options.name, options.player)
+    print('Board: "' + str(board2Code(board)) + '"', file=flog)
+    print("X is %s, O is %s" % (options.name, options.player), file=flog)
 
   while not gameOver(board) :
     #showInfo(repr(board), debug)
@@ -181,8 +182,8 @@ def ut_interface(window):
     dice = [random.randint(0, 1) for _ in range(4)]
     pips = sum(dice)
     if flog :
-      print >> flog, "#", board2Code(board)
-      print >> flog, "OX"[opTurn] + ': ' + str(pips),
+      print("#", board2Code(board), file=flog)
+      print("OX"[opTurn] + ': ' + str(pips), file=flog)
 
     sdice = "%d (" % pips + "".join([str(x) for x in dice]) + ")"
     if opTurn:
@@ -190,7 +191,7 @@ def ut_interface(window):
         showInfo("Your roll is 0, hit space to continue.", interaction)
         opTurn = not opTurn
         if flog :
-          print >> flog, ''
+          print('', file=flog)
       else :
         am = allMoves(reverseBoard(board), pips)
         if len(am) == 1 and am[0][0] == board :
@@ -198,7 +199,7 @@ def ut_interface(window):
           opTurn = False
           pips = 0
           if flog :
-            print >> flog, ''
+            print('', file=flog)
         else :
           showInfo("Your roll: " + sdice + " Enter move...", interaction)
     else :
@@ -206,7 +207,7 @@ def ut_interface(window):
         showInfo("%s rolls 0, hit space to roll." % options.player, interaction)
         opTurn = True
         if flog :
-          print >> flog, ''
+          print('', file=flog)
       else :
         am = allMoves(board, pips)
         if len(am) == 1 and am[0][0] == reverseBoard(board):
@@ -214,7 +215,7 @@ def ut_interface(window):
           opTurn = True
           pips = 0
           if flog :
-            print >> flog, ''
+            print('', file=flog)
         else :
           showInfo(options.player +" rolls: " + sdice, interaction)
 
@@ -267,7 +268,7 @@ def ut_interface(window):
                 #showInfo(repr(board) + " %d %d %d" % (i,pips,t), debug)
         if ok:
           if flog :
-            print >> flog, ch.lower()
+            print(ch.lower(), file=flog)
           break
         showInfo("Illegal move. Try again.", info)
         clearInfo = True
@@ -317,7 +318,7 @@ def ut_interface(window):
         if ch is None:
           assert homes(board)[0] - 1 == homes(bForUpdate)[0]
           ch = 'e'
-        print >> flog, ch.upper()
+        print(ch.upper(), file=flog)
 
       redraw(reverseBoard(bForUpdate), reverseBoard(board), bboard, window)
       board = bForUpdate
@@ -327,9 +328,9 @@ def ut_interface(window):
   if flog:
     if gameOver(board) :
       if board[14] == 7 :
-        print >> flog, "O: wins"
+        print("O: wins", file=flog)
       else:
-        print >> flog, "X: wins"
+        print("X: wins", file=flog)
     flog.close()
 
   interaction.clear()
@@ -357,7 +358,7 @@ def main():
   try :
     flog = file(options.record, 'a') if options.record else None
   except:
-    print >> sys.stderr, "Error opening match log."
+    print("Error opening match log.", file=sys.stderr)
     sys.exit(1)
 
   if options.player == "SimpleSam" :
@@ -367,9 +368,9 @@ def main():
   elif options.player == "Santa" :
     player = bestHumanStrategySoFar
   elif options.player == "Expert" or options.player == "Ishtar":
-    print >> sys.stderr, "loading database...,"
+    print("loading database...,", file=sys.stderr)
     db = PositionsWinProbs(royalURdataDir + "/db16.bin")
-    print >> sys.stderr, "done."
+    print("done.", file=sys.stderr)
     if options.player == "Expert" :
       player = lambda m : dbdPlayer(m, db)
     else :

@@ -49,8 +49,14 @@ the supposedly efficient arrays, the only viable option is to work with low-leve
 by the board index.
 
 """
+from __future__ import absolute_import
+
 
 import random
+from bisect import bisect
+
+from .binomhack import bmap
+import royalur.irogaur as irogaur
 
 __all__ = [
   "startPosition",
@@ -442,8 +448,6 @@ def positionsIterator(gOff = 0, rOff = 0) :
       yield list(b1)
 
 
-from binomhack import bmap
-    
 # m on one side, n on the other
 def countPosOnBoard(m, n) :
   assert m >= n
@@ -577,11 +581,9 @@ def __board2Index(board) :
   i1 = ps[m]
   i2 = partSafeG * bmap[8,gMen - m] + gStrip
   i3 = i2 * bmap[14 - (gMen-m), rMen] + partR;         assert i3 < ps[m+1] - ps[m]
-  ##print i1,i2,i3,len(bits), partR, bits
+  ##print(i1,i2,i3,len(bits), partR, bits)
   return i0 + i1 + i3
-  
-from bisect import bisect
-  
+
 def __index2Board(index) :
   i = bisect(spoints, index)
   assert startings[i-1][0] <= index < (startings[i][0] if i < len(startings) else totalPositions)
@@ -622,8 +624,6 @@ def __index2Board(index) :
       i += 1
   b[19:21] = [-x for x in bOther[i:]]
   return b
-
-import irogaur
 
 def index2Board(index) :
   i = bisect(spoints, index)
