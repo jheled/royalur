@@ -28,10 +28,11 @@ setuptools.setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 2 :: Only",
+        "Programming Language :: Python :: 3",
         "Topic :: Games/Entertainment :: Board Games"
     ],
     packages=setuptools.find_packages(),
+    include_package_data=True,
     ext_modules=[module1],
     entry_points={
         "console_scripts": [

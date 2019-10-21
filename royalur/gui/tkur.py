@@ -18,14 +18,17 @@ from PIL import ImageTk, Image
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-from .. import *
-from ..urcore import extraTurnA
-from ..humanStrategies import getByNicks, bestHumanStrategySoFar
+from royalur import *
+from royalur.urcore import extraTurnA
+from royalur.humanStrategies import getByNicks, bestHumanStrategySoFar
 
 flog = None
 options = None
 cv = None
 foemenu = None
+
+logging.basicConfig(level=logging.DEBUG)
+
 
 def _create_circle(self, x, y, r, **kwargs):
   return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
@@ -453,7 +456,6 @@ def main():
   parser.add_argument("--name", "-n", metavar="STR", default = "Human", help = "Your name.")
 
   options = parser.parse_args()
-  logging.basicConfig(level=logging.DEBUG)
   try :
     flog = file(options.record, 'a') if options.record else None
   except:
@@ -467,7 +469,7 @@ def main():
                             540 - urBoardImage.size[1]//2) )
 
   root.title("The Royal UR")
-  icon = tk.Image("photo", file=os.path.join(dir_path, "urbicon.png"))
+  icon = ImageTk.PhotoImage(file=os.path.join(dir_path, "urbicon.png"))
   root.tk.call('wm','iconphoto',root._w,icon)
 
   cv = UrCanvas(root, urBoardImage)
@@ -495,6 +497,7 @@ def main():
 
   if flog :
     flog.close()
+  root.destroy()
 
 
 

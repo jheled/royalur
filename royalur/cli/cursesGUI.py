@@ -10,8 +10,8 @@ from __future__ import absolute_import
 import argparse, sys
 import curses, random
 
-from .. import *
-from ..humanStrategies import getByNicks, bestHumanStrategySoFar
+from royalur import *
+from royalur.humanStrategies import getByNicks, bestHumanStrategySoFar
 
 flog = None
 options = None

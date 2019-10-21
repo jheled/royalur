@@ -19,7 +19,7 @@ import StringIO
 import math
 from math import log
 
-from .. import *
+from royalur import *
 
 db = None
 
