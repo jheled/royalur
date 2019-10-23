@@ -174,7 +174,7 @@ for rm in range(gm, -1, -1) :
       print()
       print(maxe, dif, dif/(2*tot))
       
-  f = file(fnbase + ".inpro.bin", "wb")
+  f = open(fnbase + ".inpro.bin", "wb")
   f.write(exvals)
   f.close()
   

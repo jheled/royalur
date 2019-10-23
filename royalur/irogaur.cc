@@ -457,7 +457,7 @@ board2Code(PyObject* module, PyObject* args)
 
   char a[5];
   b2a(s, a);
-  return PyBytes_FromStringAndSize(a, 5);
+  return PyUnicode_FromStringAndSize(a, 5);
 }
 
 static PyMethodDef irMethods[] =

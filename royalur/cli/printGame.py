@@ -13,11 +13,11 @@ Print and Annotate ROGOUR Games
 """
 
 import argparse, sys, os.path
-import StringIO
+from io import StringIO
 import math
 from math import log
 
-from .. import *
+from royalur import *
 
 db = None
 
@@ -115,7 +115,7 @@ def main():
   options = parser.parse_args()
   URFileName = options.match
   try :
-    urMatchLog = file(URFileName)
+    urMatchLog = open(URFileName)
   except IOError as e:
     # report error
     print("Can't open match:", e, file = sys.stderr)
@@ -254,7 +254,7 @@ def main():
             if luck : showPositon = True
             #luck = ' '*4 + "%.3f" % dluck
 
-        positionOutput = StringIO.StringIO()
+        positionOutput = StringIO()
         print('='*18, file = positionOutput)
         print("XO"[who] + ':', dice2str(pips)+' '+luck, square, file = positionOutput)
         c = square.lower() if who == 0 else  square.upper()

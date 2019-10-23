@@ -25,7 +25,10 @@ order, from first to last.
 
 import random
 
-from urcore import homes, GR_OFF, RD_OFF, reverseBoard 
+if __package__ is None or __package__ == '':
+  from urcore import homes, GR_OFF, RD_OFF, reverseBoard 
+else :
+  from .urcore import homes, GR_OFF, RD_OFF, reverseBoard 
 
 __all__ = ["bestHumanStrategySoFar"]
 

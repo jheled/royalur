@@ -442,8 +442,10 @@ def positionsIterator(gOff = 0, rOff = 0) :
     for b1 in rIterator(b, rOff) :
       yield list(b1)
 
-
-from binomhack import bmap
+if __package__ is None or __package__ == '':
+  from binomhack import bmap
+else:
+  from .binomhack import bmap
     
 # m on one side, n on the other
 def countPosOnBoard(m, n) :
@@ -624,7 +626,10 @@ def __index2Board(index) :
   b[19:21] = [-x for x in bOther[i:]]
   return b
 
-import irogaur
+if __package__ is None or __package__ == '':
+  import irogaur
+else :
+  import royalur.irogaur as irogaur
 
 def index2Board(index) :
   i = bisect(spoints, index)

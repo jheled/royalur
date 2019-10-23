@@ -56,7 +56,7 @@ if not os.path.exists('../data/iplay-levels.bin') :
     tot += added
     level += 1
     
-  f = file('../data/iplay-levels.bin', 'wb')
+  f = open('../data/iplay-levels.bin', 'wb')
   f.write(bseen)
   f.close()
   del bseen
@@ -87,7 +87,7 @@ if not os.path.exists('../data/ireached-levels.bin') :
     tot += added
     level += 1
 
-  f = file('../data/ireached-levels.bin', 'wb')
+  f = open('../data/ireached-levels.bin', 'wb')
   f.write(breached)
   f.close()
   del breached
