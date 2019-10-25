@@ -38,12 +38,12 @@ setuptools.setup(
             "curses-gui=royalur.cli.cursesGUI:main [curses]"
         ],
         "gui_scripts": [
-            "tkur=royalur.gui.tkur:main [PIL]"
+            "tkur=royalur.gui.tkur:main [Pillow]"
         ]
     },
     extras_require={
         "curses": ["windows-curses;platform_system=='Windows'"],
-        "PIL": ["Pillow"]
+        "Pillow": ["Pillow"]
     },
     data_files=[
         # Comment out big data file until things stabilize. The distribution
