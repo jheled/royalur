@@ -15,7 +15,10 @@ from __future__ import print_function
 from __future__ import absolute_import
 
 import argparse, sys, os.path
-import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 import math
 from math import log
 
