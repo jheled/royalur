@@ -13,7 +13,10 @@ from __future__ import absolute_import
 import random
 import logging
 import argparse, sys, os.path, time
-import Tkinter as tk
+try:
+  import tkinter as tk
+except ImportError:
+  import Tkinter as tk
 from PIL import ImageTk, Image
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
