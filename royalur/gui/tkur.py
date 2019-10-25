@@ -30,7 +30,7 @@ options = None
 cv = None
 foemenu = None
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 def _create_circle(self, x, y, r, **kwargs):
