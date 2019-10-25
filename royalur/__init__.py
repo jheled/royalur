@@ -28,5 +28,5 @@ from .humanStrategies import bestHumanStrategySoFar
 import os.path
 royalURdataDir = os.path.realpath(os.path.join(os.path.dirname(__file__), "data"))
 
-__version__ = "0.2.1.dev2"
+__version__ = "0.2.1.dev3"
 """The version of royalUr"""
