@@ -67,7 +67,7 @@ class PositionsWinProbs(object) :
     self.tkeys = None
     
   def save(self, fname) :
-    f = open(fname, 'w')
+    f = open(fname, 'wb')
     f.write(self.b)
     f.close()
 
