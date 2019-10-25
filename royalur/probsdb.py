@@ -34,7 +34,7 @@ def fileFromName(fname) :
       return gzip.open(fname)
     if fname.endswith(".bz2") :
       return bz2.BZ2File(fname)
-    return file(fname)
+    return file(fname, "rb")
   if os.path.exists(fname + ".gz") :
     return gzip.open(fname + ".gz")
   if os.path.exists(fname + ".bz2") :
@@ -65,7 +65,7 @@ class PositionsWinProbs(object) :
     self.tkeys = None
     
   def save(self, fname) :
-    f = file(fname, 'w')
+    f = file(fname, "wb")
     f.write(self.b)
     f.close()
 
