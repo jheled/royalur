@@ -236,7 +236,7 @@ def b2a(sbits) :
      (ASCII85 i.e. base 85).
   """
   
-  l = long(sbits, 2)
+  l = int(sbits, 2)
   a = ''
   for _ in range(5) :
     c = l % 85

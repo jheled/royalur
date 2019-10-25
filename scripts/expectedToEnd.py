@@ -16,6 +16,7 @@ from royalur.humanStrategies import totPips2s, totPips1s
 
 import os.path
 import sys
+from functools import reduce
 
 db = PositionsWinProbs(os.path.join(royalURdataDir, "db16.bin"))
 ishtar = getDBplayer(db)
@@ -61,7 +62,7 @@ def packRcpt(longs) :
   return bytearray(reduce(lambda x,y : x+y, [unpackl1(l) for l in longs]))
 
 def unpackRcpt(buf) :
-  return [packl1(buf[i:i+4]) for i in xrange(0, len(buf), 4)]
+  return [packl1(buf[i:i+4]) for i in range(0, len(buf), 4)]
   
 def getRcpt(key, rkey) :
   board = index2Board(key)
@@ -180,7 +181,7 @@ for rm in range(gm, -1, -1) :
       print()
       print(maxe, dif, dif/(2*tot))
       
-  f = file(fnbase + ".inpro.bin", "wb")
+  f = open(fnbase + ".inpro.bin", "wb")
   f.write(exvals)
   f.close()
   

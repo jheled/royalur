@@ -40,7 +40,7 @@ if not os.path.exists(os.path.join(royalURdataDir, "iplay-levels.bin")):
   level = 1
   while True:
     added = 0
-    for i in xrange(totalPositions) :
+    for i in range(totalPositions) :
       assert bseen[i] <= level+1
       if bseen[i] == level:
         board = index2Board(i)
@@ -59,7 +59,7 @@ if not os.path.exists(os.path.join(royalURdataDir, "iplay-levels.bin")):
     tot += added
     level += 1
     
-  f = file(os.path.join(royalURdataDir, "iplay-levels.bin"), 'wb')
+  f = open(os.path.join(royalURdataDir, "iplay-levels.bin"), 'wb')
   f.write(bseen)
   f.close()
   del bseen
@@ -71,7 +71,7 @@ if not os.path.exists(os.path.join(royalURdataDir, "ireached-levels.bin")):
   level = 1
   while True:
     added = 0
-    for i in xrange(totalPositions) :
+    for i in range(totalPositions) :
       assert breached[i] <= level+1
       if breached[i] == level:
         board = index2Board(i)
@@ -89,7 +89,7 @@ if not os.path.exists(os.path.join(royalURdataDir, "ireached-levels.bin")):
     tot += added
     level += 1
 
-  f = file(os.path.join(royalURdataDir, "ireached-levels.bin"), 'wb')
+  f = open(os.path.join(royalURdataDir, "ireached-levels.bin"), 'wb')
   f.write(breached)
   f.close()
   del breached

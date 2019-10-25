@@ -457,7 +457,7 @@ def main():
 
   options = parser.parse_args()
   try :
-    flog = file(options.record, 'a') if options.record else None
+    flog = open(options.record, 'a') if options.record else None
   except:
     logging.error("Error opening match log.")
     sys.exit(1)

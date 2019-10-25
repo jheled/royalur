@@ -15,10 +15,7 @@ from __future__ import print_function
 from __future__ import absolute_import
 
 import argparse, sys, os.path
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+from io import StringIO
 import math
 from math import log
 
@@ -120,7 +117,7 @@ def main():
   options = parser.parse_args()
   URFileName = options.match
   try :
-    urMatchLog = file(URFileName)
+    urMatchLog = open(URFileName)
   except IOError as e:
     # report error
     print("Can't open match:", e, file=sys.stderr)
