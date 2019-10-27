@@ -81,7 +81,7 @@ def showGame(record) :
     nm += 1
     board = code2Board(board)
     showBoard(board if side == 1 else reverseBoard(board))
-    print
+    print()
 
 def pitStrategies(playerX, playerO, N, sEvery = -1) :
   """ Play ``N`` games games between two strategies, report number of wins for X and O. """

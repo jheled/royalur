@@ -257,10 +257,10 @@ def main():
             #luck = ' '*4 + "%.3f" % dluck
 
         positionOutput = StringIO.StringIO()
-        print >> positionOutput, '='*18
-        print >> positionOutput, "XO"[who] + ':', dice2str(pips)+' '+luck, square
+        print('='*18, file=positionOutput)
+        print("XO"[who] + ':', dice2str(pips)+' '+luck, square, file=positionOutput)
         c = square.lower() if who == 0 else  square.upper()
-        print >> positionOutput, massageBoardString(boardAsString(gameBoard), c, bcode)
+        print(massageBoardString(boardAsString(gameBoard), c, bcode), file=positionOutput)
 
         if who == 1:
           gameBoard = reverseBoard(gameBoard)
@@ -270,7 +270,7 @@ def main():
 
         if annotate:
           if db.aget(gameBoard) is not None:
-            print >> positionOutput, ""
+            print("", file=positionOutput)
             froms = []
             ams = allMoves(gameBoard, pips, froms);          assert len(froms) == len(ams)
             ps, codes = [], []
@@ -299,8 +299,8 @@ def main():
               lt = boardPos2CH[frm]
               if who == 1:
                 lt = lt.upper()
-              print >> positionOutput, strt + lt, "%4.2f" % (100*p), \
-                " (%.2f)" % ploss if ploss != 0 else "", fin
+              print(strt + lt, "%4.2f" % (100*p), \
+                " (%.2f)" % ploss if ploss != 0 else "", fin, file=positionOutput)
 
         if showPositon:
           print(positionOutput.getvalue().strip(), file=outFile)
