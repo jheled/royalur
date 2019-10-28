@@ -258,7 +258,7 @@ for gm in range(6, -1, -1) :
       frct[k] = bytearray(condencedPly1BothFullRecpt(db.key2board(key)))
       k += 1
       if k % (36*1024) == 0 :
-        print("%.0f" % (k*100./len(updateList)))
+        print("%.0f" % (k*100./len(updateList)), end='')
         sys.stdout.flush()
     print()
 
