@@ -1,7 +1,7 @@
 ## This file is part of royalUr.
 ## Copyright (C) 2018 Joseph Heled.
 ## Author: Joseph Heled <jheled@gmail.com>
-## See the files LICENCE and gpl.txt for copying conditions.
+## See the file LICENSE for copying conditions.
 #
 
 """
@@ -19,14 +19,13 @@
 
 """
 
-from urcore import *
-from probsdb import *
-from play import *
-from humanStrategies import bestHumanStrategySoFar
+from .urcore import *
+from .probsdb import *
+from .play import *
+from .humanStrategies import bestHumanStrategySoFar
 
 import os.path
-royalURdataDir = os.path.realpath(os.path.dirname(__file__) + '/../../../data')
+royalURdataDir = os.path.realpath(os.path.join(os.path.dirname(__file__), "data"))
 
-__version__ = '0.2.0'
+__version__ = "0.2.1.dev3"
 """The version of royalUr"""
-

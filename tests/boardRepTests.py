@@ -1,7 +1,7 @@
 ## This file is part of royalUr.
 ## Copyright (C) 2018 Joseph Heled.
 ## Author: Joseph Heled <jheled@gmail.com>
-## See the files LICENCE and gpl.txt for copying conditions.
+## See the file LICENSE for copying conditions.
 #
 import unittest
 import random
@@ -23,6 +23,12 @@ class TestCore(unittest.TestCase):
       i = random.randint(0, totalPositions-1)
       self.oneBoard(getBoard(i))
 
+  def test_all_boards(self) :
+    for g in range(7) :
+      for r in range(7) :
+        for b in positionsIterator(g,r):
+          self.oneBoard(b)
+      
   def test_rev(self) :
     for _ in range(5000) :
       i = random.randint(0, totalPositions-1)

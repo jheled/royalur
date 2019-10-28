@@ -1,0 +1,5 @@
+include royalur/data/db16.bin.placeholder
+include royalur/gui/d40.png
+include royalur/gui/d41.png
+include royalur/gui/urbicon.png
+include royalur/gui/urBoard.jpg

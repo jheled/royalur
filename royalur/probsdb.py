@@ -1,7 +1,7 @@
 ## This file is part of royalUr.
 ## Copyright (C) 2018 Joseph Heled.
 ## Author: Joseph Heled <jheled@gmail.com>
-## See the files LICENCE and gpl.txt for copying conditions.
+## See the file LICENSE for copying conditions.
 #
 
 """
@@ -12,7 +12,10 @@ Probabilities Database
 Per-Position win probabilities for the full game space.
 """
 
-from urcore import totalPositions, getIndex, index2Board, getBoard
+if __package__ is None or __package__ == '':
+  from urcore import totalPositions, getIndex, index2Board, getBoard
+else:
+  from .urcore import totalPositions, getIndex, index2Board, getBoard
 
 __all__ = ["PositionsWinProbs"]
 
@@ -33,7 +36,7 @@ def fileFromName(fname) :
       return gzip.open(fname)
     if fname.endswith(".bz2") :
       return bz2.BZ2File(fname)
-    return file(fname)
+    return open(fname, 'rb')
   if os.path.exists(fname + ".gz") :
     return gzip.open(fname + ".gz")
   if os.path.exists(fname + ".bz2") :
@@ -64,7 +67,7 @@ class PositionsWinProbs(object) :
     self.tkeys = None
     
   def save(self, fname) :
-    f = file(fname, 'w')
+    f = open(fname, 'wb')
     f.write(self.b)
     f.close()
 

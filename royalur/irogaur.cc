@@ -1,7 +1,7 @@
 // This file is part of royalUr.
 // Copyright (C) 2018 Joseph Heled.
 // Author: Joseph Heled <jheled@gmail.com>
-// See the files LICENCE and gpl.txt for copying conditions.
+// See the file LICENSE for copying conditions.
 //
 
 #include <Python.h>
@@ -13,14 +13,16 @@
 using std::cerr;
 using std::endl;
 
-int bmap[20][20];
+typedef unsigned int uint;
+
+static int bmap[20][20];
 
 static const char
 z85s[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-:+=^!/*?&<>()[]{}@%$#";
 static int rz85[256];
 
 static int
-binomial(int n, int k)
+binomial(const int n, const int k)
 {
   if( n < k )  return 0;
   if( k == 0 || n == k ) return 1;
@@ -37,8 +39,8 @@ initm(void)
   }
   {
     uint k = 0;
-    for(char const& c : z85s) {
-      rz85[static_cast<uint>(c)] = k;
+    for(char const *c = &z85s[0]; *c != '\0'; ++c) {
+      rz85[static_cast<uint>(*c)] = k;
       ++k;
     }
   }
@@ -93,7 +95,7 @@ uint const RD_OFF = 21;
 
 
 static PyObject*
-board2Index(PyObject*, PyObject* args)
+board2Index(PyObject* module, PyObject* args)
 {
   PyObject* pyBoard;
   PyObject* spMap;
@@ -117,7 +119,7 @@ board2Index(PyObject*, PyObject* args)
   int b[22];
   PyObject** s = &PyList_GET_ITEM(pyBoard, 0);
   for(uint k = 0; k < 22; ++k) {
-    b[k] = PyInt_AsLong(s[k]);
+    b[k] = PyLong_AsLong(s[k]);
   }
   
   int const gOff = b[GR_OFF];
@@ -156,10 +158,10 @@ board2Index(PyObject*, PyObject* args)
   int const rHome = 7 - (rMen + rOff);
 
   PyObject* t = PyTuple_New(4);
-  PyTuple_SET_ITEM(t, 0, PyInt_FromLong(gOff));
-  PyTuple_SET_ITEM(t, 1, PyInt_FromLong(rOff));
-  PyTuple_SET_ITEM(t, 2, PyInt_FromLong(gHome));
-  PyTuple_SET_ITEM(t, 3, PyInt_FromLong(rHome));
+  PyTuple_SET_ITEM(t, 0, PyLong_FromLong(gOff));
+  PyTuple_SET_ITEM(t, 1, PyLong_FromLong(rOff));
+  PyTuple_SET_ITEM(t, 2, PyLong_FromLong(gHome));
+  PyTuple_SET_ITEM(t, 3, PyLong_FromLong(rHome));
   
   PyObject* const pyi0 = PyDict_GetItem(spMap, t);     
   Py_DECREF(t);
@@ -169,11 +171,11 @@ board2Index(PyObject*, PyObject* args)
     return 0;
   }
     
-  long const i0 = PyInt_AsLong(pyi0);
+  long const i0 = PyLong_AsLong(pyi0);
 
   t = PyTuple_New(2);
-  PyTuple_SET_ITEM(t, 0, PyInt_FromLong(gMen));
-  PyTuple_SET_ITEM(t, 1, PyInt_FromLong(rMen));
+  PyTuple_SET_ITEM(t, 0, PyLong_FromLong(gMen));
+  PyTuple_SET_ITEM(t, 1, PyLong_FromLong(rMen));
 
   PyObject* const pyps = PyDict_GetItem(pSums, t);     assert(pyps);
   Py_DECREF(t);
@@ -182,15 +184,15 @@ board2Index(PyObject*, PyObject* args)
     Py_INCREF(Py_None);
     return Py_None;
   }
-  long const i1 = PyInt_AsLong(PyList_GET_ITEM(pyps, m));
+  long const i1 = PyLong_AsLong(PyList_GET_ITEM(pyps, m));
   long const i2 = partSafeG * bmap[8][gMen - m] + gStrip;
   long const i3 = i2 * bmap[14 - (gMen-m)][rMen] + partR;
   
-  return PyInt_FromLong(i0 + i1 + i3);
+  return PyLong_FromLong(i0 + i1 + i3);
 }
 
 static PyObject*
-index2Board(PyObject*, PyObject* args)
+index2Board(PyObject* module, PyObject* args)
 {
   PyObject *pi, *a0, *a1, *a2, *a3;
   PyObject *pSums;
@@ -199,34 +201,34 @@ index2Board(PyObject*, PyObject* args)
     PyErr_SetString(PyExc_ValueError, "wrong args.");
     return 0;
   }
-  uint index = PyInt_AsLong(pi);
-  uint
-    gOff = PyInt_AsLong(a0),
-    rOff = PyInt_AsLong(a1),
-    gHome = PyInt_AsLong(a2),
-    rHome = PyInt_AsLong(a3);
+  long index = PyLong_AsLong(pi);
+  long
+    gOff = PyLong_AsLong(a0),
+    rOff = PyLong_AsLong(a1),
+    gHome = PyLong_AsLong(a2),
+    rHome = PyLong_AsLong(a3);
   
-  uint gMen = 7 - (gOff + gHome), rMen = 7 - (rOff + rHome);
+  long gMen = 7 - (gOff + gHome), rMen = 7 - (rOff + rHome);
   PyObject* t = PyTuple_New(2);
-  PyTuple_SET_ITEM(t, 0, PyInt_FromLong(gMen));
-  PyTuple_SET_ITEM(t, 1, PyInt_FromLong(rMen));
+  PyTuple_SET_ITEM(t, 0, PyLong_FromLong(gMen));
+  PyTuple_SET_ITEM(t, 1, PyLong_FromLong(rMen));
 
   PyObject* const pyps = PyDict_GetItem(pSums, t);     assert(pyps && PySequence_Check(pyps));
   Py_DECREF(t);
 
-  uint const plen = PySequence_Length(pyps);
+  Py_ssize_t const plen = PySequence_Length(pyps);
   
   PyObject** ps = &PyList_GET_ITEM(pyps, 0);
-  if( index >= PyInt_AsLong(ps[plen-1]) ) {
+  if( index >= PyLong_AsLong(ps[plen-1]) ) {
     PyErr_SetString(PyExc_ValueError, "Index invalid");
     return 0;
   }
     
   int m = 0;
-  while( ! ( PyInt_AsLong(ps[m]) <= index && index < PyInt_AsLong(ps[m+1]) ) ) {
+  while( ! ( PyLong_AsLong(ps[m]) <= index && index < PyLong_AsLong(ps[m+1]) ) ) {
     m += 1;
   }
-  index -= PyInt_AsLong(ps[m]);
+  index -= PyLong_AsLong(ps[m]);
     
   uint u = bmap[14 - (gMen-m)][rMen];
   uint i2 = index / u;
@@ -246,7 +248,7 @@ index2Board(PyObject*, PyObject* args)
   
   i2bits(b + 4, gStrip, gMen - m, 8);
   
-  int bOther[14 - (gMen-m)];
+  int bOther[14];
   i2bits(bOther, partR, rMen, 14 - (gMen-m));
 
   int i;
@@ -266,7 +268,7 @@ index2Board(PyObject*, PyObject* args)
 
   PyObject* pyb = PyList_New(22);
   for(i = 0; i < 22; ++i) {
-    PyList_SET_ITEM(pyb, i, PyInt_FromLong(b[i]));
+    PyList_SET_ITEM(pyb, i, PyLong_FromLong(b[i]));
   }
   return pyb;
 }
@@ -309,11 +311,11 @@ unpack(unsigned long l, uint start, uint len)
 inline bool
 ubit(unsigned long l, uint i)
 {
-  return l & (0x1 << (30 - i));
+  return (l & (0x1 << (30 - i))) != 0;
 }
 
 static PyObject*
-code2Board(PyObject*, PyObject* args)
+code2Board(PyObject* module, PyObject* args)
 {
   const char* e;
   if( !PyArg_ParseTuple(args, "s", &e) ) {
@@ -323,14 +325,14 @@ code2Board(PyObject*, PyObject* args)
   
   int board[22] = {0};
   unsigned long l = a2b(e);
-  uint atHome(unpack(l, 0, 3)), oAtHome(unpack(l, 9, 3));        assert(atHome <= 7 && oAtHome <= 7);
+  uint atHome = unpack(l, 0, 3), oAtHome = unpack(l, 9, 3);        assert(atHome <= 7 && oAtHome <= 7);
   
   {
     int b[6] = {3,4,5,6,7,8};
     int k[6] = {0,1,2,3,12,13};
     for(uint i = 0; i < 6; ++i) {
       if( ubit(l, b[i]) ) {
-  	board[k[i]] = 1;
+        board[k[i]] = 1;
       }
     }
   }
@@ -344,7 +346,7 @@ code2Board(PyObject*, PyObject* args)
     }
   }
   
-  uint mid = unpack(l, 18, 13);                     assert( mid < std::pow(3,8) );
+  uint mid = unpack(l, 18, 13);                     assert( mid < pow(3.0,8) );
   for(int i = 11; i > 3; --i) {
     uint const x = mid % 3;
     board[i] = x - 1;
@@ -372,13 +374,13 @@ code2Board(PyObject*, PyObject* args)
   
   PyObject* pyb = PyList_New(22);
   for(uint i = 0; i < 22; ++i) {
-    PyList_SET_ITEM(pyb, i, PyInt_FromLong(board[i]));
+    PyList_SET_ITEM(pyb, i, PyLong_FromLong(board[i]));
   }
   return pyb;
 }
 
 static PyObject*
-board2Code(PyObject*, PyObject* args)
+board2Code(PyObject* module, PyObject* args)
 {
   PyObject* pyBoard;
   
@@ -392,11 +394,11 @@ board2Code(PyObject*, PyObject* args)
     return 0;
   }
 
-  int board[22];
+  long board[22];
   {
     PyObject** s = &PyList_GET_ITEM(pyBoard, 0);
     for(uint k = 0; k < 22; ++k) {
-      board[k] = PyInt_AsLong(s[k]);
+      board[k] = PyLong_AsLong(s[k]);
     }
   }
 
@@ -411,14 +413,14 @@ board2Code(PyObject*, PyObject* args)
   uint const atHome = totPiecesMe - o;
 
   uint k = 0;
-  s[k] = atHome & 0x4; ++k;
-  s[k] = atHome & 0x2; ++k;
-  s[k] = atHome & 0x1; ++k;
+  s[k] = (atHome & 0x4) != 0; ++k;
+  s[k] = (atHome & 0x2) != 0; ++k;
+  s[k] = (atHome & 0x1) != 0; ++k;
   for(uint i = 0; i < 4; ++i) {
-    s[k] = board[i]; ++k;
+    s[k] = board[i] != 0; ++k;
   }
   for(uint i = 12; i < 14; ++i) {
-    s[k] = board[i]; ++k;
+    s[k] = board[i] != 0; ++k;
   }
 
   uint oo = 0;
@@ -435,14 +437,14 @@ board2Code(PyObject*, PyObject* args)
   uint const ototPiecesOff = 7 - board[RD_OFF];
   uint const oatHome = ototPiecesOff - oo;
 
-  s[k] = oatHome & 0x4; ++k;
-  s[k] = oatHome & 0x2; ++k;
-  s[k] = oatHome & 0x1; ++k;
+  s[k] = (oatHome & 0x4) != 0; ++k;
+  s[k] = (oatHome & 0x2) != 0; ++k;
+  s[k] = (oatHome & 0x1) != 0; ++k;
   for(uint i = 15; i < 19; ++i) {
-    s[k] = board[i]; ++k;
+    s[k] = board[i] != 0; ++k;
   }
   for(uint i = 19; i < 21; ++i) {
-    s[k] = board[i]; ++k;
+    s[k] = board[i] != 0; ++k;
   }
   
   uint x = board[4] + 1;
@@ -450,12 +452,12 @@ board2Code(PyObject*, PyObject* args)
     x = 3*x + (board[i] + 1);
   }
   for(int i = 12; i >= 0; --i) {
-    s[k] = x & (0x1 << i); ++k;
+    s[k] = (x & (0x1 << i)) != 0; ++k;
   }
 
   char a[5];
   b2a(s, a);
-  return PyString_FromStringAndSize(a, 5);
+  return PyUnicode_FromStringAndSize(a, 5);
 }
 
 static PyMethodDef irMethods[] =
@@ -471,10 +473,20 @@ static PyMethodDef irMethods[] =
   {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
+const char* irogaur_doc = NULL;
+
+static struct PyModuleDef irModule = {
+  PyModuleDef_HEAD_INIT,
+  "irogaur",   /* name of module */
+  irogaur_doc, /* module documentation, may be NULL */
+  -1,       /* size of per-interpreter state of the module,
+                 or -1 if the module keeps state in global variables. */
+  irMethods
+};
+
 PyMODINIT_FUNC
-initirogaur(void)
+PyInit_irogaur(void)
 {
   initm();
-  /*PyObject* m = */ Py_InitModule("irogaur", irMethods);
+  return PyModule_Create(&irModule);
 }
-

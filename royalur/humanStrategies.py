@@ -1,7 +1,7 @@
 ## This file is part of royalUr.
 ## Copyright (C) 2018 Joseph Heled.
 ## Author: Joseph Heled <jheled@gmail.com>
-## See the files LICENCE and gpl.txt for copying conditions.
+## See the file LICENSE for copying conditions.
 #
 
 """
@@ -25,7 +25,10 @@ order, from first to last.
 
 import random
 
-from urcore import homes, GR_OFF, RD_OFF, reverseBoard 
+if __package__ is None or __package__ == '':
+  from urcore import homes, GR_OFF, RD_OFF, reverseBoard 
+else :
+  from .urcore import homes, GR_OFF, RD_OFF, reverseBoard 
 
 __all__ = ["bestHumanStrategySoFar"]
 
@@ -80,7 +83,7 @@ def totPips2s(board) :
 def greedyExtraTurn(moves) :
   """ Prefer moves which give an extra move. """
   
-  return  [(b,e) for b,e in moves if e] or moves
+  return [(b,e) for b,e in moves if e] or moves
 
 ## Extra
 def greedyExtraTurnPlus(moves) :

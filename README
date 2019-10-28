@@ -9,6 +9,8 @@ Read about the game and code at https://jheled.github.io/royalur/.
 Installation:
 =============
 
+WE ARE TRANSITIONING TO PYTHON 3. REPO MIGHT BE BROKEN AT THE MOMENT
+
 You can install directly from github using pip:
 
 >>> pip install -e git+https://github.com/jheled/royalur.git#egg=royalur

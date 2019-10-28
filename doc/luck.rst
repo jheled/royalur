@@ -15,7 +15,7 @@ points per four games, which is on average half a point per game.
 
 But in real life no one wins all the time. I will surely lose to Stephan Curry in a three point
 shooting match, but even **he** misses a few shots every hundred, and I can make a few, so if the
-"math" consists of just one shot match I should win one time in a thousand. Quite high, actually,
+"match" consists of just one shot I will win one time in a thousand. Quite high, actually,
 when you think about that lottery ticket you bought yesterday.
 
 Those random factors we call luck limit the earning power of skill. Skill can buy you only that much
@@ -82,20 +82,19 @@ Ishtar sat with a single piece on the home stretch for 50 moves or so while Clue
 pieces. The luck difference was 1.36 points, big enough to compensate for Clueless throwing away
 0.85 points during the game.
 
-Now that we hopefully understand a little better the interplay between luck and skill we can go back
-to Finkel statement about the fifty-fifty contribution. And I honestly not sure what it means. An
-equity difference of 0.5 is equivalent to an ELO difference of 190, which is clearly much smaller
-than the range of ROGOUR which is larger than a 1000 points. Another interpretation can be the
-"relative" size of luck and skill. By size I mean the standard deviation of your typical luck
-difference on a single throw. For ROGOUR this turns out to be about 3.5%. But what is the size of
-skill? The size of errors by Clueless, our completly random player, is around 4%. Which is about
-equal to luck, only it is ridiculous to speak about skill for someone completly devoid of it. And if
-you look at even very weak players luck size drops to 1, 1.5%. Obviously, when you have skill your
-errors are smaller, and luck becomes more prominent. With two perfect players it is pure luck that
-decides the outcome. This sounds paradoxical until you think about it. What matters is not absolute
-skill but the difference in skill. So the important measure is the range of skill possible. And with
-the 1000 ELO points of ROGOUR I think one can claim it is similar to plain Backgammon (without the
-doubling cube.)
+Now that we hopefully have a better grasp of the interplay between luck and skill, we can go back to
+Finkel statement about the fifty-fifty split. Truth is, I don't know what it means. An equity
+difference of 0.5 is equivalent to an ELO difference of 190, which is clearly much smaller than the
+range of ROGOUR which is larger than a 1000 points. Another interpretation can be the "relative"
+size of luck and skill. By size I mean the standard deviation of your typical luck difference on a
+single throw. For ROGOUR this turns out to be about 3.5%. But what is the size of skill? The size of
+errors by Clueless, our completly random player, is around 4%. Which is about equal to luck, only it
+is ridiculous to speak about skill for someone completly devoid of it. And if you look at even very
+weak players luck size drops to 1, 1.5%. Obviously, when you have skill your errors are smaller, and
+luck becomes more prominent. With two perfect players it is pure luck that decides the outcome. This
+sounds paradoxical until you think about it. What matters is not absolute skill but the difference
+in skill. So the important measure is the range of skill possible. And with the 1000 ELO points of
+ROGOUR I think one can claim it is similar to plain Backgammon (without the doubling cube).
 
 .. Local Variables:
 .. eval: (auto-fill-mode 1)

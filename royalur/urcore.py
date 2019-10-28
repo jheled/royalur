@@ -1,7 +1,7 @@
 ## This file is part of royalUr.
 ## Copyright (C) 2018 Joseph Heled.
 ## Author: Joseph Heled <jheled@gmail.com>
-## See the files LICENCE and gpl.txt for copying conditions.
+## See the file LICENSE for copying conditions.
 #
 
 """
@@ -123,10 +123,11 @@ def reverseBoardIndex(i) :
 def allActualMoves(board, pips, froms = None) :
   """Return a list of all **actual** moves by Green given the dice.
 
-  *actual* here means omitting the cases where Green can't move. Each returned move is a ``(b,e)``
-  pair, where ``e`` is True when Green has an extra turn (and thus the board has not been flipped),
-  or False and thus this is Red turn and the board is flipped.
+  *actual* here means an empty list is returned when Green can't move. Each returned move is a ``(b,e)`` pair,
+  where ``e`` is True when Green has an extra turn (and thus the board has not been flipped), or False and
+  thus this is Red turn and the board is flipped.
   """
+  
   assert not gameOver(board)
   if pips == 0:
     return []
@@ -441,8 +442,10 @@ def positionsIterator(gOff = 0, rOff = 0) :
     for b1 in rIterator(b, rOff) :
       yield list(b1)
 
-
-from binomhack import bmap
+if __package__ is None or __package__ == '':
+  from binomhack import bmap
+else:
+  from .binomhack import bmap
     
 # m on one side, n on the other
 def countPosOnBoard(m, n) :
@@ -623,7 +626,10 @@ def __index2Board(index) :
   b[19:21] = [-x for x in bOther[i:]]
   return b
 
-import irogaur
+if __package__ is None or __package__ == '':
+  import irogaur
+else :
+  import royalur.irogaur as irogaur
 
 def index2Board(index) :
   i = bisect(spoints, index)

@@ -1,7 +1,7 @@
 ## This file is part of royalUr.
 ## Copyright (C) 2018 Joseph Heled.
 ## Author: Joseph Heled <jheled@gmail.com>
-## See the files LICENCE and gpl.txt for copying conditions.
+## See the file LICENSE for copying conditions.
 #
 
 """ This script generates a data file with the expected number of turns to game
@@ -114,7 +114,7 @@ gm = 0
 for rm in range(gm, -1, -1) :
   del frct
   added = []
-  print gm,rm
+  print(gm,rm)
   for b in positionsIterator(gm, rm):
     #if (b[12] + b[13] > 0 and b[19] + b[20] < 0) :
     #  continue
@@ -128,7 +128,7 @@ for rm in range(gm, -1, -1) :
       setv(exvals, rk, ballPark(b))
 
   updateList = halfList(added, exvals)
-  print len(updateList),"position pairs."
+  print(len(updateList),"position pairs.")
   del added
   updateList = sorted(updateList, key = lambda x : totPips2s(getBoard(x[0])))
 
@@ -138,15 +138,15 @@ for rm in range(gm, -1, -1) :
     frct[k] = packRcpt(getRcpt(key, rkey))
     k += 1
     if k % (36*1024) == 0 :
-      print "%.0f" % (k*100./len(updateList)),
+      print("%.0f" % (k*100./len(updateList)), end = '')
       sys.stdout.flush()
-  print
+  print()
 
   rnd = 0
   maxe = 1
   while maxe > 1e-5:
     rnd += 1
-    print "round",rnd,'(',gm,rm,')'
+    print("round",rnd,'(',gm,rm,')')
     if 1:
       dif,maxe,mkey = 0.0, -1, None
       tot = len(updateList)
@@ -155,7 +155,7 @@ for rm in range(gm, -1, -1) :
       for key,rkey in updateList :
         cnt += 1
         if cnt % (36*1024) == 0 :
-          print cnt,int((100.*cnt)/tot),"%.3g" % maxe, '.'
+          print(cnt,int((100.*cnt)/tot),"%.3g" % maxe, '.')
           sys.stdout.flush()
 
         e1, e2 = evalBoth(key, rkey, unpackRcpt(frct[cnt-1]), exvals)
@@ -171,10 +171,10 @@ for rm in range(gm, -1, -1) :
           mkey = key,er1,er2
         setv(exvals,  key, e1)
         setv(exvals, rkey, e2)
-      print
-      print maxe, dif, dif/(2*tot)
+      print()
+      print(maxe, dif, dif/(2*tot))
       
-  f = file(fnbase + ".inpro.bin", "wb")
+  f = open(fnbase + ".inpro.bin", "wb")
   f.write(exvals)
   f.close()
   

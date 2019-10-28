@@ -2,50 +2,42 @@
 ## This file is part of royalUr.
 ## Copyright (C) 2018 Joseph Heled.
 ## Author: Joseph Heled <jheled@gmail.com>
-## See the files LICENCE and gpl.txt for copying conditions.
+## See the file LICENSE for copying conditions.
 #
 
 import argparse, sys
 
 import curses, random
 
-from royalur import *
+from .. import *
+from ..humanStrategies import getByNicks, bestHumanStrategySoFar
 
-
-parser = argparse.ArgumentParser(description="""Play ROGOUR, Man against the Machine.""")
-
-parser.add_argument("--record", "-r", metavar="FILE", help = "Record the match in FILE.")
-
-parser.add_argument("--name", "-n", metavar="STR", default = "Human", help = "Your name.")
-
-parser.add_argument("--player", "-p", metavar="OPPONENT",
-                    choices=["SimpleSam", "Joe", "Santa", "Expert", "Ishtar"], default = "Santa",
-                    help = "SimpleSam (1650), Joe (1730), Santa (1820), Expert (1880), Ishtar (2000)")
-
-options = parser.parse_args()
-try :
-  flog = file(options.record, 'a') if options.record else None
-except:
-  print >> sys.stderr, "Error opening match log."
-  sys.exit(1)
-
+flog = None
+options = None
+player = None
 wCell = 7
 hCell = 5
+
+green, red ,yellow, col6 = None, None, None, None
+
+opmap = {'a' :  15, 'b' : 16, 'c' : 17, 'd' : 18, 'y' : 19, 'z' : 20,
+         '1' : 4, '2' :  5, '3' : 6, '4' : 7, '5' : 8, '6' : 9, '7' : 10, '8' : 11,
+         'e' : 0}
+
 def cell(window, y, x, name) :
   box1 = window.subwin(hCell, wCell, y, x)
   box1.box()
   box1.addch(3, 1, name)
   return box1
 
-green, red ,yellow, col6 = None, None, None, None
 
 def colorsMagic(window) :
+  global green, red, yellow, col6
   curses.start_color()
   curses.use_default_colors()
   for i in range(0, curses.COLORS):
     curses.init_pair(i + 1, i, -1)
-  global green, red, yellow, col6
-  green = curses.color_pair(3) | curses.A_STANDOUT 
+  green = curses.color_pair(3) | curses.A_STANDOUT
   red = curses.color_pair(2) | curses.A_STANDOUT
   yellow = curses.color_pair(7) | curses.A_STANDOUT
   col6 = curses.color_pair(6) | curses.A_STANDOUT
@@ -87,7 +79,7 @@ def drawOff(nOff, what, off, color, window) :
     nOff -= 1
   window.addch(2 + off + 2, 2+6*wCell-3, what, 0 if what == ' ' else color)
   window.refresh()
-  
+
 def initBoard(window) :
   bboard = [None]*22
   bboard[15:19] = [cell(window, 2, 2+wCell*(3-i), chr(ord('A') + i)) for i in range(4)]
@@ -132,33 +124,9 @@ def dbdPlayer(moves, db) :
   mp = max(ps)[0]
   return [(b,e) for p,b,e in ps if p == mp]
 
-from royalur.humanStrategies import getByNicks
-
-if options.player == "SimpleSam" :
-  player = humanStrategies.getByNicks("hit;Donkey;safe;homestretch;bear")
-elif options.player == "Joe" :
-  player = humanStrategies.getByNicks('safe;homestretch;hit;Extra;Chuck;Frank;bear;Donkey')
-elif options.player == "Santa" :
-  player = bestHumanStrategySoFar
-elif options.player == "Expert" or options.player == "Ishtar":
-  print >> sys.stderr, "loading database...,"
-  db = PositionsWinProbs(royalURdataDir + "/db16.bin")
-  print >> sys.stderr, "done."
-  if options.player == "Expert" :
-    player = lambda m : dbdPlayer(m, db)
-  else :
-    player = lambda m : getDBmove(m, db)
-else :
-  assert False
-
-  
-opmap = {'a' :  15, 'b' : 16, 'c' : 17, 'd' : 18, 'y' : 19, 'z' : 20,
-         '1' : 4, '2' :  5, '3' : 6, '4' : 7, '5' : 8, '6' : 9, '7' : 10, '8' : 11,
-         'e' : 0}
-
 def opAddPips(i, pips) :
   return reverseBoardIndex(reverseBoardIndex(i) + pips)
-  
+
 def redraw(newBoard, oldBoard, bboard, window) :
   for i in range(21) :
     if i == 14:
@@ -181,8 +149,8 @@ def redraw(newBoard, oldBoard, bboard, window) :
       drawOff(newBoard[14], 'X', 2*hCell, green, window)
     if newBoard[21] != oldBoard[21] :
       drawOff(newBoard[21], 'O', 0, red, window)
-    
-def ut_interface(window) :
+
+def ut_interface(window):
   curses.curs_set(0)
   colorsMagic(window)
   bboard = initBoard(window)
@@ -198,7 +166,7 @@ def ut_interface(window) :
   interaction = window.subwin(1, 100, 2 + 3*hCell + 1, 3)
 
   debug = window.subwin(1, 120, 8 + 3*hCell + 1, 3)
-  
+
   # board will be always from human/X/0 side
   board = startPosition()
   opTurn = random.randint(0, 1) == 0
@@ -206,16 +174,16 @@ def ut_interface(window) :
   if flog :
     print >> flog, 'Board: "' + str(board2Code(board)) + '"'
     print >> flog, "X is %s, O is %s" % (options.name, options.player)
-    
+
   while not gameOver(board) :
     #showInfo(repr(board), debug)
-    
+
     dice = [random.randint(0, 1) for _ in range(4)]
     pips = sum(dice)
     if flog :
       print >> flog, "#", board2Code(board)
       print >> flog, "OX"[opTurn] + ': ' + str(pips),
-      
+
     sdice = "%d (" % pips + "".join([str(x) for x in dice]) + ")"
     if opTurn:
       if pips == 0 :
@@ -262,11 +230,11 @@ def ut_interface(window) :
     if not opTurn :
       while ch != ' ':
         ch = window.getkey()
-      
+
     if opTurn :
       ok = False
       clearInfo = False
-      while not ok: 
+      while not ok:
         if ch.lower() in "abcdyz12345678e ":
           if ch == ' ':
             frms = []
@@ -286,7 +254,7 @@ def ut_interface(window) :
               clearInfo = True
               ch = window.getkey()
               continue
-          else :    
+          else :
             # see if legal
             i = opmap[ch.lower()]
             if i == 0 :
@@ -307,7 +275,7 @@ def ut_interface(window) :
       if clearInfo:
         info.clear()
         info.refresh()
-        
+
       oldBoard = list(board)
       if i == 0:
         board[t] = -1
@@ -323,8 +291,8 @@ def ut_interface(window) :
       else :
         opTurn = False
       assert validBoard(board),str(board)
-      
-      redraw(reverseBoard(board), reverseBoard(oldBoard), bboard, window)  
+
+      redraw(reverseBoard(board), reverseBoard(oldBoard), bboard, window)
     else :
       pips = sum(dice)
       am = allMoves(board, pips)
@@ -350,12 +318,12 @@ def ut_interface(window) :
           assert homes(board)[0] - 1 == homes(bForUpdate)[0]
           ch = 'e'
         print >> flog, ch.upper()
-          
+
       redraw(reverseBoard(bForUpdate), reverseBoard(board), bboard, window)
       board = bForUpdate
     if flog:
       flog.flush()
-      
+
   if flog:
     if gameOver(board) :
       if board[14] == 7 :
@@ -363,12 +331,52 @@ def ut_interface(window) :
       else:
         print >> flog, "X: wins"
     flog.close()
-      
+
   interaction.clear()
   interaction.refresh()
-  
+
   if gameOver(board) :
     showInfo("Game over.", info)
     ch = window.getkey()
-  
+
 curses.wrapper(ut_interface)
+
+def main():
+  global flog, options, player
+  parser = argparse.ArgumentParser(description="""Play ROGOUR, Man against the Machine.""")
+
+  parser.add_argument("--record", "-r", metavar="FILE", help = "Record the match in FILE.")
+
+  parser.add_argument("--name", "-n", metavar="STR", default = "Human", help = "Your name.")
+
+  parser.add_argument("--player", "-p", metavar="OPPONENT",
+                      choices=["SimpleSam", "Joe", "Santa", "Expert", "Ishtar"], default = "Santa",
+                      help = "SimpleSam (1650), Joe (1730), Santa (1820), Expert (1880), Ishtar (2000)")
+
+  options = parser.parse_args()
+  try :
+    flog = file(options.record, 'a') if options.record else None
+  except:
+    print >> sys.stderr, "Error opening match log."
+    sys.exit(1)
+
+  if options.player == "SimpleSam" :
+    player = getByNicks("hit;Donkey;safe;homestretch;bear")
+  elif options.player == "Joe" :
+    player = getByNicks('safe;homestretch;hit;Extra;Chuck;Frank;bear;Donkey')
+  elif options.player == "Santa" :
+    player = bestHumanStrategySoFar
+  elif options.player == "Expert" or options.player == "Ishtar":
+    print >> sys.stderr, "loading database...,"
+    db = PositionsWinProbs(royalURdataDir + "/db16.bin")
+    print >> sys.stderr, "done."
+    if options.player == "Expert" :
+      player = lambda m : dbdPlayer(m, db)
+    else :
+      player = lambda m : getDBmove(m, db)
+  else :
+    assert False
+
+
+if __name__ == "__main__":
+  main()

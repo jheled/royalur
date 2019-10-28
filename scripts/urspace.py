@@ -2,7 +2,7 @@
 ## This file is part of royalUr.
 ## Copyright (C) 2018 Joseph Heled.
 ## Author: Joseph Heled <jheled@gmail.com>
-## See the files LICENCE and gpl.txt for copying conditions.
+## See the file LICENSE for copying conditions.
 #
 
 """ This script generates two binary files, seen and reached.
@@ -29,7 +29,7 @@ ishtar = getDBplayer(db)
 if not os.path.exists('../data/iplay-levels.bin') :
 
   bseen[board2Index(startPosition())] = 1
-  print seenDepth(startPosition(), 30, 1)
+  print(seenDepth(startPosition(), 30, 1))
 
   bseen = bytearray(b'\x00') * totalPositions
   bseen[board2Index(startPosition())] = 1
@@ -50,13 +50,13 @@ if not os.path.exists('../data/iplay-levels.bin') :
             if not bseen[ib]:
               bseen[ib] = level + 1
               added += 1
-    print level,tot,added
+    print(level,tot,added)
     if added == 0 :
       break
     tot += added
     level += 1
     
-  f = file('../data/iplay-levels.bin', 'wb')
+  f = open('../data/iplay-levels.bin', 'wb')
   f.write(bseen)
   f.close()
   del bseen
@@ -81,13 +81,13 @@ if not os.path.exists('../data/ireached-levels.bin') :
               if not breached[ib]:
                 breached[ib] = level + 1
                 added += 1
-    print level,tot,added
+    print(level,tot,added)
     if added == 0 :
       break
     tot += added
     level += 1
 
-  f = file('../data/ireached-levels.bin', 'wb')
+  f = open('../data/ireached-levels.bin', 'wb')
   f.write(breached)
   f.close()
   del breached

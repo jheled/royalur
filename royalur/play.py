@@ -1,7 +1,7 @@
 ## This file is part of royalUr.
 ## Copyright (C) 2018 Joseph Heled.
 ## Author: Joseph Heled <jheled@gmail.com>
-## See the files LICENCE and gpl.txt for copying conditions.
+## See the file LICENSE for copying conditions.
 #
 
 """
@@ -16,12 +16,15 @@ __all__ = ["rollout", "getDBplayer", "ply1", "prob"]
 
 import random
 
-from urcore import *
+if __package__ is None or __package__ == '':
+  from urcore import *
+else:
+  from .urcore import *
 
 def showBoard(b) :
   """ Print board ``b`` on stdout (debug). """
   
-  print boardAsString(b)
+  print(boardAsString(b))
   
 def playGame(playerX = lambda x : x, playerO = lambda x : x,
              startingBoardAndSide = None, record = None) :
@@ -71,11 +74,11 @@ def showGame(record) :
   
   nm = 1
   for board,side,pips in record:
-    print nm,": ","OX"[side] + " pips:",pips
+    print(nm,": ","OX"[side] + " pips:",pips)
     nm += 1
     board = code2Board(board)
     showBoard(board if side == 1 else reverseBoard(board))
-    print
+    print()
 
 def pitStrategies(playerX, playerO, N, sEvery = -1) :
   """ Play ``N`` games games between two strategies, report number of wins for X and O. """
@@ -88,12 +91,15 @@ def pitStrategies(playerX, playerO, N, sEvery = -1) :
     Xs += t == 'X'
     Ys += t == 'O'
     if sEvery > 0 and (k % sEvery == 0):
-      print Xs,Ys
+      print(Xs,Ys)
       
   return Xs,Ys
 
 # A default player when there is nothing else. 
-from humanStrategies import bestHumanStrategySoFar as hplay
+if __package__ is None or __package__ == '':
+  from humanStrategies import bestHumanStrategySoFar as hplay
+else:
+  from .humanStrategies import bestHumanStrategySoFar as hplay
 
 def getDBmove(moves, db) :
   """ Get best move among ``moves`` according to DB. Fallback to human-like player if necessary. """
@@ -115,7 +121,10 @@ def getDBplayer(db) :
   """
   
   if isinstance(db, str) :
-    from probsdb import PositionsWinProbs
+    if __package__ is None or __package__ == '':
+      from probsdb import PositionsWinProbs
+    else:
+      from .probsdb import PositionsWinProbs
     db = PositionsWinProbs(db)
 
   return lambda moves : getDBmove(moves, db)

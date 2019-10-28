@@ -1,7 +1,7 @@
 ## This file is part of royalUr.
 ## Copyright (C) 2018 Joseph Heled.
 ## Author: Joseph Heled <jheled@gmail.com>
-## See the files LICENCE and gpl.txt for copying conditions.
+## See the file LICENSE for copying conditions.
 #
 from __future__ import division
 
@@ -115,9 +115,9 @@ for g in genomePool:
       wx,wy = pitStrategies(fg, fx, N)
       scores[g][x] = wx
       scores[x][g] = wy
-      print fg.__name__,fx.__name__,wx,wy
+      print(fg.__name__,fx.__name__,wx,wy)
 
-print sorted([(sum(scores[g].values()),g) for g in scores])
+print(sorted([(sum(scores[g].values()),g) for g in scores]))
 
 for _ in range(nGenerations):
   while True:
@@ -134,14 +134,14 @@ for _ in range(nGenerations):
     fg = genome2Filt(g)
     wx,wy = pitStrategies(fng, fg, N)
     ngs[g] = (wx,wy)
-    print fng.__name__,fg.__name__,wx,wy
+    print(fng.__name__,fg.__name__,wx,wy)
 
   ngScore = sum([wx for wx,wy in ngs.values()])
-  print ng, ngScore
+  print(ng, ngScore)
   sl = sorted([(sum(scores[g].values()) + ngs[g][1],g) for g in genomePool])
   for sc,g in sl:
     if sc < ngScore:
-      print "accepted,", g, "out."
+      print("accepted,", g, "out.")
       discarded.add(g)
       outed.append(g)
       
@@ -158,5 +158,5 @@ for _ in range(nGenerations):
       break
   if ng :
     discarded.add(ng)
-  print sorted([(sum(scores[g].values()),g) for g in scores])    
+  print(sorted([(sum(scores[g].values()),g) for g in scores]))
     
