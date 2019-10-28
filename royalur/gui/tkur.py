@@ -30,9 +30,6 @@ options = None
 cv = None
 foemenu = None
 
-logging.basicConfig(level=logging.INFO)
-
-
 def _create_circle(self, x, y, r, **kwargs):
   return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
 
@@ -177,13 +174,13 @@ class UrCanvas(tk.Frame) :
     frm = froms[0];                       assert frm is not None
 
     if frm == -1 :
-      for pCanvasID,code in self.pieceLocations.iteritems():
+      for pCanvasID,code in self.pieceLocations.items():
         if code[0] == 'h' :
           break
       codeTo = 'abcd'[self.pips - 1]
     else :
       c = boardPos2CH[frm]
-      for pCanvasID,code in self.pieceLocations.iteritems():
+      for pCanvasID,code in self.pieceLocations.items():
         if code == c:
           break
       codeTo = boardPos2CH[frm + self.pips]
@@ -199,7 +196,7 @@ class UrCanvas(tk.Frame) :
       return
 
     opTurn = codeTo != ' ' and extraTurnA[boardCHmap[codeTo]]
-    logging.debug(opTurn, codeTo)
+    logging.debug("{0} {1}".format(opTurn, codeTo))
     self.playLoop(opTurn)
 
   def playLoop(self, opTurn) :
@@ -219,7 +216,7 @@ class UrCanvas(tk.Frame) :
 
     self.lock = True
 
-    logging.debug("pips", self.pips)
+    logging.debug("pips {0}".format(self.pips))
 
     pCanvasID = event.widget.find_withtag(tk.CURRENT)[0]
     fromCode = self.pieceLocations[pCanvasID]
@@ -247,19 +244,19 @@ class UrCanvas(tk.Frame) :
     self.pieceLocations[pCanvasID] = codeTo
 
   def movePiece(self, who, pCanvasID, codeTo) :
-    logging.debug("movePiece", who, pCanvasID, codeTo)
+    logging.debug("movePiece {0} {1} {2}".format(who, pCanvasID, codeTo))
 
     codeFrom = self.pieceLocations[pCanvasID]
-    logging.debug("codeFrom", codeFrom)
+    logging.debug("codeFrom {0}".format(codeFrom))
 
     if codeTo == ' ':
       pre = ('f' if who == 'G' else 'F')
       has = set([pre + str(i) for i in  range(7)])
-      for pid,code in self.pieceLocations.iteritems():
+      for pid,code in self.pieceLocations.items():
         if code[0] == pre :
           has.remove(code)
       codeTo = sorted(has)[0]
-      logging.debug(who, has, codeTo)
+      logging.debug("{0} {1} {2}".format(who, has, codeTo))
 
       self.canvasMovePiece(pCanvasID, codeTo)
       self.c.tag_raise(pCanvasID)
@@ -291,7 +288,7 @@ class UrCanvas(tk.Frame) :
         # hit
         pre = ('H' if who == 'G' else 'h')
         has = set([pre + str(i) for i in  range(7)])
-        for pid,code in self.pieceLocations.iteritems():
+        for pid,code in self.pieceLocations.items():
           if code == codeTo :
             phit = pid
           if code[0] == pre :
@@ -322,7 +319,7 @@ class UrCanvas(tk.Frame) :
       froms = []
       am = allMoves(reverseBoard(self.gameBoard), pips, froms)
       #play.showBoard(reverseBoard(self.gameBoard))
-      logging.debug("f**",froms)
+      logging.debug("f** {0}".format(froms))
 
       self.master.update(); time.sleep( self.delay )
 
@@ -341,16 +338,16 @@ class UrCanvas(tk.Frame) :
         m,e = random.choice(pam)
 
       moveFrom = froms[am.index((m,e))]
-      logging.debug("moveFrom",moveFrom)
+      logging.debug("moveFrom {0}".format(moveFrom))
       if moveFrom == -1 :
-        for pid,code in self.pieceLocations.iteritems():
+        for pid,code in self.pieceLocations.items():
           if code[0] == 'H' :
             cto = 'ABCD'[pips - 1]
             break
       else :
         codeFrom = boardPos2CH[reverseBoardIndex(moveFrom)]
         #import pdb; pdb.set_trace()
-        for pid,code in self.pieceLocations.iteritems():
+        for pid,code in self.pieceLocations.items():
           if codeFrom == code :
             cto = boardPos2CH[moveFrom + pips].upper()
             break
@@ -374,11 +371,11 @@ class UrCanvas(tk.Frame) :
     pips = sum(d)
     if flog :
       print("#", board2Code(self.gameBoard), file=flog)
-      print("XO"[forWho == 'R'] + ': ' + str(pips), file=flog)
+      print("XO"[forWho == 'R'] + ': ' + str(pips), file=flog, end=' ')
       flog.flush()
 
     logging.debug("")
-    logging.debug("roll", forWho, sum(d))
+    logging.debug("roll {0} {1}".format(forWho, sum(d)))
     return pips
 
   def setPlayer(self, name) :
@@ -454,11 +451,14 @@ def main():
   In the GUI you can select the machine strength, start a new match and
   exit. Simply click a piece to move it, or space when there is only one legal move.""")
 
-  parser.add_argument("--record", "-r", metavar="FILE", help = "Record the match in FILE.")
+  parser.add_argument("-r", "--record", metavar="FILE", help = "Record the match in FILE.")
 
-  parser.add_argument("--name", "-n", metavar="STR", default = "Human", help = "Your name.")
+  parser.add_argument("-n", "--name", metavar="STR", default = "Human", help = "Your name.")
+
+  parser.add_argument("--debug", default = None, action="store_true", help = "for developers")
 
   options = parser.parse_args()
+  logging.basicConfig(level=logging.DEBUG if options.debug else logging.ERROR)
   try :
     flog = open(options.record, 'a') if options.record else None
   except:
