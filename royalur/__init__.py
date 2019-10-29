@@ -20,13 +20,19 @@
 """
 from __future__ import absolute_import
 
-from .urcore import *
-from .probsdb import *
-from .play import *
-from .humanStrategies import bestHumanStrategySoFar
+try:
+  from .urcore import *
+  from .probsdb import *
+  from .play import *
+  from .humanStrategies import bestHumanStrategySoFar
+except ImportError:
+  from urcore import *
+  from probsdb import *
+  from play import *
+  from humanStrategies import bestHumanStrategySoFar
 
 import os.path
 royalURdataDir = os.path.realpath(os.path.join(os.path.dirname(__file__), "data"))
 
-__version__ = "0.2.1.dev3"
+__version__ = "0.2.1.dev4"
 """The version of royalUr"""

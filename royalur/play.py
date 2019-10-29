@@ -18,10 +18,16 @@ __all__ = ["rollout", "getDBplayer", "ply1", "prob"]
 
 import random
 
-from .urcore import *
-# A default player when there is nothing else.
-from .humanStrategies import bestHumanStrategySoFar as hplay
-from .probsdb import PositionsWinProbs
+try:
+  from .urcore import *
+  # A default player when there is nothing else.
+  from .humanStrategies import bestHumanStrategySoFar as hplay
+  from .probsdb import PositionsWinProbs
+except ImportError:
+  from urcore import *
+  # A default player when there is nothing else.
+  from humanStrategies import bestHumanStrategySoFar as hplay
+  from probsdb import PositionsWinProbs
 
 
 def showBoard(b) :

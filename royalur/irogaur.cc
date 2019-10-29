@@ -11,6 +11,8 @@
 #endif
 #undef NDEBUG
 
+typedef unsigned int uint;
+
 #ifndef __USE_MISC
 typedef unsigned int uint;
 #endif
@@ -158,10 +160,10 @@ board2Index(PyObject* module, PyObject* args)
   int const rHome = 7 - (rMen + rOff);
 
   PyObject* t = PyTuple_New(4);
-  PyTuple_SET_ITEM(t, 0, PyInt_FromLong(gOff));
-  PyTuple_SET_ITEM(t, 1, PyInt_FromLong(rOff));
-  PyTuple_SET_ITEM(t, 2, PyInt_FromLong(gHome));
-  PyTuple_SET_ITEM(t, 3, PyInt_FromLong(rHome));
+  PyTuple_SET_ITEM(t, 0, PyLong_FromLong(gOff));
+  PyTuple_SET_ITEM(t, 1, PyLong_FromLong(rOff));
+  PyTuple_SET_ITEM(t, 2, PyLong_FromLong(gHome));
+  PyTuple_SET_ITEM(t, 3, PyLong_FromLong(rHome));
   
   PyObject* const pyi0 = PyDict_GetItem(spMap, t);     
   Py_DECREF(t);
@@ -171,11 +173,11 @@ board2Index(PyObject* module, PyObject* args)
     return 0;
   }
     
-  long const i0 = PyInt_AsLong(pyi0);
+  long const i0 = PyLong_AsLong(pyi0);
 
   t = PyTuple_New(2);
-  PyTuple_SET_ITEM(t, 0, PyInt_FromLong(gMen));
-  PyTuple_SET_ITEM(t, 1, PyInt_FromLong(rMen));
+  PyTuple_SET_ITEM(t, 0, PyLong_FromLong(gMen));
+  PyTuple_SET_ITEM(t, 1, PyLong_FromLong(rMen));
 
   PyObject* const pyps = PyDict_GetItem(pSums, t);     assert(pyps);
   Py_DECREF(t);
@@ -184,11 +186,11 @@ board2Index(PyObject* module, PyObject* args)
     Py_INCREF(Py_None);
     return Py_None;
   }
-  long const i1 = PyInt_AsLong(PyList_GET_ITEM(pyps, m));
+  long const i1 = PyLong_AsLong(PyList_GET_ITEM(pyps, m));
   long const i2 = partSafeG * bmap[8][gMen - m] + gStrip;
   long const i3 = i2 * bmap[14 - (gMen-m)][rMen] + partR;
   
-  return PyInt_FromLong(i0 + i1 + i3);
+  return PyLong_FromLong(i0 + i1 + i3);
 }
 
 static PyObject*
@@ -201,17 +203,17 @@ index2Board(PyObject* module, PyObject* args)
     PyErr_SetString(PyExc_ValueError, "wrong args.");
     return 0;
   }
-  long index = PyInt_AsLong(pi);
+  long index = PyLong_AsLong(pi);
   long
-    gOff = PyInt_AsLong(a0),
-    rOff = PyInt_AsLong(a1),
-    gHome = PyInt_AsLong(a2),
-    rHome = PyInt_AsLong(a3);
+    gOff = PyLong_AsLong(a0),
+    rOff = PyLong_AsLong(a1),
+    gHome = PyLong_AsLong(a2),
+    rHome = PyLong_AsLong(a3);
   
   long gMen = 7 - (gOff + gHome), rMen = 7 - (rOff + rHome);
   PyObject* t = PyTuple_New(2);
-  PyTuple_SET_ITEM(t, 0, PyInt_FromLong(gMen));
-  PyTuple_SET_ITEM(t, 1, PyInt_FromLong(rMen));
+  PyTuple_SET_ITEM(t, 0, PyLong_FromLong(gMen));
+  PyTuple_SET_ITEM(t, 1, PyLong_FromLong(rMen));
 
   PyObject* const pyps = PyDict_GetItem(pSums, t);     assert(pyps && PySequence_Check(pyps));
   Py_DECREF(t);
@@ -219,16 +221,16 @@ index2Board(PyObject* module, PyObject* args)
   Py_ssize_t const plen = PySequence_Length(pyps);
   
   PyObject** ps = &PyList_GET_ITEM(pyps, 0);
-  if( index >= PyInt_AsLong(ps[plen-1]) ) {
+  if( index >= PyLong_AsLong(ps[plen-1]) ) {
     PyErr_SetString(PyExc_ValueError, "Index invalid");
     return 0;
   }
     
   int m = 0;
-  while( ! ( PyInt_AsLong(ps[m]) <= index && index < PyInt_AsLong(ps[m+1]) ) ) {
+  while( ! ( PyLong_AsLong(ps[m]) <= index && index < PyLong_AsLong(ps[m+1]) ) ) {
     m += 1;
   }
-  index -= PyInt_AsLong(ps[m]);
+  index -= PyLong_AsLong(ps[m]);
     
   uint u = bmap[14 - (gMen-m)][rMen];
   uint i2 = index / u;
@@ -268,7 +270,7 @@ index2Board(PyObject* module, PyObject* args)
 
   PyObject* pyb = PyList_New(22);
   for(i = 0; i < 22; ++i) {
-    PyList_SET_ITEM(pyb, i, PyInt_FromLong(b[i]));
+    PyList_SET_ITEM(pyb, i, PyLong_FromLong(b[i]));
   }
   return pyb;
 }

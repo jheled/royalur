@@ -26,7 +26,10 @@ from __future__ import absolute_import
 
 import random
 
-from .urcore import homes, GR_OFF, RD_OFF, reverseBoard
+try:
+  from .urcore import homes, GR_OFF, RD_OFF, reverseBoard
+except ImportError:
+  from urcore import homes, GR_OFF, RD_OFF, reverseBoard
 
 __all__ = ["bestHumanStrategySoFar"]
 

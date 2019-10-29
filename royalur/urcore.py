@@ -55,8 +55,14 @@ from __future__ import absolute_import
 import random
 from bisect import bisect
 
-from .binomhack import bmap
-import royalur.irogaur as irogaur
+try:
+  from .binomhack import bmap
+except ImportError:
+  from .binomhack import bmap
+try:
+  import royalur.irogaur as irogaur
+except ImportError:
+  import irogaur
 
 __all__ = [
   "startPosition",
@@ -129,10 +135,11 @@ def reverseBoardIndex(i) :
 def allActualMoves(board, pips, froms = None) :
   """Return a list of all **actual** moves by Green given the dice.
 
-  *actual* here means omitting the cases where Green can't move. Each returned move is a ``(b,e)``
-  pair, where ``e`` is True when Green has an extra turn (and thus the board has not been flipped),
-  or False and thus this is Red turn and the board is flipped.
+  *actual* here means an empty list is returned when Green can't move. Each returned move is a ``(b,e)`` pair,
+  where ``e`` is True when Green has an extra turn (and thus the board has not been flipped), or False and
+  thus this is Red turn and the board is flipped.
   """
+  
   assert not gameOver(board)
   if pips == 0:
     return []
@@ -446,7 +453,6 @@ def positionsIterator(gOff = 0, rOff = 0) :
   for b in gIterator(gOff) :
     for b1 in rIterator(b, rOff) :
       yield list(b1)
-
 
 # m on one side, n on the other
 def countPosOnBoard(m, n) :

@@ -13,7 +13,10 @@ Per-Position win probabilities for the full game space.
 """
 from __future__ import absolute_import
 
-from .urcore import totalPositions, getIndex, index2Board, getBoard
+try:
+  from .urcore import totalPositions, getIndex, index2Board, getBoard
+except ImportError:
+  from urcore import totalPositions, getIndex, index2Board, getBoard
 
 __all__ = ["PositionsWinProbs"]
 

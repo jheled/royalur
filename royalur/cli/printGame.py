@@ -15,7 +15,10 @@ from __future__ import print_function
 from __future__ import absolute_import
 
 import argparse, sys, os.path
-from io import StringIO
+try:
+  from io import StringIO
+except ImportError:
+  from StringIO import StringIO
 import math
 from math import log
 
@@ -256,7 +259,7 @@ def main():
             if luck : showPositon = True
             #luck = ' '*4 + "%.3f" % dluck
 
-        positionOutput = StringIO.StringIO()
+        positionOutput = StringIO()
         print('='*18, file=positionOutput)
         print("XO"[who] + ':', dice2str(pips)+' '+luck, square, file=positionOutput)
         c = square.lower() if who == 0 else  square.upper()
