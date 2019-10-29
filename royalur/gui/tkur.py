@@ -20,6 +20,8 @@ from royalur import *
 from royalur.urcore import extraTurnA
 from royalur.humanStrategies import getByNicks, bestHumanStrategySoFar
 
+dataDir = royalURdataDir
+
 flog = None
 options = None
 cv = None
@@ -382,7 +384,7 @@ class UrCanvas(tk.Frame) :
     elif name == "santa" :
       self.player = bestHumanStrategySoFar
     elif name == "expert" or name == "ishtar" :
-      db = PositionsWinProbs(royalURdataDir + "/db16.bin")
+      db = PositionsWinProbs(dataDir + "/db16.bin")
       if name == "expert" :
         self.player = lambda m : dbdPlayer(m, db)
       else :
@@ -450,6 +452,9 @@ def main():
 
   parser.add_argument("-n", "--name", metavar="STR", default = "Human", help = "Your name.")
 
+  parser.add_argument("--data-dir", metavar="STR", dest = "datadir", default = None,
+                      help = "Location of database (db16.bin)")
+  
   parser.add_argument("--debug", default = None, action="store_true", help = "for developers")
   
   options = parser.parse_args()
@@ -460,6 +465,15 @@ def main():
     logging.error("Error opening match log.")
     sys.exit(1)
 
+  global dataDir
+  if options.datadir is not None:
+    dataDir = options.datadir
+    if not os.path.isdir(dataDir):
+      logging.error(f" {dataDir}: no such directory.")
+      sys.exit(1)
+    if not os.path.exists(dataDir + "/db16.bin"):
+      logging.warning(f"no data file in {dataDir}.")
+      
   tk.Canvas.create_circle = _create_circle
   root = tk.Tk()
   urBoardImage = Image.open(os.path.join(dir_path, "urBoard.jpg"))
@@ -483,7 +497,10 @@ def main():
   foemenu.add_command(label = "Santa  (1820)", command = lambda : setPlayer("santa", 3) )
   foemenu.add_command(label = "Expert (1880)", command = lambda : setPlayer("expert", 4) )
   foemenu.add_command(label = "Ishtar (2000)", command = lambda : setPlayer("ishtar", 5) )
-
+  if not os.path.exists(dataDir + "/db16.bin") :
+    foemenu.entryconfig("Expert (1880)", state="disabled")
+    foemenu.entryconfig("Ishtar (2000)", state="disabled")
+    
   menu.add_separator()
   menu.add_separator()
   menu.add_separator()
