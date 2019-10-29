@@ -11,8 +11,6 @@
 #endif
 #undef NDEBUG
 
-typedef unsigned int uint;
-
 #ifndef __USE_MISC
 typedef unsigned int uint;
 #endif
