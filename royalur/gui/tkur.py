@@ -456,8 +456,6 @@ def main():
   parser.add_argument("-n", "--name", metavar="STR", default = "Human", help = "Your name.")
 
   parser.add_argument("--debug", default = None, action="store_true", help = "for developers")
-
-  parser.add_argument("--debug", default = None, action="store_true", help = "for developers")
   
   options = parser.parse_args()
   logging.basicConfig(level=logging.DEBUG if options.debug else logging.ERROR)
