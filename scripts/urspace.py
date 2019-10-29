@@ -29,7 +29,6 @@ ishtar = getDBplayer(db)
 if not os.path.exists('../data/iplay-levels.bin') :
 
   bseen[board2Index(startPosition())] = 1
-  print(seenDepth(startPosition(), 30, 1))
 
   bseen = bytearray(b'\x00') * totalPositions
   bseen[board2Index(startPosition())] = 1
