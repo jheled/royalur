@@ -54,8 +54,6 @@ setuptools.setup(
         ('doc',glob.glob(os.path.join("html", "*.*"))),
         ('doc/_images', glob.glob(os.path.join("html", "_images", "*.*"))),
         ('doc/_images/math', glob.glob(os.path.join("html", "_images", "math", "*.*"))),
-        ('doc/_static', glob.glob(os.path.join("html", "_static", "*.*"))),
-        ('royalur/gui', glob.glob(os.path.join("royalur/gui/", "*.png")) +
-         glob.glob(os.path.join("royalur/gui/", "*.jpg"))),
+        ('doc/_static', glob.glob(os.path.join("html", "_static", "*.*")))
     ]
 )
