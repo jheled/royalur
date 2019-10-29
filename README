@@ -33,4 +33,4 @@ To install locally run 'python setup.py install --home=DIR', and add 'DIR/lib/py
 to the PYTHONPATH environment variable.
 
 For example:
-  python setup.py install  --home=./`python --version 2>&1 | sed -s "s/Python /version-/"`
+  python3 setup.py install  --home=./`python3 --version 2>&1 | sed -s "s/Python /version-/"`
