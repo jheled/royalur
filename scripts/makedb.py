@@ -198,8 +198,8 @@ filled = 0
 
 for g in range(7) :
   for b in positionsIterator(7, g):
-    db.set(board2Index(b), 1.0)
-    db.set(board2Index(reverseBoard(b)), 0.0)
+    db.set(db.board2key(b), 1.0)
+    db.set(db.board2key(reverseBoard(b)), 0.0)
     filled += 2
     
 def unpackl(l4) :
