@@ -46,14 +46,16 @@ setuptools.setup(
         "Pillow": ["Pillow"]
     },
     data_files=[
-        # Comment out big data file until things stabilize. The distribution
-        # will stay small and the data file is not expected to change
-        ('scripts', glob.glob(os.path.join("scripts", "*.py"))),
-        ('doc',glob.glob(os.path.join("html", "*.*"))),
-        ('doc/_images', glob.glob(os.path.join("html", "_images", "*.*"))),
-        ('doc/_images/math', glob.glob(os.path.join("html", "_images", "math", "*.*"))),
-        ('doc/_static', glob.glob(os.path.join("html", "_static", "*.*"))),
-        ('royalur/gui', glob.glob(os.path.join("royalur/gui/", "*.png")) +
-         glob.glob(os.path.join("royalur/gui/", "*.jpg"))),
+      # Comment out big data file until things stabilize. The distribution
+      # will stay small and the data file is not expected to change
+      ('scripts', glob.glob(os.path.join("scripts", "*.py"))),
+      ('doc',glob.glob(os.path.join("html", "*.*"))),
+      ('doc/_images', glob.glob(os.path.join("html", "_images", "*.*"))),
+      ('doc/_images/math', glob.glob(os.path.join("html", "_images", "math", "*.*"))),
+      ('doc/_static', glob.glob(os.path.join("html", "_static", "*.*"))),
+      ("games", glob.glob(os.path.join("games", "*.txt")) + 
+                glob.glob(os.path.join("games", "*.ur"))),
+      ('royalur/gui', glob.glob(os.path.join("royalur/gui/", "*.png")) +
+                      glob.glob(os.path.join("royalur/gui/", "*.jpg"))),
     ]
 )
