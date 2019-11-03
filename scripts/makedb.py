@@ -200,8 +200,8 @@ filled = 0
 
 for g in range(7) :
   for b in positionsIterator(7, g):
-    db.set(board2Index(b), 1.0)
-    db.set(board2Index(reverseBoard(b)), 0.0)
+    db.set(db.board2key(b), 1.0)
+    db.set(db.board2key(reverseBoard(b)), 0.0)
     filled += 2
     
 def unpackl(l4) :
@@ -234,8 +234,6 @@ for gm in range(6, -1, -1) :
     added = []
     print(gm,rm)
     for b in positionsIterator(gm, rm):
-      #if (b[12] + b[13] > 0 and b[19] + b[20] < 0) :
-      #  continue
       key = db.board2key(b)
       added.append(key)
       if db.get(key) is None:
@@ -250,6 +248,11 @@ for gm in range(6, -1, -1) :
     updateList = halfList(added, db)
     print(len(updateList),"position pairs.")
     del added
+    
+    # Heuristic: sort positions by total (X+O) pip count. The total pip count is a good
+    # indicator on how "deep" the positions are in the game tree. This way positions
+    # closer to game end are more likely to update first, speeding up convergence.
+    #
     updateList = sorted(updateList, key = lambda i2 : totPips2s(db.key2board(i2[0])))
 
     frct = [None]*len(updateList)

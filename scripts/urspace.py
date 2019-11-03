@@ -30,11 +30,6 @@ def main():
   ishtar = getDBplayer(db)
 
   if not os.path.exists(os.path.join(royalURdataDir, "iplay-levels.bin")):
-
-    bseen[board2Index(startPosition())] = 1
-    # BUG: where is seenDepth()?
-    print(seenDepth(startPosition(), 30, 1))
-
     bseen = bytearray(b'\x00') * totalPositions
     bseen[board2Index(startPosition())] = 1
     tot = 1
