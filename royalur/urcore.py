@@ -58,7 +58,7 @@ from bisect import bisect
 try:
   from .binomhack import bmap
 except ImportError:
-  from .binomhack import bmap
+  from binomhack import bmap
 try:
   import royalur.irogaur as irogaur
 except ImportError:
