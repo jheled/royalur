@@ -277,7 +277,7 @@ for gm in range(6, -1, -1) :
           print(cnt,int((100.*cnt)/tot),"%.3g" % maxe, '.')
           sys.stdout.flush()
 
-        p1, p2 = ply1bfrc(frct[cnt-1], db)               ;assert 0 <= p1 <= 1 and 0 <= p2 <= 1
+        p1, p2 = ply1bfrc(frct[cnt-1], db)               ; assert 0 <= p1 <= 1 and 0 <= p2 <= 1
 
         ##X,Y,r = ply1GetBoth(db.key2board(key), db);           assert X == p1 and Y == p2
 
