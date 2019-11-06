@@ -459,9 +459,9 @@ def main():
 
   parser.add_argument("--data-dir", metavar="STR", dest = "datadir", default = None,
                       help = "Location of database (db16.bin)")
-  
+
   parser.add_argument("--debug", default = None, action="store_true", help = "for developers")
-  
+
   options = parser.parse_args()
   logging.basicConfig(level=logging.DEBUG if options.debug else logging.ERROR)
   try :
@@ -478,7 +478,7 @@ def main():
       sys.exit(1)
     if not os.path.exists(os.path.join(dataDir, "db16.bin")):
       logging.warning("no data file in {0}.".format(dataDir))
-      
+
   tk.Canvas.create_circle = _create_circle
   root = tk.Tk()
   urBoardImage = Image.open(os.path.join(dir_path, "urBoard.jpg"))
@@ -505,7 +505,7 @@ def main():
   if not os.path.exists(dataDir + "/db16.bin") :
     foemenu.entryconfig("Expert (1880)", state="disabled")
     foemenu.entryconfig("Ishtar (2000)", state="disabled")
-    
+
   menu.add_separator()
   menu.add_separator()
   menu.add_separator()

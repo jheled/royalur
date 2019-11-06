@@ -45,7 +45,7 @@ initm(void)
     }
   }
 }
-  
+
 inline int
 sum(int const a[], uint const n)
 {
@@ -100,7 +100,7 @@ board2Index(PyObject* module, PyObject* args)
   PyObject* pyBoard;
   PyObject* spMap;
   PyObject* pSums;
-  
+
   if( !PyArg_ParseTuple(args, "OOO", &pyBoard, &spMap, &pSums) ) {
     PyErr_SetString(PyExc_ValueError, "wrong args.");
     return 0;
@@ -115,16 +115,16 @@ board2Index(PyObject* module, PyObject* args)
     PyErr_SetString(PyExc_ValueError, "wrong args.");
     return 0;
   }
-  
+
   int b[22];
   PyObject** s = &PyList_GET_ITEM(pyBoard, 0);
   for(uint k = 0; k < 22; ++k) {
     b[k] = PyInt_AsLong(s[k]);
   }
-  
+
   int const gOff = b[GR_OFF];
   int const rOff = b[RD_OFF];
-  
+
   int const gSafe[6] = {b[0],b[1],b[2],b[3],b[12],b[13]};
   uint const m = sum(gSafe, 6);
   int const partSafeG = bitsIndex(gSafe, m, 6);
@@ -135,11 +135,11 @@ board2Index(PyObject* module, PyObject* args)
   int const smb = sum(bits, 8);
   int const gStrip = bitsIndex(bits, smb, 8);
   int const gMen = smb + m;
-  
+
   for(uint k = 15; k < 19; ++k) {
     bits[k-15] = b[k] == -1;
   }
-  
+
   uint nb = 4;
   for(uint k = 4; k < 12; ++k) {
     if( b[k] == 1 ) {
@@ -153,7 +153,7 @@ board2Index(PyObject* module, PyObject* args)
   }
   int const rMen = sum(bits, nb);
   int const partR = bitsIndex(bits, rMen, nb);
-  
+
   int const gHome = 7 - (gMen + gOff);
   int const rHome = 7 - (rMen + rOff);
 
@@ -162,15 +162,15 @@ board2Index(PyObject* module, PyObject* args)
   PyTuple_SET_ITEM(t, 1, PyLong_FromLong(rOff));
   PyTuple_SET_ITEM(t, 2, PyLong_FromLong(gHome));
   PyTuple_SET_ITEM(t, 3, PyLong_FromLong(rHome));
-  
-  PyObject* const pyi0 = PyDict_GetItem(spMap, t);     
+
+  PyObject* const pyi0 = PyDict_GetItem(spMap, t);
   Py_DECREF(t);
-  
+
   if( ! pyi0 ) {
     PyErr_SetString(PyExc_ValueError, "wrong args.");
     return 0;
   }
-    
+
   long const i0 = PyLong_AsLong(pyi0);
 
   t = PyTuple_New(2);
@@ -179,7 +179,7 @@ board2Index(PyObject* module, PyObject* args)
 
   PyObject* const pyps = PyDict_GetItem(pSums, t);     assert(pyps);
   Py_DECREF(t);
-  
+
   if( ! PySequence_Check(pyps) ) {
     Py_INCREF(Py_None);
     return Py_None;
@@ -187,7 +187,7 @@ board2Index(PyObject* module, PyObject* args)
   long const i1 = PyLong_AsLong(PyList_GET_ITEM(pyps, m));
   long const i2 = partSafeG * bmap[8][gMen - m] + gStrip;
   long const i3 = i2 * bmap[14 - (gMen-m)][rMen] + partR;
-  
+
   return PyLong_FromLong(i0 + i1 + i3);
 }
 
@@ -207,7 +207,7 @@ index2Board(PyObject* module, PyObject* args)
     rOff = PyLong_AsLong(a1),
     gHome = PyLong_AsLong(a2),
     rHome = PyLong_AsLong(a3);
-  
+
   long gMen = 7 - (gOff + gHome), rMen = 7 - (rOff + rHome);
   PyObject* t = PyTuple_New(2);
   PyTuple_SET_ITEM(t, 0, PyLong_FromLong(gMen));
@@ -217,19 +217,19 @@ index2Board(PyObject* module, PyObject* args)
   Py_DECREF(t);
 
   Py_ssize_t const plen = PySequence_Length(pyps);
-  
+
   PyObject** ps = &PyList_GET_ITEM(pyps, 0);
   if( index >= PyLong_AsLong(ps[plen-1]) ) {
     PyErr_SetString(PyExc_ValueError, "Index invalid");
     return 0;
   }
-    
+
   int m = 0;
   while( ! ( PyLong_AsLong(ps[m]) <= index && index < PyLong_AsLong(ps[m+1]) ) ) {
     m += 1;
   }
   index -= PyLong_AsLong(ps[m]);
-    
+
   uint u = bmap[14 - (gMen-m)][rMen];
   uint i2 = index / u;
   uint partR = index - i2 * u;
@@ -240,14 +240,14 @@ index2Board(PyObject* module, PyObject* args)
   int b[22] = {0};
   b[14] = gOff;
   b[21] = rOff;
-  
+
   i2bits(b, partSafeG, m ,6);
   b[12] = b[4];
   b[13] = b[5];
   b[4] = b[5] = 0;
-  
+
   i2bits(b + 4, gStrip, gMen - m, 8);
-  
+
   int bOther[14];
   i2bits(bOther, partR, rMen, 14 - (gMen-m));
 
@@ -280,7 +280,7 @@ a2b(const char* s)
   for(int i = 4; i >= 0; --i) {
     l = l*85 + rz85[static_cast<uint>(s[i])];
   }
-  
+
   assert( (l & (0x1 << 31)) == 0);
   return l;
 }
@@ -292,7 +292,7 @@ b2a(bool s[31], char a[5])
   for(uint i = 0; i < 31; ++i) {
     l = 2*l + s[i];
   }
-  
+
   for(uint i = 0; i < 5; ++i) {
     uint const c = l % 85;
     a[i] = z85s[c];
@@ -322,11 +322,11 @@ code2Board(PyObject* module, PyObject* args)
     PyErr_SetString(PyExc_ValueError, "wrong args.");
     return 0;
   }
-  
+
   int board[22] = {0};
   unsigned long l = a2b(e);
   uint atHome = unpack(l, 0, 3), oAtHome = unpack(l, 9, 3);        assert(atHome <= 7 && oAtHome <= 7);
-  
+
   {
     int b[6] = {3,4,5,6,7,8};
     int k[6] = {0,1,2,3,12,13};
@@ -345,20 +345,20 @@ code2Board(PyObject* module, PyObject* args)
       }
     }
   }
-  
+
   uint mid = unpack(l, 18, 13);                     assert( mid < pow(3.0,8) );
   for(int i = 11; i > 3; --i) {
     uint const x = mid % 3;
     board[i] = x - 1;
     mid = (mid - x) / 3;
   }
-  
+
   uint n = 0;
   for(uint k = 0; k < 14; ++k) {
     n += board[k] == 1;
   }
   board[14] = 7 - (atHome + n);
-  
+
   n = 0;
   for(uint k = 15; k < 19; ++k) {
     n += board[k] == -1;
@@ -369,9 +369,9 @@ code2Board(PyObject* module, PyObject* args)
   for(uint k = 19; k < 21; ++k) {
     n += board[k] == -1;
   }
-  
+
   board[21] = 7 - (oAtHome + n);
-  
+
   PyObject* pyb = PyList_New(22);
   for(uint i = 0; i < 22; ++i) {
     PyList_SET_ITEM(pyb, i, PyInt_FromLong(board[i]));
@@ -383,7 +383,7 @@ static PyObject*
 board2Code(PyObject* module, PyObject* args)
 {
   PyObject* pyBoard;
-  
+
   if( !PyArg_ParseTuple(args, "O", &pyBoard) ) {
     PyErr_SetString(PyExc_ValueError, "wrong args.");
     return 0;
@@ -403,7 +403,7 @@ board2Code(PyObject* module, PyObject* args)
   }
 
   bool s[31] = {false};
-  
+
   uint o = 0;
   for(uint k = 0; k < 14; ++k) {
     o += board[k] == 1;
@@ -446,7 +446,7 @@ board2Code(PyObject* module, PyObject* args)
   for(uint i = 19; i < 21; ++i) {
     s[k] = board[i] != 0; ++k;
   }
-  
+
   uint x = board[4] + 1;
   for(uint i = 5; i < 12; ++i) {
     x = 3*x + (board[i] + 1);
@@ -467,13 +467,13 @@ board2Code(PyObject* module, PyObject* args)
 static PyMethodDef irMethods[] =
 {
   {"board2Index", board2Index, METH_VARARGS, ""},
-  
+
   {"index2Board", index2Board, METH_VARARGS, ""},
 
   {"code2Board",  code2Board, METH_VARARGS, ""},
 
   {"board2Code",  board2Code, METH_VARARGS, ""},
-  
+
   {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 

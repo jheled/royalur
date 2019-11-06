@@ -46,7 +46,7 @@ def prHit(board) :
         if board[i-pips] == 1:
           hitsOn[pips-1] = True
   return sum([p for h,p in zip(hitsOn, (4,6,4,1)) if h])/16.
-      
+
 def totPips1s(board) :
   """ Total pip count for green. """
   tot = 0
@@ -58,7 +58,7 @@ def totPips1s(board) :
 
 def totPips2s(board) :
   """ Total pip count for both sides. """
-  
+
   tot, totG, totR = 0,0,0
   for i in range(14):
     v = board[i]
@@ -79,11 +79,11 @@ def totPips2s(board) :
   tot += 15*(7 - (board[14] + totG) + 7 - (board[21] + totR))
 
   return tot
-  
+
 ## Donkey
 def greedyExtraTurn(moves) :
   """ Prefer moves which give an extra move. """
-  
+
   return [(b,e) for b,e in moves if e] or moves
 
 ## Extra
@@ -91,7 +91,7 @@ def greedyExtraTurnPlus(moves) :
   """ Prefer moves which give an extra move and have the highest probability of hitting an opponent
   piece on the next move.
   """
-  
+
   we = [(b,e) for b,e in moves if e]
   if we:
     wp = [(prHit(b),b,e) for b,e in we]
@@ -100,7 +100,7 @@ def greedyExtraTurnPlus(moves) :
 
   return moves
 
-## bear  
+## bear
 def greedyOff(moves) :
   """ Prefer moves which bear-off a piece. """
   we = [(b[GR_OFF if e else RD_OFF],b,e) for b,e in moves]
@@ -136,7 +136,7 @@ def protected(moves) :
 ## homestretch
 def safety(moves) :
   """ Prefer moves with put more pieces on the homestretch (yz) for safety."""
-  
+
   a1 = [(sum(b[12:15]) if e else (-sum(b[19:21])+b[21]),b,e) for b,e in moves]
   m = max(a1)[0]
   return [(b,e) for c,b,e in a1 if c == m]
@@ -145,7 +145,7 @@ def greenAtHome(board) :
   gOnBoard = sum([i == 1 for i in board[0:14]])
   gTotInPlay = 7 - board[GR_OFF]
   return gTotInPlay - gOnBoard
-  
+
 def enter(moves) :
   """ Give preference to add another piece to the board. """
   mvs = [(greenAtHome(b),(b,e)) for b,e in moves]
@@ -160,10 +160,10 @@ nicks = ["Donkey", "Extra", "bear", "hit", "Chuck", "Frank", "safe", "homestretc
 def getByNicks(spec) :
   ns = [strategies[nicks.index(nick)] for nick in spec.split(';')]
   return lambda m: chainFilt(m, ns)
-  
+
 def chainFilt(moves, chain) :
   """ A compound filter: apply all filters in ``chain`` in order. """
-  
+
   for c in chain:
     moves = c(moves)
     if len(moves) == 1:

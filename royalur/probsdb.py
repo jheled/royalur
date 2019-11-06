@@ -27,10 +27,10 @@ def fileFromName(fname) :
 
   If file has a common suffix (.gz,.bz2) use that as a guide. If fname does
   not exist, look for a compressed file with the same stem.
-  
-  :param fname: file name 
+
+  :param fname: file name
   """
-  
+
   if os.path.exists(fname) :
     fname = os.path.realpath(fname)
     if fname.endswith(".gz") :
@@ -42,7 +42,7 @@ def fileFromName(fname) :
     return gzip.open(fname + ".gz")
   if os.path.exists(fname + ".bz2") :
     return bz2.BZ2File(fname + ".bz2")
-  
+
   raise IOError("no such file " + fname)
 
 class PositionsWinProbs(object) :
@@ -66,7 +66,7 @@ class PositionsWinProbs(object) :
     else :
       assert False, "corrupt %s, read only %d" % (fname, len(self.b))
     self.tkeys = None
-    
+
   def save(self, fname) :
     f = open(fname, "wb")
     f.write(self.b)
@@ -81,7 +81,7 @@ class PositionsWinProbs(object) :
   def key2board(self, key) :
     """ Return the key of the board associated with this position. """
     return index2Board(key//self.wsize)
-    
+
   def get(self, bpos) :
     """ Get the win probability associated with position ``bpos``. """
     if self.wsize == 4:
@@ -97,10 +97,10 @@ class PositionsWinProbs(object) :
         return None
       return v/(2.**16-1)
     assert False
-      
+
   def set(self, bpos, pr) :
     """ Set the win probability associated with position ``bpos`` to ``pr``. """
-    
+
     if self.wsize == 4:
       v = int(pr * 2**31)
       self.b[bpos:bpos+4] = v >> 24, (v >> 16) & 0xff, (v >> 8) & 0xff, v & 0xff
@@ -114,24 +114,24 @@ class PositionsWinProbs(object) :
 
   def keys(self) :
     """ Return the set of valid board positions (will be very slow the first time). """
-    
+
     if self.tkeys is None:
       self.tkeys = set()
       for i in range(0, 4 * totalPositions, 4) :
         if self.b[i] != 255:
           self.tkeys.add(i)
     return self.tkeys
-    
+
   ## convenience
-  
+
   def aget(self, board) :
     """ Get the win probability associated with board."""
-    
+
     #if gameOver(getBoard(board)) :
     #  return 0
     return self.get(self.board2key(board))
-    
+
   def aset(self, board, pr) :
     """ Set the win probability associated with board to ``pr``."""
-    
+
     self.set(self.board2key(board), pr)

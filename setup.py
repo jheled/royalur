@@ -9,8 +9,9 @@ module1 = setuptools.Extension("royalur.irogaur",
 metadata = dict(re.findall("__([a-z]+)__ = \"([^\"]+)\"",
                 open(os.path.join("royalur", "__init__.py"), "r").read()))
 
+name = "royalur"
 setuptools.setup(
-    name="royalur",
+    name=name,
     version=metadata["version"],
     description="Classical Royal Game of Ur",
     author="Joseph Heled",
@@ -47,15 +48,21 @@ setuptools.setup(
         "curses": ["windows-curses;platform_system=='Windows'"],
         "Pillow": ["Pillow"]
     },
+    command_options={
+        "build_sphinx": {
+            "project": ("setup.py", name),
+            "version": ("setup.py", metadata["version"]),
+            "release": ("setup.py", metadata["version"]),
+            "source_dir": ("setup.py", "doc")
+        }
+    },
     data_files=[
         # Comment out big data file until things stabilize. The distribution
         # will stay small and the data file is not expected to change
-        ('scripts', glob.glob(os.path.join("scripts", "*.py"))),
-        ('doc',glob.glob(os.path.join("html", "*.*"))),
-        ('doc/_images', glob.glob(os.path.join("html", "_images", "*.*"))),
-        ('doc/_images/math', glob.glob(os.path.join("html", "_images", "math", "*.*"))),
-        ('doc/_static', glob.glob(os.path.join("html", "_static", "*.*"))),
-        ("games", glob.glob(os.path.join("games", "*.txt"))),
-        ("games", glob.glob(os.path.join("games", "*.ur")))
+        ("scripts", glob.glob(os.path.join("scripts", "*.py"))),
+        ("doc", glob.glob(os.path.join("build", "sphinx", "html", "*.*"))),
+        (os.path.join("doc", "_images"), glob.glob(os.path.join("build", "sphinx", "html", "_images", "*"))),
+        (os.path.join("doc", "_sources"), glob.glob(os.path.join("build", "sphinx", "html", "_sources", "*"))),
+        (os.path.join("doc", "_static"), glob.glob(os.path.join("build", "sphinx", "html", "_static", "*")))
     ]
 )

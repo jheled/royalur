@@ -25,7 +25,7 @@ class TestCore(unittest.TestCase):
         self.assertTrue(tuple(b) not in iall)
         iall.add(tuple(b))
       self.assertEqual(sympy.binomial(n, k), len(iall))
-      
+
   def test_counts(self) :
     # We'll take the larger cases on faith :)
     for g in range(7, 2, -1) :
@@ -40,4 +40,3 @@ class TestCore(unittest.TestCase):
 
 if __name__ == '__main__':
   unittest.main()
-        

@@ -15,7 +15,7 @@ class TestCore(unittest.TestCase):
   def oneBoard(self, b) :
     self.assertEqual(code2Board(board2Code(b)), b)
     self.assertEqual(index2Board(board2Index(b)), b)
-    
+
   def test_basic(self) :
     b = startPosition()
     self.oneBoard(b)
@@ -30,7 +30,7 @@ class TestCore(unittest.TestCase):
       for r in range(7) :
         for b in positionsIterator(g,r):
           self.oneBoard(b)
-      
+
   def test_rev(self) :
     for _ in range(5000) :
       i = random.randint(0, totalPositions-1)
@@ -59,6 +59,6 @@ class TestCore(unittest.TestCase):
           self.assertEqual(l[i], 0, str(i) + ',' + repr(b))
           l[i] = 1
           self.assertEqual(index2Board(i), b, str(i) + ',' + repr(b))
-    
+
 if __name__ == '__main__':
   unittest.main()

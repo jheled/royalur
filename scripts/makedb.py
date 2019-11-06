@@ -24,7 +24,7 @@ def ply1PartsFullRecpt(board, rboard) :
 
   #[pWinOnMove, [ [[gside] [rside]] , [[gside] [rside]] , ...      ], pNoMove]
   #                       1                   2                  4
-  
+
   for pr,pips in ((1, 0), (4, 1), (6, 2), (4, 3), (1,4)) :
     am = allMoves(board, pips)
     if pips == 0 or (len(am) == 1 and not am[0][1] and am[0][0] == rboard) :
@@ -32,7 +32,7 @@ def ply1PartsFullRecpt(board, rboard) :
       if pips > 0 :
         rest.append(None)
       continue
-      
+
     for b,e in am:
       if gameOver(b) :
         assert pWinOnMove == 0
@@ -44,21 +44,22 @@ def ply1PartsFullRecpt(board, rboard) :
 
     brds = [[], []]
     for b,e in am:
+      # TODO: use probsdb call here
       brds[0 if e else 1].append(4*board2Index(b))
     rest.append(brds)
   return [pWinOnMove, prReverse, rest]
 
 def unpackl1(l) :
   return (l >> 24, (l >> 16) & 0xff, (l >> 8) & 0xff, l & 0xff)
-  
+
 def packl1(bf) :
   return (bf[0] << 24) + (bf[1] << 16) + (bf[2] << 8) + bf[3]
-  
+
 def packOne(hr) :
   emp = 0
   for k,rg in enumerate(hr[2]) :
     r,g = ([],[]) if rg is None else rg
-    
+
     if not r:
       emp |= 1 << (2*k)
     if not g:
@@ -78,7 +79,7 @@ def packOne(hr) :
         l.extend(unpackl1(i//4))
       assert len(g) <= 7 and (l[-4*len(g)] & 0xf0) == 0
       l[-4*len(g)] |= len(g) << (8-3)
-  
+
   return [hr[0] + (hr[1] << 4), emp] + l
 
 def restoreOne(buf) :
@@ -103,7 +104,7 @@ def restoreOne(buf) :
 
   z = [ [al[i],al[i+1]] if al[i] or al[i+1] else None for i in (0,2,4,6)]
   return [buf[0] & 0x0f, (buf[0] & 0xf0) >> 4] + [z]
-  
+
 def ply1BothFullRecpt(board) :
   r = reverseBoard(board)
   A = ply1PartsFullRecpt(board, r)
@@ -138,7 +139,7 @@ def ply1fr(recpt, db) :
         m = max(mr, mg)
       sm += m * p
   return recpt[0] + sm # (recpt[0] + sm)/16.
-  
+
 def ply1bfr(recpt, db) :
   gr,rd = recpt
   A,p1 = ply1fr(gr, db), gr[1]
@@ -149,7 +150,7 @@ def ply1bfr(recpt, db) :
   if not (0 <= X <= 1 and 0 <= Y <= 1) :
     assert False
   return X,Y
-  
+
 def ply1bfrc(buf, db) :
   return ply1bfr(restorePly1BothFullRecpt(buf), db)
 
@@ -163,7 +164,7 @@ def ply1Parts(board, rboard, db) :
     if pips == 0 or (len(am) == 1 and not am[0][1] and am[0][0] == rboard) :
       prReverse += pr
       continue
-      
+
     for b,e in am:
       if gameOver(b) :
         maxp = 1
@@ -184,7 +185,7 @@ def ply1GetBoth(board, db) :
   r = reverseBoard(board)
   A,p1 = ply1Parts(board, r, db)
   B,p2 = ply1Parts(r, board, db)
-  
+
   X = (A + p1 * (1 - B - p2)) / (1 - p1*p2)
   Y = B + p2 * (1 - X)
   if not (0 <= X <= 1 and 0 <= Y <= 1) :
@@ -192,20 +193,9 @@ def ply1GetBoth(board, db) :
     X = A + p1 * (1 - db.get(r))
     Y = B + p2 * (1 - X)
   return X,Y,r
-  
-db = PositionsWinProbs()
-assert len(db.b) == 4 * totalPositions
 
-filled = 0
-
-for g in range(7) :
-  for b in positionsIterator(7, g):
-    db.set(db.board2key(b), 1.0)
-    db.set(db.board2key(reverseBoard(b)), 0.0)
-    filled += 2
-    
 def unpackl(l4) :
-  return unpackl1(l4[0]) + unpackl1(l4[1]) + unpackl1(l4[2]) + unpackl1(l4[3]) 
+  return unpackl1(l4[0]) + unpackl1(l4[1]) + unpackl1(l4[2]) + unpackl1(l4[3])
 
 def packl(bf) :
   return packl1(bf[:4]),packl1(bf[4:8]),packl1(bf[8:12]),packl1(bf[12:16])
@@ -225,78 +215,93 @@ def halfList(added, db) :
 
   return updateList
 
-frct = None
-fnbase = "db"
+def main():
+  db = PositionsWinProbs()
+  assert len(db.b) == 4 * totalPositions
 
-for gm in range(6, -1, -1) :
-  for rm in range(gm, -1, -1) :
-    del frct
-    added = []
-    print(gm,rm)
-    for b in positionsIterator(gm, rm):
-      key = db.board2key(b)
-      added.append(key)
-      if db.get(key) is None:
-        db.set(key, 0.5)
-        filled += 1
+  filled = 0
 
-      rk = db.board2key(reverseBoard(b))
-      if db.get(rk) is None:
-        db.set(rk, 0.5)
-        filled += 1
+  for g in range(7) :
+    for b in positionsIterator(7, g):
+      db.set(db.board2key(b), 1.0)
+      db.set(db.board2key(reverseBoard(b)), 0.0)
+      filled += 2
 
-    updateList = halfList(added, db)
-    print(len(updateList),"position pairs.")
-    del added
-    
-    # Heuristic: sort positions by total (X+O) pip count. The total pip count is a good
-    # indicator on how "deep" the positions are in the game tree. This way positions
-    # closer to game end are more likely to update first, speeding up convergence.
-    #
-    updateList = sorted(updateList, key = lambda i2 : totPips2s(db.key2board(i2[0])))
+  frct = None
+  fnbase = "db"
 
-    frct = [None]*len(updateList)
-    k = 0
-    for key,rkey in updateList:
-      frct[k] = bytearray(condencedPly1BothFullRecpt(db.key2board(key)))
-      k += 1
-      if k % (36*1024) == 0 :
-        print("%.0f" % (k*100./len(updateList)), end='')
-        sys.stdout.flush()
-    print()
+  for gm in range(6, -1, -1) :
+    for rm in range(gm, -1, -1) :
+      del frct
+      added = []
+      print(gm,rm)
+      for b in positionsIterator(gm, rm):
+        key = db.board2key(b)
+        added.append(key)
+        if db.get(key) is None:
+          db.set(key, 0.5)
+          filled += 1
 
-    rnd = 0
-    maxe = 1
-    while maxe > 1e-6:
-      rnd += 1
-      print("round",rnd,'(',gm,rm,')')
-      dif,maxe,mkey = 0.0, -1, None
-      tot = len(updateList)
-      cnt = 0
-      for key,rkey in updateList :
-        cnt += 1
-        if cnt % (36*1024) == 0 :
-          print(cnt,int((100.*cnt)/tot),"%.3g" % maxe, '.')
+        rk = db.board2key(reverseBoard(b))
+        if db.get(rk) is None:
+          db.set(rk, 0.5)
+          filled += 1
+
+      updateList = halfList(added, db)
+      print(len(updateList),"position pairs.")
+      del added
+
+      # Heuristic: sort positions by total (X+O) pip count. The total pip count is a good
+      # indicator on how "deep" the positions are in the game tree. This way positions
+      # closer to game end are more likely to update first, speeding up convergence.
+      #
+      updateList = sorted(updateList, key = lambda i2 : totPips2s(db.key2board(i2[0])))
+
+      frct = [None]*len(updateList)
+      k = 0
+      for key,rkey in updateList:
+        frct[k] = bytearray(condencedPly1BothFullRecpt(db.key2board(key)))
+        k += 1
+        if k % (36*1024) == 0 :
+          print("%.0f" % (k*100./len(updateList)), end='')
           sys.stdout.flush()
-
-        p1, p2 = ply1bfrc(frct[cnt-1], db)               ;assert 0 <= p1 <= 1 and 0 <= p2 <= 1
-
-        ##X,Y,r = ply1GetBoth(db.key2board(key), db);           assert X == p1 and Y == p2
-
-        p = db.get(key)                                  ; assert p is not None
-        er1 = abs(p - p1)
-
-        p = db.get(rkey)                                 ; assert p is not None
-        er2 = abs(p - p2)
-        dif += er1 + er2
-        if max(er1,er2) > maxe:
-          maxe = max(er1,er2)
-          mkey = key,er1,er2
-        db.set(key,  p1)
-        db.set(rkey, p2)
       print()
-      print(maxe, dif, dif/(2*tot), tot, filled)
-      
-    db.save(fnbase + ".inpro.bin")
-    #import os
-    #assert os.path.getsize(fnbase + ".inpro.bin") == 4*totalPositions
+
+      rnd = 0
+      maxe = 1
+      while maxe > 1e-6:
+        rnd += 1
+        print("round",rnd,'(',gm,rm,')')
+        dif,maxe,mkey = 0.0, -1, None
+        tot = len(updateList)
+        cnt = 0
+        for key,rkey in updateList :
+          cnt += 1
+          if cnt % (36*1024) == 0 :
+            print(cnt,int((100.*cnt)/tot),"%.3g" % maxe, '.')
+            sys.stdout.flush()
+
+          p1, p2 = ply1bfrc(frct[cnt-1], db)               ;assert 0 <= p1 <= 1 and 0 <= p2 <= 1
+
+          ##X,Y,r = ply1GetBoth(db.key2board(key), db);           assert X == p1 and Y == p2
+
+          p = db.get(key)                                  ; assert p is not None
+          er1 = abs(p - p1)
+
+          p = db.get(rkey)                                 ; assert p is not None
+          er2 = abs(p - p2)
+          dif += er1 + er2
+          if max(er1,er2) > maxe:
+            maxe = max(er1,er2)
+            mkey = key,er1,er2
+          db.set(key,  p1)
+          db.set(rkey, p2)
+        print()
+        print(maxe, dif, dif/(2*tot), tot, filled)
+
+      db.save(fnbase + ".inpro.bin")
+      #import os
+      #assert os.path.getsize(fnbase + ".inpro.bin") == 4*totalPositions
+
+if __name__ == "__main__":
+  main()

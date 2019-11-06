@@ -14,7 +14,7 @@ The player are named Green (to move) and Red. Each board square is assigned a ch
 ::
 
   D C B A     Z Y
-  1 2 3 4 5 6 7 8         
+  1 2 3 4 5 6 7 8
   d c b a     z y
 
 Green pieces move through abcd12345678yz, while Red pieces move ABCD12345678YZ. Internally the
@@ -33,7 +33,7 @@ game and internal representation like that:
 ::
 
  Red   15 16 17 18+                    19 20+ 21
-                    4 5 6 7& 8 9 10 11 
+                    4 5 6 7& 8 9 10 11
  Green  0  1  2  3+                    12 13+ 14
 
 The plus sign indicates the square bestows an extra roll. The ampersand provide protection from hits
@@ -80,7 +80,7 @@ RD_OFF = 21
 
 def reverseBoard(board) :
   """ Reverse roles of Red and Green. """
-  
+
   r = [0]*22
   for i in range(4):
     opp = 15+i
@@ -101,12 +101,12 @@ def halfValid(b) :
   ok2 = all([b[i] in (-1,0,1) for i in range(4,12)])
   ok3 = sum([b[i] == 1 for i in range(14)]) + b[14] <= 7
   return ok1 and ok2 and ok3
-  
+
 def validBoard(b) :
   """ A valid ROGOUR board (debug) """
   return len(b) == 22 and halfValid(b) and halfValid(reverseBoard(b))
-  
-# Squares bestowing an extra roll. 
+
+# Squares bestowing an extra roll.
 extraTurn = [3, 7, 13, 18, 20]
 # In indexed array form, for speed
 extraTurnA = [False]*22
@@ -139,15 +139,15 @@ def allActualMoves(board, pips, froms = None) :
   where ``e`` is True when Green has an extra turn (and thus the board has not been flipped), or False and
   thus this is Red turn and the board is flipped.
   """
-  
+
   assert not gameOver(board)
   if pips == 0:
     return []
-    
+
   gOnBoard = sum([i == 1 for i in board[0:14]])
   totPiecesMe = 7 - board[GR_OFF];                    assert totPiecesMe != 0
   atHome = totPiecesMe - gOnBoard
-  
+
   moves = []
   if atHome:
     to = pips-1
@@ -175,7 +175,7 @@ def allActualMoves(board, pips, froms = None) :
         moves.append((b,False))
         if froms is not None:
           froms.append(i)
-          
+
   for k,(b,e) in enumerate(moves) :
     if not e:
       moves[k] = (reverseBoard(b),e)
@@ -184,47 +184,47 @@ def allActualMoves(board, pips, froms = None) :
 def allMoves(board, pips, froms = None) :
   """ Return a list of all moves by Green given the dice.
 
-  Same format as :py:func:`allActualMoves`, but including the "no-move" board from 0 pips. 
+  Same format as :py:func:`allActualMoves`, but including the "no-move" board from 0 pips.
   """
-  
+
   aam = allActualMoves(board, pips, froms)
   if aam:
     return aam
-    
+
   if froms is not None:
     froms.append(None)
   return [(reverseBoard(board),False)]
-  
+
 def startPosition() :
   """ Staring position. """
-  
+
   return [0]*22
 
 def homes(board) :
   """ Helper returning a (numberOfGreenMenAtHome, numberOfRedMenAtHome) pair. """
-  
+
   gOnBoard = sum([i == 1 for i in board[0:14]])
   gTotInPlay = 7 - board[GR_OFF]
   gHome = gTotInPlay - gOnBoard
-  
+
   rOnBoard = sum([i == -1 for i in board[15:19] + board[4:12] + board[19:21]])
   rTotInPlay = 7 - board[RD_OFF]
   rHome = rTotInPlay - rOnBoard
   return gHome, rHome
-  
+
 def boardAsString(board) :
   """ Board as a printable string (debug). """
-  
+
   board = getBoard(board)
-  
+
   o = sum([i == 1 for i in board[0:14]])
   totPiecesMe = 7 - board[GR_OFF]
   atHome = totPiecesMe - o
-  
+
   oo = sum([i == -1 for i in board[15:19] + board[4:12] + board[19:21]])
   ototPiecesOff = 7 - board[RD_OFF]
   oatHome = ototPiecesOff - oo
-  
+
   top = "".join(['O' if board[i] == -1 else '.' for i in range(18,14,-1)]) + \
         '  ' + "".join(['O' if board[i] == -1 else '.' for i in (20,19)]) + \
         (" (%1d)" % (board[RD_OFF]))
@@ -242,7 +242,7 @@ def b2a(sbits) :
   """Encode 31 bits (represented by a 0/1 string) as a length 5 string made of printable characters
      (ASCII85 i.e. base 85).
   """
-  
+
   l = int(sbits, 2)
   a = ''
   for _ in range(5) :
@@ -250,15 +250,15 @@ def b2a(sbits) :
     a += z85s[c]
     l = (l - c) // 85
   return a
-  
+
 def a2b(s) :
   """ Decode the base 95 string back to a string of 0/1 bits. """
-  
+
   l = 0
   for x in s[::-1]:
     l = l*85 + rz85[x]
   return format(l, '031b')
-  
+
 def __board2Code(board) :
   """Encode board as a string.
 
@@ -268,16 +268,16 @@ def __board2Code(board) :
   is encoded as 13 bits (6+12+13 = 31). The 31 bits are encodes as string of 5 printable characters
   (2**31 < 85**5).
   """
-  
+
   o = sum([i == 1 for i in board[0:14]])
   totPiecesMe = 7 - board[GR_OFF]
   atHome = totPiecesMe - o
   s = format(atHome, '03b') + "".join(['1' if i else '0' for i in board[:4] + board[12:14]])
-  
+
   oo = sum([i == -1 for i in board[15:19] + board[4:12] + board[19:21]])
   ototPiecesOff = 7 - board[RD_OFF]
   oatHome = ototPiecesOff - oo
-  
+
   s = s + (format(oatHome, '03b') + "".join(['1' if i else '0' for i in  board[15:19] + board[19:21]]))
   x = board[4] + 1
   for i in board[5:12]:
@@ -287,14 +287,14 @@ def __board2Code(board) :
   r = b2a(s)
   assert a2b(r) == s
   return r
-  
+
 def __code2Board(e) :
   """Decode board code back to internal representation."""
   assert len(e) == 5 and all([c in rz85 for c in e])
-  
+
   s = a2b(e);                                             assert len(s) == 31
   atHome, oAtHome = int(s[:3], 2),int(s[9:12], 2);        assert 0 <= atHome <= 7 and 0 <= oAtHome <= 7
-  
+
   board = [0]*22
   for b,k in ((3,0),(4,1),(5,2),(6,3),(7,12),(8,13)) :
     if s[b] == '1' :
@@ -314,24 +314,24 @@ def __code2Board(e) :
 
 def gameOver(board) :
   """ True if game on board is over, False otherwise. """
-  
+
   return board[14] == 7 or board[21] == 7
 
 def typeBearOff(board) :
   """ True if board is in *bear-off* mode. (i.e. no more contact possible). """
-  
+
   return sum(board[12:15]) == 7 or -sum(board[19:21]) + board[21] == 7
-  
+
 def getPips() :
   """ Get a "dice" roll. """
-  
+
   return [0,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4][random.randint(0, 15)]
 
 # Board iterators
 
 def bitsIterator(k, n) :
   """ Iterate over all placements of *k* identical pieces in *n* locations. """
-  
+
   if k == 0:
     yield (0,)*n
   elif k == n :
@@ -345,7 +345,7 @@ def bitsIterator(k, n) :
 # faster, non recursive
 def bitsIterator(k, n) :
   """ Iterate over all placements of *k* identical pieces in *n* locations. """
-  
+
   if k == 0:
     yield (0,)*n
   elif k == n :
@@ -353,7 +353,7 @@ def bitsIterator(k, n) :
   else :
     b = [1]*k + [0]*(n-k)
     yield list(b)
-    
+
     while True:
       i = 0
       while b[i] == 0 :
@@ -372,10 +372,10 @@ def bitsIterator(k, n) :
       b[j-1] = 0
       b[j] = 1;                  #assert b == [1]*(j-i-1) + [0]*(i+1) + [1] + b[j+1:]
       yield list(b)
-      
+
 # def gIterator(gOff = 0) :
 #   """ Iterate over all green pieces positions with *gOff* pieces off board. """
-  
+
 #   gMen = 7-gOff
 #   b = [0]*22
 #   b[GR_OFF] = gOff
@@ -391,7 +391,7 @@ def bitsIterator(k, n) :
 
 def gIterator(gOff = 0) :
   """ Iterate over all green pieces positions with *gOff* pieces off board. """
-  
+
   gMen = 7-gOff
   b = [0]*22
   b[GR_OFF] = gOff
@@ -409,7 +409,7 @@ def gIterator(gOff = 0) :
 def rIterator(board, rOff = 0) :
   """ Iterate over all red pieces positions with *rOff* pieces off board, conditional on present
   green pieces as given in *board*. """
-  
+
   b = list(board)
   b[RD_OFF] = rOff
   rMen = 7-rOff
@@ -430,7 +430,7 @@ def rIterator(board, rOff = 0) :
 # def rIterator(board, rOff = 0) :
 #   """ Iterate over all red pieces positions with *rOff* pieces off board, conditional on present
 #   green pieces as given in *board*. """
-  
+
 #   b = list(board)
 #   b[RD_OFF] = rOff
 #   rMen = 7-rOff
@@ -446,10 +446,10 @@ def rIterator(board, rOff = 0) :
 #              continue
 #            b[4:12] = [-1 if x else y for x,y in zip(onStrip, bStrip)]
 #            yield list(b)
-           
+
 def positionsIterator(gOff = 0, rOff = 0) :
   """ Iterate over all positions with *gOff*/*rOff* Green/Red pieces (respectively) off. """
-  
+
   for b in gIterator(gOff) :
     for b1 in rIterator(b, rOff) :
       yield list(b1)
@@ -505,7 +505,7 @@ def startPoint(gOff, rOff, gHome, rHome) :
     for l in range((7-rOff) + 1) :
       g,r = 7 - (k + gOff), 7 - (l + rOff)
       n1 += nPositionsOnBoard[g, r]
-    
+
   for l in range(rHome) :
     g,r = 7 - (gHome + gOff), 7 - (l + rOff)
     n1 += nPositionsOnBoard[g, r]
@@ -543,7 +543,7 @@ def i2bits(i, k, N) :
     N -= 1
     j += 1
   return bits
-  
+
 # Ur positions are laid in 64 main blocks. the i*8+j block contains all positions with 'i' Green men
 # and 'j' Red men (respectively) off the board (i.e. not at home or on the board). (i,j) pairs are
 # sorted lexicographicaly. (0,0),(0,1)...,(0,7),(1,0),(1,1)...(7,7)
@@ -569,7 +569,7 @@ def __board2Index(board) :
 
   gOff = b[GR_OFF]
   rOff = b[RD_OFF]
-  
+
   gSafe = b[:4] + b[12:14]
   m = sum(gSafe)
   partSafeG = bitsIndex(gSafe)
@@ -580,7 +580,7 @@ def __board2Index(board) :
   partR = bitsIndex(bits)
   rMen = sum(bits)
   gHome, rHome = 7 - (gMen + gOff), 7 - (rMen + rOff)
-  
+
   i0 = spMap[gOff, rOff, gHome, rHome]
 
   ps = pSums[gMen, rMen]
@@ -593,7 +593,7 @@ def __board2Index(board) :
 def __index2Board(index) :
   i = bisect(spoints, index)
   assert startings[i-1][0] <= index < (startings[i][0] if i < len(startings) else totalPositions)
-  
+
   gOff, rOff, gHome, rHome = startings[i-1][1:]
 
   index -= startings[i-1][0];                               assert index >= 0
@@ -610,11 +610,11 @@ def __index2Board(index) :
   u = bmap[8,gMen - m]
   partSafeG = i2 // u
   gStrip = i2 - u * partSafeG
-  
+
   gSafe = i2bits(partSafeG, m ,6)
   b4_12 = i2bits(gStrip, gMen - m, 8)
   bOther = i2bits(partR, rMen, 14 - (gMen-m))
-  
+
   b = [0]*22
   b[14],b[21] = gOff, rOff
   b[:4] = gSafe[:4]
@@ -647,7 +647,7 @@ board2Code = irogaur.board2Code
 
 def getIndex(board) :
   """ Get board index from either a board, code, or index (convenience) """
-  
+
   if isinstance(board, int) :
     return board
   if isinstance(board, str) :
@@ -655,7 +655,7 @@ def getIndex(board) :
   if isinstance(board, list) :
     return board2Index(board)
   assert False
-  
+
 def getCode(board) :
   """ Get board code from either a board, code, or index (convenience) """
   if isinstance(board, str) :
@@ -666,7 +666,7 @@ def getCode(board) :
   if isinstance(board, list) :
     return board2Code(board)
   assert False
-  
+
 def getBoard(key) :
   """ Get internal representation of board from either a board, code, or index (convenience) """
   if isinstance(key, str) :

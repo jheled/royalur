@@ -18,7 +18,7 @@ class memorize(dict):
   def __missing__(self, key):
     result = self[key] = self.func(*key)
     return result
-    
+
 @memorize
 def _binomial(n,k) :
   if n < k: return 0
@@ -27,7 +27,7 @@ def _binomial(n,k) :
   if n == k :
     return 1
   return _binomial(n-1,k) + _binomial(n-1,k-1)
-  
+
 bmap = dict()
 for _n in range(20) :
   for _k in range(20) :
