@@ -51,6 +51,14 @@ by the board index.
 """
 
 import random
+from bisect import bisect
+
+if __package__ is None or __package__ == '':
+  from binomhack import bmap
+  import irogaur
+else:
+  from .binomhack import bmap
+  import royalur.irogaur as irogaur
 
 __all__ = [
   "startPosition",
@@ -442,10 +450,6 @@ def positionsIterator(gOff = 0, rOff = 0) :
     for b1 in rIterator(b, rOff) :
       yield list(b1)
 
-if __package__ is None or __package__ == '':
-  from binomhack import bmap
-else:
-  from .binomhack import bmap
     
 # m on one side, n on the other
 def countPosOnBoard(m, n) :
@@ -583,7 +587,6 @@ def __board2Index(board) :
   ##print i1,i2,i3,len(bits), partR, bits
   return i0 + i1 + i3
   
-from bisect import bisect
   
 def __index2Board(index) :
   i = bisect(spoints, index)
@@ -626,10 +629,6 @@ def __index2Board(index) :
   b[19:21] = [-x for x in bOther[i:]]
   return b
 
-if __package__ is None or __package__ == '':
-  import irogaur
-else :
-  import royalur.irogaur as irogaur
 
 def index2Board(index) :
   i = bisect(spoints, index)

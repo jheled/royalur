@@ -18,8 +18,12 @@ import random
 
 if __package__ is None or __package__ == '':
   from urcore import *
+  from humanStrategies import bestHumanStrategySoFar as hplay
+  from probsdb import PositionsWinProbs
 else:
   from .urcore import *
+  from .humanStrategies import bestHumanStrategySoFar as hplay
+  from .probsdb import PositionsWinProbs
 
 def showBoard(b) :
   """ Print board ``b`` on stdout (debug). """
@@ -96,10 +100,6 @@ def pitStrategies(playerX, playerO, N, sEvery = -1) :
   return Xs,Ys
 
 # A default player when there is nothing else. 
-if __package__ is None or __package__ == '':
-  from humanStrategies import bestHumanStrategySoFar as hplay
-else:
-  from .humanStrategies import bestHumanStrategySoFar as hplay
 
 def getDBmove(moves, db) :
   """ Get best move among ``moves`` according to DB. Fallback to human-like player if necessary. """
@@ -121,10 +121,6 @@ def getDBplayer(db) :
   """
   
   if isinstance(db, str) :
-    if __package__ is None or __package__ == '':
-      from probsdb import PositionsWinProbs
-    else:
-      from .probsdb import PositionsWinProbs
     db = PositionsWinProbs(db)
 
   return lambda moves : getDBmove(moves, db)

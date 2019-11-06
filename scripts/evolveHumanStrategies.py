@@ -90,73 +90,77 @@ def genome2Filt(genome) :
   f = lambda m : chainFilt(m, s)
   f.__name__ = ";".join([name2nick(x.__name__) for x in s])
   return f
-  
-genePool = range(len(strategies))
-genomePool = []
-while len(genomePool) < len(strategies) :
-  g = tuple(randomGenome(genePool))
-  if g not in set(genomePool) :
-    genomePool.append(g)
-    
-discarded = set()
-outed = list()
 
-scores = dict([(g,dict()) for g in genomePool])
+def main():
+  genePool = range(len(strategies))
+  genomePool = []
+  while len(genomePool) < len(strategies) :
+    g = tuple(randomGenome(genePool))
+    if g not in set(genomePool) :
+      genomePool.append(g)
 
-for g in genomePool:
-  fg = genome2Filt(g)
-  for x in genomePool:
-    if x == g:
-      continue
-      
-    if x not in scores[g]:
-      assert g not in scores[x]
-      fx = genome2Filt(x)
-      wx,wy = pitStrategies(fg, fx, N)
-      scores[g][x] = wx
-      scores[x][g] = wy
-      print(fg.__name__,fx.__name__,wx,wy)
+  discarded = set()
+  outed = list()
 
-print(sorted([(sum(scores[g].values()),g) for g in scores]))
+  scores = dict([(g,dict()) for g in genomePool])
 
-for _ in range(nGenerations):
-  while True:
-    ng = newGenome(genomePool, genePool)
-    if not ng:
-      continue
-    ng = tuple(ng)
-    if ng not in discarded and ng not in set(genomePool) :
-      break
-
-  ngs = dict()    
-  fng = genome2Filt(ng)
   for g in genomePool:
     fg = genome2Filt(g)
-    wx,wy = pitStrategies(fng, fg, N)
-    ngs[g] = (wx,wy)
-    print(fng.__name__,fg.__name__,wx,wy)
+    for x in genomePool:
+      if x == g:
+        continue
 
-  ngScore = sum([wx for wx,wy in ngs.values()])
-  print(ng, ngScore)
-  sl = sorted([(sum(scores[g].values()) + ngs[g][1],g) for g in genomePool])
-  for sc,g in sl:
-    if sc < ngScore:
-      print("accepted,", g, "out.")
-      discarded.add(g)
-      outed.append(g)
-      
-      del ngs[g]
-      del scores[g]
-      for d in scores :
-        del scores[d][g]
-        scores[d][ng] = ngs[d][1]
-      scores[ng] = dict([(x,ngs[x][0]) for x in ngs])
-      
-      genomePool.pop(genomePool.index(g))
-      genomePool.append(ng)
-      ng = None
-      break
-  if ng :
-    discarded.add(ng)
+      if x not in scores[g]:
+        assert g not in scores[x]
+        fx = genome2Filt(x)
+        wx,wy = pitStrategies(fg, fx, N)
+        scores[g][x] = wx
+        scores[x][g] = wy
+        print(fg.__name__,fx.__name__,wx,wy)
+
   print(sorted([(sum(scores[g].values()),g) for g in scores]))
+
+  for _ in range(nGenerations):
+    while True:
+      ng = newGenome(genomePool, genePool)
+      if not ng:
+        continue
+      ng = tuple(ng)
+      if ng not in discarded and ng not in set(genomePool) :
+        break
+
+    ngs = dict()    
+    fng = genome2Filt(ng)
+    for g in genomePool:
+      fg = genome2Filt(g)
+      wx,wy = pitStrategies(fng, fg, N)
+      ngs[g] = (wx,wy)
+      print(fng.__name__,fg.__name__,wx,wy)
+
+    ngScore = sum([wx for wx,wy in ngs.values()])
+    print(ng, ngScore)
+    sl = sorted([(sum(scores[g].values()) + ngs[g][1],g) for g in genomePool])
+    for sc,g in sl:
+      if sc < ngScore:
+        print("accepted,", g, "out.")
+        discarded.add(g)
+        outed.append(g)
+
+        del ngs[g]
+        del scores[g]
+        for d in scores :
+          del scores[d][g]
+          scores[d][ng] = ngs[d][1]
+        scores[ng] = dict([(x,ngs[x][0]) for x in ngs])
+
+        genomePool.pop(genomePool.index(g))
+        genomePool.append(ng)
+        ng = None
+        break
+    if ng :
+      discarded.add(ng)
+    print(sorted([(sum(scores[g].values()),g) for g in scores]))
+
+if __name__ == "__main__":
+  main()
     

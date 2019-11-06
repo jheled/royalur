@@ -23,70 +23,70 @@ import os.path
 
 from royalur import *
 
-db = PositionsWinProbs(royalURdataDir + "/db16.bin")
-ishtar = getDBplayer(db)
+def main():
+  db = PositionsWinProbs(os.path.join(royalURdataDir, "db16.bin"))
+  ishtar = getDBplayer(db)
 
-if not os.path.exists('../data/iplay-levels.bin') :
-
-  bseen[board2Index(startPosition())] = 1
-
-  bseen = bytearray(b'\x00') * totalPositions
-  bseen[board2Index(startPosition())] = 1
-  tot = 1
-  level = 1
-  while True:
-    added = 0
-    for i in xrange(totalPositions) :
-      assert bseen[i] <= level+1
-      if bseen[i] == level:
-        board = index2Board(i)
-        if not gameOver(board):
-          for dice in range(5) :
-            am = allMoves(board, dice)
-            mv = ishtar(am);         assert len(mv) == 1
-            b,e = mv[0]
-            ib = board2Index(b)
-            if not bseen[ib]:
-              bseen[ib] = level + 1
-              added += 1
-    print(level,tot,added)
-    if added == 0 :
-      break
-    tot += added
-    level += 1
-    
-  f = open('../data/iplay-levels.bin', 'wb')
-  f.write(bseen)
-  f.close()
-  del bseen
-  
-if not os.path.exists('../data/ireached-levels.bin') :
-
-  breached = bytearray(b'\x00') * totalPositions
-  breached[board2Index(startPosition())] = 1
-  tot = 1
-  level = 1
-  while True:
-    added = 0
-    for i in xrange(totalPositions) :
-      assert breached[i] <= level+1
-      if breached[i] == level:
-        board = index2Board(i)
-        if not gameOver(board):
-          for dice in range(5) :
-            for mv in allMoves(board, dice) :
-              b,e = mv
+  if not os.path.exists(os.path.join(royalURdataDir, "iplay-levels.bin")):
+    bseen = bytearray(b'\x00') * totalPositions
+    bseen[board2Index(startPosition())] = 1
+    tot = 1
+    level = 1
+    while True:
+      added = 0
+      for i in range(totalPositions) :
+        assert bseen[i] <= level+1
+        if bseen[i] == level:
+          board = index2Board(i)
+          if not gameOver(board):
+            for dice in range(5) :
+              am = allMoves(board, dice)
+              mv = ishtar(am);         assert len(mv) == 1
+              b,e = mv[0]
               ib = board2Index(b)
-              if not breached[ib]:
-                breached[ib] = level + 1
+              if not bseen[ib]:
+                bseen[ib] = level + 1
                 added += 1
-    print(level,tot,added)
-    if added == 0 :
-      break
-    tot += added
-    level += 1
+      print(level,tot,added)
+      if added == 0 :
+        break
+      tot += added
+      level += 1
 
-  f = open('../data/ireached-levels.bin', 'wb')
-  f.write(breached)
-  f.close()
-  del breached
+    f = open(os.path.join(royalURdataDir, "iplay-levels.bin"), 'wb')
+    f.write(bseen)
+    f.close()
+    del bseen
+
+  if not os.path.exists(os.path.join(royalURdataDir, "ireached-levels.bin")):
+    breached = bytearray(b'\x00') * totalPositions
+    breached[board2Index(startPosition())] = 1
+    tot = 1
+    level = 1
+    while True:
+      added = 0
+      for i in range(totalPositions) :
+        assert breached[i] <= level+1
+        if breached[i] == level:
+          board = index2Board(i)
+          if not gameOver(board):
+            for dice in range(5) :
+              for mv in allMoves(board, dice) :
+                b,e = mv
+                ib = board2Index(b)
+                if not breached[ib]:
+                  breached[ib] = level + 1
+                  added += 1
+      print(level,tot,added)
+      if added == 0 :
+        break
+      tot += added
+      level += 1
+
+    f = open(os.path.join(royalURdataDir, "ireached-levels.bin"), 'wb')
+    f.write(breached)
+    f.close()
+    del breached
+
+if __name__ == "__main__":
+  main()

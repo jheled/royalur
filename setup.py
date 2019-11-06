@@ -31,6 +31,7 @@ setuptools.setup(
         "Topic :: Games/Entertainment :: Board Games"
     ],
     packages=setuptools.find_packages(),
+    include_package_data=True,
     ext_modules=[module1],
     entry_points={
         "console_scripts": [
