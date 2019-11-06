@@ -34,5 +34,5 @@ except ImportError:
 import os.path
 royalURdataDir = os.path.realpath(os.path.join(os.path.dirname(__file__), "data"))
 
-__version__ = "0.2.1.dev4"
+__version__ = "0.2.1.rc1"
 """The version of royalUr"""

@@ -1,15 +1,12 @@
-all: sphinx
+all: sphinx install
 
 sphinx:
-	PYTHONPATH=$$PYTHONPATH:~/lib/`python3 --version 2>&1 | sed -s "s/Python /version-/"`/lib/python sphinx-build -b html doc docs
+	python setup.py build_sphinx
 
 # TODO: change build-from-source instructions; wheels now build
-# Install in $HOME/lib; add  $HOME/lib/version-XXX/lib/python to PYTHONPATH.
 install:
-# fake irogaur for clueless install
-	echo "" > irogaur.py
-	python3 setup.py install --home=~/lib/`python3 --version 2>&1 | sed -s "s/Python /version-/"`
-	rm -f irogaur.py irogaur.pyc
+	python setup.py bdist_wheel
+	echo "Now run 'python -mpip install <dist\file_you_just_created.whl>[curses,Pillow]'"
 
 clean:
 	python setup.py	clean --all
