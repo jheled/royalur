@@ -15,13 +15,13 @@ You can install directly from github using pip:
 
 >>> pip install -e git+https://github.com/jheled/royalur.git#egg=royalur
 
-Or download the recent distribution from
+Or download the last Python 2 distribution from:
 
 >>> wget https://filedn.com/llztAlmJ0zvkPa8QEheU5n5/royalur-0.2.0.tar.gz
 
 Both the distribution and github are missing the database file, which is too big
-for github and too big regardless. If you want to run with Ishtar (and you do),
-download the file from pCloud and place it in the data/ directory.
+for github and too big anyway. If you want to run with Ishtar (and you do),
+download the file from pCloud and place it in the 'data/' directory.
 
 >>> cd data; wget https://filedn.com/llztAlmJ0zvkPa8QEheU5n5/db16.bin
 
